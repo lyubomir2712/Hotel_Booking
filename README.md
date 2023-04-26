@@ -1,2 +1,2 @@
 # Hotel_Booking
-This is my first asp.net core web app
+This is my first Asp.Net Core 6 Web App
