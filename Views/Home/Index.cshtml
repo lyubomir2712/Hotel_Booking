@@ -1,0 +1,122 @@
+﻿@using HotelBooking.Controllers;
+@{
+    ViewData["Title"] = "Home Page";
+}
+@inject ILogger<HomeController> c;
+
+
+
+<h4>Popular Destinations</h4>
+<span class="h4-underline"></span>
+<div id="carouselExampleCaptions" class="carousel slide">
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="~/img/paris.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Paris</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/img/Rome.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Rome</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/img/london.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>London</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/img/NewYork.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>NewYork</h5>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="~/img/Dubai.jpg" class="d-block w-100" alt="...">
+            <div class="carousel-caption d-none d-md-block">
+                <h5>Dubai</h5>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+
+
+
+<div class="container mt-5">
+    <h1>Reservation Form</h1>
+    <form id="reservationForm" asp-action="ProcessReservation" asp-controller="Reservation" method="post">
+        
+       
+            <div class="form-group">
+                <label for="price-range">Price Range:</label>
+                <input type="range" class="form-range" id="price-range" min="50" max="2000" step="50" value="50"
+                       oninput="updatePriceRange(this.value);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span>$50</span>
+                    <span>$2000</span>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <span id="price-range-value">$50</span>
+                </div>
+            </div>
+        
+        
+        <div class="grid-container">
+            <div>
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="Name" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="Email" required>
+            </div>
+            <div>
+                <label for="phone">Phone Number:</label>
+                <input type="tel" class="form-control" id="phone" name="PhoneNumber" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+            </div>
+        </div>
+        <div class="grid-container">
+            <div>
+                <label for="checkinDate">Check-in Date:</label>
+                <input type="date" class="form-control" id="checkinDate" name="CheckinDate" required>
+            </div>
+            <div>
+                <label for="checkoutDate">Check-out Date:</label>
+                <input type="date" class="form-control" id="checkoutDate" name="CheckoutDate" required>
+            </div>
+            <div>
+                <label for="guests">Number of Guests:</label>
+                <input type="number" class="form-control" id="guests" name="Guests" min="1" max="10" required>
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="grid-item-full">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
+<br /><br />
+
+
+
