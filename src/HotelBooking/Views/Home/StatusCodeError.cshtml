@@ -1,0 +1,8 @@
+﻿<h1 style="text-align: center; font-size: 100px;" class="error-h1">Error!</h1>
+@{
+        if (ViewBag.StatusCode == 404)
+        {
+        <h1 style="text-align: center;">Page not found!</h1>
+        }
+}
+<h2 style="text-align: center;">Status code: @ViewBag.StatusCode</h2>

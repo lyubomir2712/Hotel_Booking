@@ -1,0 +1,18 @@
+﻿@*
+@{
+    ViewData["Title"] = "View";
+}
+@using static HotelBooking.Models.RegisterViewModel
+@model RegisterViewModel
+
+<form asp-controller="Demo" action="Index" method="post" class="col-md-6 align-items-center">
+    <div asp-validation-summary="All" class="text-daneger">
+
+         Email: <input asp-for="Email" /> <br/>
+    <span asp-validation-for="Email"</span><br />
+    Password: <inpput asp-for="Password" /><br/>
+    <span  asp-validation-for="Password"></span><br/>
+    <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+</form>
+*@
