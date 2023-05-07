@@ -1,4 +1,5 @@
 ﻿using HotelBooking.Models;
+using HotelBooking.Services.API;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -17,7 +18,6 @@ namespace HotelBooking.Controllers
 
         public IActionResult Index()
         {
-            //_logger.Log();
             return View();
         }
 
@@ -43,11 +43,19 @@ namespace HotelBooking.Controllers
             return this.View();
         }
 
+        public IActionResult SearchedHotels()
+        {
+            return this.View();
+        }
 
         [Authorize(Roles = "admin")]
         public IActionResult AdminControllPanel()
         {
             return this.View();
         }
+
+        
+
+
     }
 }

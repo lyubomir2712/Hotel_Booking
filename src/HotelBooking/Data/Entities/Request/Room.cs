@@ -1,8 +1,7 @@
-﻿namespace HotelBooking.Data.Entities
+﻿namespace HotelBooking.Data.Entities.Request
 {
     public class Room
     {
-        public int Id { get; set; }
         public double Guest { get; set; }
 
     }

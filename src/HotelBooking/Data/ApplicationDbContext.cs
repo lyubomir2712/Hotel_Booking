@@ -14,6 +14,6 @@ namespace HotelBooking.Data
 
         }
 
-        public DbSet<Room> Rooms { get; set; }
+        //public DbSet<Room> Rooms { get; set; }
     }
 }
