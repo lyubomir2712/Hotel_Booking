@@ -2,8 +2,8 @@
 
 namespace HotelBooking.Data.Entities.Response
 {
-    public class PerPerNight
+    public class PricePerNightResponse
     {
-        public double Price { get; set; }
+        public PriceForHolidayResponse Price { get; set; }
     }
 }

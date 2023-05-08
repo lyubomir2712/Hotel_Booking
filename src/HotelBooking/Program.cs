@@ -104,6 +104,14 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+
+app.MapControllerRoute(
+        name: "hotels",
+        pattern: "hotels/{city}/{checkinDate}/{checkoutDate}/{minPrice}/{maxPrice}/{hasPool}/{hasParking}/{hasFitness}/{hasInternet}",
+        defaults: new { controller = "Api", action = "Search" }
+    );
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -111,6 +119,12 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "account",
     pattern: "{controller=Account}/{action=Login}/{id?}");
+
+
+
+
+
+app.UseRouting();
 
 app.MapRazorPages();
 
