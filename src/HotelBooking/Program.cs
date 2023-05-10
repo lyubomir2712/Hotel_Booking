@@ -17,7 +17,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 //builder.Services.AddControllersWithViews();
 
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddRoleManager<RoleManager<IdentityRole>>()
@@ -65,6 +65,8 @@ app.UseStatusCodePagesWithRedirects("/Home/StatusCodeError?errorCode={0}");
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 else
 {
@@ -93,7 +95,11 @@ app.Use(async (context, next) =>
     await next();
 });
 //
-
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
 
 app.UseHttpsRedirection();
@@ -106,21 +112,21 @@ app.UseAuthorization();
 
 
 
-app.MapControllerRoute(
-        name: "hotels",
-        pattern: "hotels/{city}/{checkinDate}/{checkoutDate}/{minPrice}/{maxPrice}/{hasPool}/{hasParking}/{hasFitness}/{hasInternet}",
-        defaults: new { controller = "Api", action = "Search" }
-    );
+//app.MapControllerRoute(
+//        name: "hotels",
+//        pattern: "hotels/{city}/{checkinDate}/{checkoutDate}/{minPrice}/{maxPrice}/{hasPool}/{hasParking}/{hasFitness}/{hasInternet}",
+//        defaults: new { controller = "BookingApi", action = "ProcessReservation" }
+//    );
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "account",
     pattern: "{controller=Account}/{action=Login}/{id?}");
 
 
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 

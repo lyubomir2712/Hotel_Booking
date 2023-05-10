@@ -21,7 +21,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />    
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Ninject" Version="4.0.0-beta.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />    
     <!--<PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0-preview.3.23177.8" />-->
 
   </ItemGroup>

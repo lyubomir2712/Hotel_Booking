@@ -74,6 +74,14 @@
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Ninject": {
+              "target": "Package",
+              "version": "[4.0.0-beta.1, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [

@@ -789,3 +789,8 @@ C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\obj\Deb
 C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\obj\Debug\net6.0\HotelBooking.csproj.CopyComplete
 C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\obj\Debug\net6.0\HotelBooking.genruntimeconfig.cache
 C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\obj\Debug\net6.0\ref\HotelBooking.dll
+C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\bin\Debug\net6.0\Ninject.dll
+C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\src\HotelBooking\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
