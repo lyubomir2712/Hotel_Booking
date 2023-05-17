@@ -1,0 +1,37 @@
+﻿@model ErrorViewModel
+@*@model System.Web.Mvc.HandleErrorInfo*@
+@{
+    ViewBag.title = "error";
+    Layout = "~/views/shared/_layout.cshtml"; 
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="error-message">
+                <h1>oops!</h1>
+                <h2>something went wrong.</h2>
+            </div>
+            <p>we apologize for the inconvenience, but the page you were trying to access is currently unavailable.</p>
+            <p>please try again later or contact support if the problem persists.</p>
+            @if (Model != null 
+            @*&& 
+            Model.exception.stacktrace != null*@
+            )
+            {
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5 class="card-title">error details</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>Model.Exception.message</p>
+                        <p>Model.exception.stacktrace</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+<h1>error 404</h1>

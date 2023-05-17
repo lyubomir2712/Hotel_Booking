@@ -1,0 +1,12 @@
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\bin\Debug\net6.0\HotelBooking.Models.deps.json
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\bin\Debug\net6.0\HotelBooking.Models.dll
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\bin\Debug\net6.0\HotelBooking.Models.pdb
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.csproj.AssemblyReference.cache
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.AssemblyInfoInputs.cache
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.AssemblyInfo.cs
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.csproj.CoreCompileInputs.cache
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.dll
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\refint\HotelBooking.Models.dll
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\HotelBooking.Models.pdb
+C:\Users\Lubo\source\repos\HotelBookingApp\HotelBooking.Models\obj\Debug\net6.0\ref\HotelBooking.Models.dll
