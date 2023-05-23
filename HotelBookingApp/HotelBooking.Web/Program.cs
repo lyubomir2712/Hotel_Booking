@@ -1,8 +1,11 @@
 using HotelBooking.Data;
 using HotelBooking.Models.Identity;
+using HotelBooking.Services.ApiModule;
+using HotelBooking.Services.Contracts;
 using HotelBooking.Web.Areas.Identity.Pages.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,8 @@ builder.Services
     .AddRoles<UserRole>()
     .AddEntityFrameworkStores<BookingDbContext>()
     .AddSignInManager<SignInManager<UserModel>>();
+
+builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();

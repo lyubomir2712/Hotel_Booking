@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "iqeu5BKsK8/Nlzj20OtJSzuAe4pCwWcdeKtgAbaEdRyK1UOBlTel2Q/xdNrUYDujUSuxW2pn1RiERjH+G358Dw==",
+  "dgSpecHash": "1UWDnviJ0SUpFHz2YrsLJ6+rR9CSTmpOUyBuDnyb2aCn1mmQ5IGx7d8hy1/HXMFvHCzzvZaqXpRpbxrLCT/SdA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj",
+  "projectFilePath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lubo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.16\\microsoft.aspnetcore.cryptography.internal.6.0.16.nupkg.sha512",
     "C:\\Users\\Lubo\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.16\\microsoft.aspnetcore.cryptography.keyderivation.6.0.16.nupkg.sha512",

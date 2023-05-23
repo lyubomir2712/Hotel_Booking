@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj": {}
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj": {
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj",
+        "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj",
         "projectName": "HotelBooking.Data",
-        "projectPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj",
+        "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj",
         "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Data\\obj\\",
+        "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,8 +33,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
-                "projectPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj"
+              "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
+                "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj"
               }
             }
           }
@@ -94,14 +94,14 @@
         }
       }
     },
-    "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj",
+        "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj",
         "projectName": "HotelBooking.Models",
-        "projectPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj",
+        "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj",
         "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Models\\obj\\",
+        "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -160,14 +160,80 @@
         }
       }
     },
-    "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj": {
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj",
-        "projectName": "HotelBooking.Web",
-        "projectPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj",
+        "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
+        "projectName": "HotelBooking.Services",
+        "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
         "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Web\\obj\\",
+        "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Lubo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj",
+        "projectName": "HotelBooking.Web",
+        "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\HotelBooking.Web.csproj",
+        "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -189,8 +255,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj": {
-                "projectPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj"
+              "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj": {
+                "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj"
+              },
+              "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
+                "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj"
+              },
+              "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj": {
+                "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj"
               }
             }
           }

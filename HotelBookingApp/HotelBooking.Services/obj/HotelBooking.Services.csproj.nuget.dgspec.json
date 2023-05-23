@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj": {}
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj": {
+    "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
+        "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
         "projectName": "HotelBooking.Services",
-        "projectPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
+        "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
         "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Services\\obj\\",
+        "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

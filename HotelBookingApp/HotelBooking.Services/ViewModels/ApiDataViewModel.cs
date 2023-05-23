@@ -21,7 +21,7 @@ namespace HotelBooking.Services.ViewModels
         public DateTime CheckinDate { get; set; }
         public DateTime CheckoutDate { get; set; }
         public decimal MinPrice { get; set; } = 50;
-        public decimal MaxPrice { get; set; }
+        public decimal MaxPrice { get; set; } = 800;
         public bool? HasPool { get; set; }
         public bool? HasParking { get; set; }
         public bool? HasFitness { get; set; }

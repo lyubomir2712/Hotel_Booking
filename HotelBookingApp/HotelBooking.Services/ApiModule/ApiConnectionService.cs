@@ -9,7 +9,7 @@ using System.Web;
 
 namespace HotelBooking.Services.ApiModule
 {
-    internal class ApiConnectionService : IApiConnectionService
+    public class ApiConnectionService : IApiConnectionService
     {
         private readonly ApiConnectionViewModel model;
 

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SV/tcaz9mqmhwKKRuh2TGmtrO46QV6tXLmg+2w5jUupcGEV73QRZ5ssXNL5YWDtkJeSdJ+yxKrB/b1UPecRo5w==",
+  "dgSpecHash": "XsoDnkNbDzr2yy0ZXgtSyylp2P0Rwr30NcjLJKTuMBgwe4yHC1LJHc5IRBOUFYhXhPC4IJKfBfLM8G+A48unVg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lubo\\source\\repos\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
+  "projectFilePath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Lubo\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],
