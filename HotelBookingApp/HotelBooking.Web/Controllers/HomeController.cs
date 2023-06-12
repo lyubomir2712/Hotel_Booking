@@ -1,4 +1,5 @@
 ﻿using HotelBooking.Services.ApiModule;
+using HotelBooking.Services.StarsService;
 using HotelBooking.Services.ViewModels;
 using HotelBooking.Services.Contracts;
 using HotelBooking.Web.Models;
@@ -13,11 +14,13 @@ namespace HotelBooking.Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IApiService _apiService;
+        private readonly IStarsService _starsService;
 
-        public HomeController(ILogger<HomeController> logger, IApiService apiService)
+        public HomeController(ILogger<HomeController> logger, IApiService apiService, IStarsService starsService)
         {
             _logger = logger;
             _apiService = apiService;
+            _starsService = starsService;
 
         }
 
@@ -31,27 +34,15 @@ namespace HotelBooking.Web.Controllers
             return View();
         }
 
-        //[HttpPost]
-        public IActionResult Hotels(ApiDataViewModel apiDataViewModel)
+        [HttpPost]
+        public async Task<IActionResult> Hotels(ApiDataViewModel apiDataViewModel)
         {
-            //ApiConnectionViewModel apiConnectionDataViewModel = new ApiConnectionViewModel();
 
-            //apiConnectionDataViewModel.DomainName = "https://booking-com.p.rapidapi.com/v1/hotels/locations";
-            //apiConnectionDataViewModel.ApiHost = "booking-com.p.rapidapi.com";
-            //apiConnectionDataViewModel.ApiKey = "b067df4ec3msh7add19d4e4747fbp12bc39jsna54fc447bbf1";
-            //ApiConnectionService connection = new ApiConnectionService(apiConnectionDataViewModel);
-            //connection.EstablisConnection();
-
-            //ApiDataViewModel model = new ApiDataViewModel {
-            //City = City,
-            //CheckinDate = CheckinDate,
-            //CheckoutDate = CheckoutDate
-            //};
+            var response =await _apiService.GetHotelsByLocation("https://booking-com.p.rapidapi.com/v1/hotels/locations", "https://booking-com.p.rapidapi.com/v1/hotels/search", apiDataViewModel);
 
 
-            _apiService.GetHotelsByLocation("https://booking-com.p.rapidapi.com/v1/hotels/locations", apiDataViewModel);
 
-            return View();
+            return View(response);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

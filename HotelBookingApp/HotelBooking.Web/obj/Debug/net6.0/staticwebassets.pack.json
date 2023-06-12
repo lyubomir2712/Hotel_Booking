@@ -33,6 +33,10 @@
       "PackagePath": "staticwebassets\\img\\london.jpg"
     },
     {
+      "Id": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\wwwroot\\img\\newParis.jpg",
+      "PackagePath": "staticwebassets\\img\\newParis.jpg"
+    },
+    {
       "Id": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\wwwroot\\img\\paris.jpg",
       "PackagePath": "staticwebassets\\img\\paris.jpg"
     },

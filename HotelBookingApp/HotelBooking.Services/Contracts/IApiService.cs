@@ -9,6 +9,6 @@ namespace HotelBooking.Services.Contracts
 {
     public interface IApiService
     {
-        public Task<Dictionary<string, string>> GetHotelsByLocation(string apiUrl,ApiDataViewModel model);
+        public Task<List<Hotel>?> GetHotelsByLocation(string apiUrl,string newApiUrl,ApiDataViewModel model);
     }
 }

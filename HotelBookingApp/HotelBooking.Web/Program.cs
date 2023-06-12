@@ -5,6 +5,8 @@ using HotelBooking.Services.Contracts;
 using HotelBooking.Web.Areas.Identity.Pages.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using HotelBooking.Services.StarsService;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,7 @@ builder.Services
     .AddSignInManager<SignInManager<UserModel>>();
 
 builder.Services.AddScoped<IApiService, ApiService>();
+builder.Services.AddScoped<IStarsService, StarsService>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();

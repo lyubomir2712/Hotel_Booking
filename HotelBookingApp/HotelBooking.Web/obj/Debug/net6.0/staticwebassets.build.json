@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "53sObhZc5Zur3JBllS6tWv+ukd+OUk5xA3mnL8JKs4Y=",
+  "Hash": "n0LFuyzDfJecRzqZZSQntEmxEZFp1kaF7jOkJXGiT2M=",
   "Source": "HotelBooking.Web",
   "BasePath": "_content/HotelBooking.Web",
   "Mode": "Default",
@@ -1137,6 +1137,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\img\\london.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\wwwroot\\img\\newParis.jpg",
+      "SourceId": "HotelBooking.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\wwwroot\\",
+      "BasePath": "_content/HotelBooking.Web",
+      "RelativePath": "img/newParis.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\img\\newParis.jpg"
     },
     {
       "Identity": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Web\\wwwroot\\img\\NewYork.jpg",

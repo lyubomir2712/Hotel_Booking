@@ -5,8 +5,10 @@
     ViewData["Title"] = "EasyBook";
 }
 
-<h4>Popular Destinations</h4>
+<h4 style="color: lightgray">Popular Destinations</h4>
 <span class="h4-underline"></span>
+
+<div id="carouselDiv">
 <div id="carouselExampleCaptions" class="carousel slide">
     
     <div class="carousel-indicators">
@@ -18,7 +20,7 @@
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="~/img/paris.jpg" class="d-block w-100" alt="...">
+            <img src="~/img/newParis.jpg" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
                 <h5>Paris</h5>
             </div>
@@ -57,7 +59,7 @@
         <span class="visually-hidden">Next</span>
     </button>
 </div>
-
+</div>
 
 
 
@@ -69,14 +71,14 @@
 
         <div class="form-group">
             <label for="price-range">Price Range:</label>
-            <input type="range" class="form-range" id="price-range" min="50" max="2000" step="50" value="50"
-                   oninput="updatePriceRange(this.value);">
+            <input type="range" class="form-range" id="price-range" min="0" max="2000" step="50" value="50"
+                   oninput="updatePriceRange(this.value);" asp-for="MaxPrice">
             <div class="d-flex justify-content-between align-items-center">
-                <span>$50</span>
+                <span>$0</span>
                 <span>$2000</span>
             </div>
             <div class="d-flex justify-content-center">
-                <span id="price-range-value" >$50</span>
+                <span id="price-range-value" >$0</span>
             </div>
         </div>
 
@@ -88,39 +90,49 @@
                 <label for="City">City:</label>
                     <input type="text" class="form-control form-control-sm" id="city" name="City" asp-for="@Model.City" required>
             </div>
-                <div class="col-3">
+            <div class="col-3">
                 <label for="checkinDate">Check-in Date:</label>
                 <input type="date" class="form-control" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" required>
             </div>
-                <div class="col-3">
+            <div class="col-3">
                 <label for="checkoutDate">Check-out Date:</label>
-                <input type="date" class="form-control" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate" required>
+                <input type="date" class="form-control" id="checkoutDate"  name="CheckoutDate" asp-for="@Model.CheckoutDate" required>
+            </div>
+            </div>
+            <div class="col-3">
+                <label for="locale">Locale</label>
+                <br />
+                <select id="locale" asp-for="@Model.Locale" required>
+                    <option value="en-us">English</option>
+                    <option value="de">German</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="bg">Bulgarian</option>
+                    <option value="it">Italian</option>
+                </select>
             </div>
             <div>
-                    <label for="hasPool">HasPool</label>
+                <label for="hasBreakfast">Breakfast Included</label>
+                <input id="hasBreakfast" type="checkbox" />
+
+                    <label for="hasPool">Pool</label>
                  <input id="hasPool" type="checkbox" />
 
-                    <label for="hasParking">HasParking</label>
-                 <input id="hasParking" type="checkbox" />
+                    <label for="hasParking">Parking</label>
+                 <input id="hasParking" type="checkbox" />       
 
-                    <label for="hasFitness">HasFitness</label>
-                 <input id="hasFitness" type="checkbox" />
-
-                    <label for="hasInternet">HasInternet</label>
-                 <input id="hasInternet" type="checkbox" />
-
-                    <label for="hasRestaurant">HasRestaurant</label>
-                 <input id="hasRestaurant" type="checkbox"/>
+                  
             </div>
         </div>
         <br />
         <div class="grid-container">
             <div class="grid-item-full">
-                <button type="submit" class="btn btn-primary">Search</button>
+                <button type="submit" class="btn btn-warning">Search</button>
             </div>
             </div>
-        </div>
     </form>
 </div>
 <br />
 <br />
+
+
