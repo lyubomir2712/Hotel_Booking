@@ -15,8 +15,8 @@ namespace HotelBooking.Services.ViewModels
         public DateTime CheckoutDate { get; set; }
         public double MinPrice { get; set; } = 0;
         public double MaxPrice { get; set; } = 800;
-        public bool? HasPool { get; set; }
-        public bool? HasParking { get; set; }
-        public bool? HasBreakfast { get; set; }
+        public bool HasPool { get; set; }
+        public bool HasParking { get; set; }
+        public bool HasBreakfast { get; set; }
     }
 }

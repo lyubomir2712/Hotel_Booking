@@ -13,8 +13,9 @@
                         @Html.Raw(hotel.Stars)
                         <br><br>
                     <p class="card-text">Review Score: @hotel.ReviewScore</p>
+                        @Html.Raw(hotel.Facilities)
                         <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", hotel.Price)$</span></p>
-                <button type="button" class="btn btn-warning">Book</button>
+                <button type="button" class="btn btn-dark">Book</button>
             </div>
         </div>
     </div>
@@ -24,9 +25,3 @@
 </div>
 
 
-
-@*Restaurant - 7*@
-@*Fitness Center - 11
-Hot tub/Jacuzzi - 63
-Parking - 181
-Fitness - 253*@

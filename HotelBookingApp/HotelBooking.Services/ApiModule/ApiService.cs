@@ -53,13 +53,24 @@ namespace HotelBooking.Services.ApiModule
                 var newResponse = await client.GetAsync(newApiUrl + $"?order_by=price&adults_number=2&checkin_date={formattedCheckinDate}&filter_by_currency=USD&dest_id={id}&locale={model.Locale}&checkout_date={formattedCheckoutDate}&units=metric&room_number=1&dest_type=city");
                 response.EnsureSuccessStatusCode();
                 var newResponseJson = await newResponse.Content.ReadAsStringAsync();
-                
 
-                JsonDocument doc = JsonDocument.Parse(newResponseJson.ToArray());
-                JsonElement root = doc.RootElement;
+
+
+
+
 
                 JToken responseToken = JToken.Parse(newResponseJson);
                 var hotel = responseToken.SelectToken("result");
+
+
+                Dictionary<string, bool> inputFlags = new Dictionary<string, bool>
+                {
+                    { FacilitiesImagesStorage.BreakfastImage, model.HasBreakfast },
+                    { FacilitiesImagesStorage.ParkingImage, model.HasParking },
+                    { FacilitiesImagesStorage.PoolImage, model.HasPool }
+                };
+
+
 
                 foreach (var h in hotel)
                 {
@@ -68,33 +79,70 @@ namespace HotelBooking.Services.ApiModule
                     var hotelPrice = h.Value<double>("min_total_price");
                     var reviewScoreWord = h.Value<string>("review_score_word");
                     var reviewScore = h.Value<double?>("review_score");
-                    
 
                     StarsService.StarsService starService = new StarsService.StarsService();
                     string stars = starService.StarService(reviewScore);
 
-                    if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice<= model.MaxPrice )
+
+
+                    Dictionary<string, bool> facilitiesDictionary = new Dictionary<string, bool>(inputFlags.Where(f => f.Value == true));
+                    List<string> facilitiesList = new List<string>(facilitiesDictionary.Keys);
+                    string facilititesImages = String.Join(",", facilitiesList);
+
+                    if (facilitiesDictionary.All(b => b.Value == false))
                     {
-                        var newHotel = new Hotel
+                        
+
+                        if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice <= model.MaxPrice)
                         {
+                            var newHotel = new Hotel
+                            {
 
-                            Name = hotelName,
-                            PhotoMainUrl = hotelPhotoMainUrl,
-                            ReviewScore = reviewScore,
-                            ReviewScoreWord = reviewScoreWord,
-                            Price = hotelPrice,
-                            Stars = stars
-                        };
+                                Name = hotelName,
+                                PhotoMainUrl = hotelPhotoMainUrl,
+                                ReviewScore = reviewScore,
+                                ReviewScoreWord = reviewScoreWord,
+                                Price = hotelPrice,
+                                Stars = stars,
+                            };
 
-                        newHotels.Add(newHotel);
+                            newHotels.Add(newHotel);
+                        }
                     }
+                    else
+                    {
+
+                        if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice <= model.MaxPrice)
+                        {
+                            var newHotel = new Hotel
+                            {
+
+                                Name = hotelName,
+                                PhotoMainUrl = hotelPhotoMainUrl,
+                                ReviewScore = reviewScore,
+                                ReviewScoreWord = reviewScoreWord,
+                                Price = hotelPrice,
+                                Stars = stars,
+                                Facilities = facilititesImages
+                            };
+
+                            newHotels.Add(newHotel);
+                        }
+
+                    }
+
+
+
                 }
 
             }
             return newHotels;
         }
 
-
-
     }
+
 }
+
+
+
+

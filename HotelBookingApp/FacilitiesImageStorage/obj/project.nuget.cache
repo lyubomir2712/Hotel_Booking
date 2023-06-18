@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "huncDd51KH2gnysOdU3pU9sPQOXhIHnCLamFCXYkOeFjw3SdVOJUVoJ7O98oDJZ2gMkRdVZnog3kNPalRWXfKQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\FacilitiesImageStorage\\FacilitiesImageStorage.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Lubo\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

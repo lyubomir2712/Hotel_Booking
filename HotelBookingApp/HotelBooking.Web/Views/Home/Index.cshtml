@@ -113,13 +113,13 @@
             </div>
             <div>
                 <label for="hasBreakfast">Breakfast Included</label>
-                <input id="hasBreakfast" type="checkbox" />
+                <input id="hasBreakfast" type="checkbox" asp-for="@Model.HasBreakfast" />
 
                     <label for="hasPool">Pool</label>
-                 <input id="hasPool" type="checkbox" />
+                 <input id="hasPool" type="checkbox" asp-for="@Model.HasPool"/>
 
                     <label for="hasParking">Parking</label>
-                 <input id="hasParking" type="checkbox" />       
+                 <input id="hasParking" type="checkbox" asp-for="@Model.HasParking" />       
 
                   
             </div>
@@ -127,7 +127,7 @@
         <br />
         <div class="grid-container">
             <div class="grid-item-full">
-                <button type="submit" class="btn btn-warning">Search</button>
+                <button type="submit" class="btn btn-dark">Search</button>
             </div>
             </div>
     </form>
