@@ -50,5 +50,17 @@ namespace HotelBooking.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        public IActionResult ErrorWithStatusCode(int errorCode)
+        {
+            ViewBag.StatusCode = errorCode;
+            return this.View();
+        }
+
+        public IActionResult BookedHotels()
+        {
+            return View();
+        }
     }
 }

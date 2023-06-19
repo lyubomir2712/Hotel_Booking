@@ -44,6 +44,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Lubo/OneDrive/Desktop/AspProject/Hotel_Booking/HotelBookingApp/HotelBooking.Web/Views/Home/BookedHotels.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxCb29rZWRIb3RlbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Lubo/OneDrive/Desktop/AspProject/Hotel_Booking/HotelBookingApp/HotelBooking.Web/Views/Home/ErrorWithStatusCode.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvcldpdGhTdGF0dXNDb2RlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Lubo/OneDrive/Desktop/AspProject/Hotel_Booking/HotelBookingApp/HotelBooking.Web/Views/Home/Hotels.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxIb3RlbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

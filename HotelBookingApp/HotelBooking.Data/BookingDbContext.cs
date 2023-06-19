@@ -11,10 +11,7 @@ namespace HotelBooking.Data
 {
     public class BookingDbContext : IdentityDbContext<UserModel, UserRole, int>
     {
-        //public BookingDbContext()
-        //{
-
-        //}
+       
         public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options)
         {
 
@@ -39,8 +36,7 @@ namespace HotelBooking.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            // optionsBuilder.UseSqlServer("Server=(Local)\\SQLEXPRESS01;Database=aspnet-HotelBooking;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=true;");
-            //   base.OnConfiguring(optionsBuilder);
+            
         }
     }
 }

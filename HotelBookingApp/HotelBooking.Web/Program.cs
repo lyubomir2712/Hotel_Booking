@@ -40,7 +40,15 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
+
+
+
 var app = builder.Build();
+
+
+
+//app.UseExceptionHandler("/Home/ErrorWithStatusCode?errorCode={0}");
+//app.UseStatusCodePagesWithRedirects("/Home/ErrorWithStatusCode?errorCode={0}");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -65,6 +73,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
