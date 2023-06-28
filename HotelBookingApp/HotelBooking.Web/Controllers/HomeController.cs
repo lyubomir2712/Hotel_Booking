@@ -6,7 +6,8 @@ using HotelBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol;
 using System.Diagnostics;
-
+using HotelBooking.Data;
+using HotelBooking.Models.AppModels;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -16,11 +17,13 @@ namespace HotelBooking.Web.Controllers
         private readonly IApiService _apiService;
         private readonly IStarsService _starsService;
 
+
         public HomeController(ILogger<HomeController> logger, IApiService apiService, IStarsService starsService)
         {
             _logger = logger;
             _apiService = apiService;
             _starsService = starsService;
+           
 
         }
 
@@ -34,7 +37,7 @@ namespace HotelBooking.Web.Controllers
             return View();
         }
 
-        [HttpPost]
+        
         public async Task<IActionResult> Hotels(ApiDataViewModel apiDataViewModel)
         {
 
@@ -58,9 +61,6 @@ namespace HotelBooking.Web.Controllers
             return this.View();
         }
 
-        public IActionResult BookedHotels()
-        {
-            return View();
-        }
+        
     }
 }

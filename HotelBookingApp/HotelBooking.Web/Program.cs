@@ -6,8 +6,9 @@ using HotelBooking.Web.Areas.Identity.Pages.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using HotelBooking.Services.StarsService;
-
-
+using Newtonsoft.Json;
+using NuGet.Protocol;
+using HotelBooking.Services.HotelAddService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +37,9 @@ builder.Services
 
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IStarsService, StarsService>();
-builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<HotelAddService>();
 
+builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 
@@ -70,9 +72,20 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.MapControllerRoute(
+    name: "bookedHotelsByUser",
+    pattern: "Home/BookedHotels",
+    defaults: new { controller = "BookedHotelsByUser", action = "BookedHotels" });
+
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+
 
 app.MapRazorPages();
 

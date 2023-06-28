@@ -25,28 +25,23 @@ namespace HotelBooking.Data.Migrations
             modelBuilder.Entity("HotelBooking.Models.AppModels.BookingModel", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("EndAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("HotelId")
-                        .HasColumnType("int");
-
                     b.Property<int>("HotelModelId")
                         .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("StartAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("HotelModelId");
-
-                    b.ToTable("BookingModel");
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("HotelBooking.Models.AppModels.HotelModel", b =>
@@ -57,13 +52,17 @@ namespace HotelBooking.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("HotelImg")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("HotelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("HotelModel");
+                    b.ToTable("Hotels");
                 });
 
             modelBuilder.Entity("HotelBooking.Models.AppModels.UserBookingModel", b =>
@@ -80,16 +79,13 @@ namespace HotelBooking.Data.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserModelId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("BookingModelId");
 
-                    b.HasIndex("UserModelId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("UserBookingModel");
+                    b.ToTable("UserBookings");
                 });
 
             modelBuilder.Entity("HotelBooking.Models.Identity.UserModel", b =>
@@ -201,14 +197,16 @@ namespace HotelBooking.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "abc97b12-baff-4ed3-a460-5cc600b00bfd",
-                            Name = "Admin"
+                            ConcurrencyStamp = "d680d608-4691-427c-9405-fbdab25f7fe6",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "cc3955ba-5ae7-4208-91d9-0ed4b819432a",
-                            Name = "Regular"
+                            ConcurrencyStamp = "902c5ed7-0cb0-4d73-8a7d-ffb083bc9de8",
+                            Name = "Regular",
+                            NormalizedName = "REGULAR"
                         });
                 });
 
@@ -323,8 +321,8 @@ namespace HotelBooking.Data.Migrations
                 {
                     b.HasOne("HotelBooking.Models.AppModels.HotelModel", "HotelModel")
                         .WithMany("BookingModels")
-                        .HasForeignKey("HotelModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("HotelModel");
@@ -340,8 +338,8 @@ namespace HotelBooking.Data.Migrations
 
                     b.HasOne("HotelBooking.Models.Identity.UserModel", "UserModel")
                         .WithMany("UserBookingModels")
-                        .HasForeignKey("UserModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("BookingModel");

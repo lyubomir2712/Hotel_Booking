@@ -188,7 +188,14 @@
         "frameworks": {
           "net6.0": {
             "targetAlias": "net6.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj": {
+                "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj"
+              },
+              "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
+                "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

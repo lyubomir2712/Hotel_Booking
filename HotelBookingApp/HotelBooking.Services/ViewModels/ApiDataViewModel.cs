@@ -18,5 +18,6 @@ namespace HotelBooking.Services.ViewModels
         public bool HasPool { get; set; }
         public bool HasParking { get; set; }
         public bool HasBreakfast { get; set; }
+        
     }
 }

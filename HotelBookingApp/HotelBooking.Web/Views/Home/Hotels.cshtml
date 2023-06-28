@@ -1,27 +1,44 @@
-﻿@model System.Collections.Generic.List<HotelBooking.Services.ViewModels.Hotel> ;
+﻿@using HotelBooking.Services.ViewModels;
+@model List<Hotel>? 
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
-@{
-    foreach(var hotel in Model)
-    {
-        
-        <div class="col">
-        <div class="card h-100" >
-                    <img src="@hotel.PhotoMainUrl" class="card-img-top" alt="..." >
-            <div class="card-body">
+    @{
+        foreach (var hotel in Model)
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <img src="@hotel.PhotoMainUrl" class="card-img-top" alt="...">
+                    <div class="card-body">
                         <h5 class="card-title">@hotel.Name</h5>
+                        <p class="card-text"><span>Dates: </span><span class="start">@hotel.StartAt</span><span>-</span><span class="end">@hotel.EndAt</span></p>
                         <p class="card-text">@hotel.ReviewScoreWord</p>
                         @Html.Raw(hotel.Stars)
                         <br><br>
-                    <p class="card-text">Review Score: @hotel.ReviewScore</p>
+                        <p class="card-text">Review Score: @hotel.ReviewScore</p>
                         @Html.Raw(hotel.Facilities)
                         <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", hotel.Price)$</span></p>
-                <button type="button" class="btn btn-dark">Book</button>
+                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                            <input type="hidden" name="HotelName" value="@hotel.Name" />
+                            <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl" />
+                            <input type="hidden" name="HotelPrice" value="@hotel.Price" />
+                            <input type="hidden" name="StartAt" value="@hotel.StartAt" />
+                            <input type="hidden" name="EndAt" value="@hotel.EndAt" />
+                            <button type="submit" class="btn btn-dark">Book</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-        
+        }
     }
-}
 </div>
+
+<style>
+    span {
+        color: black
+    }
+</style>
+
+
+
 
 

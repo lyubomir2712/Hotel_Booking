@@ -24,7 +24,7 @@ namespace HotelBooking.Services.ApiModule
             var client = new HttpClient();
 
 
-            client.DefaultRequestHeaders.Add("X-RapidAPI-Key", "7d8f47cd96msh5ef3331c8b654ccp14656ejsn5de30eeaa82f");
+            client.DefaultRequestHeaders.Add("X-RapidAPI-Key", "b067df4ec3msh7add19d4e4747fbp12bc39jsna54fc447bbf1");
             client.DefaultRequestHeaders.Add("X-RapidAPI-Host", "booking-com.p.rapidapi.com");
 
 
@@ -104,6 +104,8 @@ namespace HotelBooking.Services.ApiModule
                                 ReviewScoreWord = reviewScoreWord,
                                 Price = hotelPrice,
                                 Stars = stars,
+                                StartAt = formattedCheckinDate,
+                                EndAt = formattedCheckoutDate
                             };
 
                             newHotels.Add(newHotel);
@@ -123,7 +125,9 @@ namespace HotelBooking.Services.ApiModule
                                 ReviewScoreWord = reviewScoreWord,
                                 Price = hotelPrice,
                                 Stars = stars,
-                                Facilities = facilititesImages
+                                Facilities = facilititesImages,
+                                StartAt = formattedCheckinDate,
+                                EndAt = formattedCheckoutDate
                             };
 
                             newHotels.Add(newHotel);

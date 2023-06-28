@@ -1,1 +1,38 @@
-﻿
+﻿@using HotelBooking.Models.AppModels
+@using HotelBooking.Services.ViewModels
+@model UserBookedHotels
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @{
+        foreach (var booking in Model.Bookings)
+        {
+            foreach (var hotel in Model.Hotels)
+            {
+                if (booking.Id == hotel.Id)
+                {
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="@hotel.HotelImg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@hotel.HotelName</h5>
+                                <p class="card-text"><span>Dates: </span><span class="start">@booking.StartAt</span><span>-</span><span class="end">@booking.EndAt</span></p>
+                                <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", booking.Price)$</span></p>
+
+                                <button type="submit" class="btn btn-success" style="background: green">Check out</button>
+                                <button type="submit" class="btn btn-danger" style="background:darkred">Remove</button>
+
+                                <form asp-controller="RemoveHotelFromCart" asp-action="Index" method="post">
+                                    <input type="hidden" name="BookingId" value="@booking.Id" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+</div>
+<style>
+    span{
+        color: black;
+    }
+</style>

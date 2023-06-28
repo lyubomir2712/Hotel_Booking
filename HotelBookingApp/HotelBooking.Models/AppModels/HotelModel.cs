@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace HotelBooking.Models.AppModels
 {
-    public class HotelModel:BaseModel
+    public class HotelModel : BaseModel
     {
+        
         public string HotelName { get; set; }
+        public string HotelImg { get; set; }
         public ICollection<BookingModel> BookingModels { get; set; }
-
     }
 }

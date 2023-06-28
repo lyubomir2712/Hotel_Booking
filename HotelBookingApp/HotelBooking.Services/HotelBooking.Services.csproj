@@ -10,4 +10,9 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HotelBooking.Data\HotelBooking.Data.csproj" />
+    <ProjectReference Include="..\HotelBooking.Models\HotelBooking.Models.csproj" />
+  </ItemGroup>
+
 </Project>

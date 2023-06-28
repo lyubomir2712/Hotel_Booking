@@ -2378,6 +2378,8 @@
       },
       "HotelBooking.Services/1.0.0": {
         "dependencies": {
+          "HotelBooking.Data": "1.0.0",
+          "HotelBooking.Models": "1.0.0",
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
