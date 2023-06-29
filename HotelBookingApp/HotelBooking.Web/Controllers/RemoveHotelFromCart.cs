@@ -11,9 +11,9 @@ namespace HotelBooking.Web.Controllers
         {
             _bookingDbContext = bookingDbContext;
         }
-        public IActionResult Index(int HotelId)
+        public IActionResult Index(int BookingId)
         {
-            _bookingDbContext.Bookings.Remove(_bookingDbContext.Bookings.First(b=>b.Id == HotelId));
+            _bookingDbContext.Bookings.Remove(_bookingDbContext.Bookings.First(b=>b.Id == BookingId));
             _bookingDbContext.SaveChanges();
             return RedirectToAction("BookedHotels", "BookedHotelsByUser");
         }

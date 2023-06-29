@@ -38,6 +38,8 @@ builder.Services
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IStarsService, StarsService>();
 builder.Services.AddScoped<HotelAddService>();
+builder.Services.AddScoped<UserRole>();
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

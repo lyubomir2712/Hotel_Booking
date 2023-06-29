@@ -8,6 +8,8 @@ using NuGet.Protocol;
 using System.Diagnostics;
 using HotelBooking.Data;
 using HotelBooking.Models.AppModels;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -61,6 +63,11 @@ namespace HotelBooking.Web.Controllers
             return this.View();
         }
 
-        
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminPanel()
+        {
+            return View();
+        }
     }
 }
