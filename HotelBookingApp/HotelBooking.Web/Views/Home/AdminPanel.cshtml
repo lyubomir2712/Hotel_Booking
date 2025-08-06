@@ -7,8 +7,11 @@
     h2, th, td {
         color: white;
     }
+    .admin-panel-container{
+    margin-bottom: 50%;
+    }
 </style>
-
+<div class="admin-panel-container"> 
 <h2>Всички резервации</h2>
 
 <table class="table table-striped">
@@ -35,8 +38,14 @@
             <td>@b.StartAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.Price $</td>
-            <td><button>Delete</button></td>
+            <td>
+                <form asp-controller="Home" asp-action="AdminPanelDeleteBooking" method="post">
+                    <input type="hidden" name="bookingId" value="@b.Id" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
         </tr>
     }
     </tbody>
 </table>
+</div>

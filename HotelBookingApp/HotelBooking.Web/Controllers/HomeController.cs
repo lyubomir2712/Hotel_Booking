@@ -69,5 +69,17 @@ namespace HotelBooking.Web.Controllers
                 .ToList();
             return View(bookings);
         }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminPanelDeleteBooking(int bookingId)
+        {
+            var adminPanelBooking = _dbContext.AdminPanelBookings.Find(bookingId);
+            if (adminPanelBooking != null)
+            {
+                _dbContext.AdminPanelBookings.Remove(adminPanelBooking);
+                _dbContext.SaveChanges();
+            }
+            return RedirectToAction("AdminPanel");
+        }
     }
 }
