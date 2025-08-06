@@ -14,13 +14,14 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th>Име</th>
-        <th>Фамилия</th>
-        <th>Хотел</th>
-        <th>Снимка на хотела</th>
-        <th>Начало</th>
-        <th>Край</th>
-        <th>Цена</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Hotel Name</th>
+        <th>Hotel Image</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Price</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -34,6 +35,7 @@
             <td>@b.StartAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.Price $</td>
+            <td><button>Delete</button></td>
         </tr>
     }
     </tbody>
