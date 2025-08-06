@@ -21,5 +21,5 @@ namespace HotelBooking.Services.ViewModels
             public string Facilities { get; set; }
             public string StartAt { get; set; }
             public string EndAt { get; set; }
-    }  
+        }  
 }

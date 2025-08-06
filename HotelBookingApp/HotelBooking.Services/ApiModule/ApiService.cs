@@ -53,12 +53,7 @@ namespace HotelBooking.Services.ApiModule
                 var newResponse = await client.GetAsync(newApiUrl + $"?order_by=price&adults_number=2&checkin_date={formattedCheckinDate}&filter_by_currency=USD&dest_id={id}&locale={model.Locale}&checkout_date={formattedCheckoutDate}&units=metric&room_number=1&dest_type=city");
                 response.EnsureSuccessStatusCode();
                 var newResponseJson = await newResponse.Content.ReadAsStringAsync();
-
-
-
-
-
-
+                
                 JToken responseToken = JToken.Parse(newResponseJson);
                 var hotel = responseToken.SelectToken("result");
 
@@ -105,7 +100,7 @@ namespace HotelBooking.Services.ApiModule
                                 Price = hotelPrice,
                                 Stars = stars,
                                 StartAt = formattedCheckinDate,
-                                EndAt = formattedCheckoutDate
+                                EndAt = formattedCheckoutDate,
                             };
 
                             newHotels.Add(newHotel);
@@ -118,7 +113,7 @@ namespace HotelBooking.Services.ApiModule
                         {
                             var newHotel = new Hotel
                             {
-
+                                
                                 Name = hotelName,
                                 PhotoMainUrl = hotelPhotoMainUrl,
                                 ReviewScore = reviewScore,
@@ -127,7 +122,7 @@ namespace HotelBooking.Services.ApiModule
                                 Stars = stars,
                                 Facilities = facilititesImages,
                                 StartAt = formattedCheckinDate,
-                                EndAt = formattedCheckoutDate
+                                EndAt = formattedCheckoutDate,
                             };
 
                             newHotels.Add(newHotel);

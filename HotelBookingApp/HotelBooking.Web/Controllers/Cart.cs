@@ -5,6 +5,8 @@ using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -21,34 +23,48 @@ namespace HotelBooking.Web.Controllers
 
 
         [HttpPost]
-        public IActionResult AddToCart(string HotelName, string HotelImg, string HotelPrice, string StartAt, string EndAt) 
+        public async Task<IActionResult> AddToCart(string HotelName, string HotelImg, string HotelPrice, string StartAt, string EndAt) 
         {
             
-            int UserId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
+            // Retrieve the UserModel based on the current user's ID
+            UserModel userModel = await _userManager.FindByIdAsync(userId.ToString());
 
+            var existingHotel = _dbContext.Hotels.FirstOrDefault(h => h.HotelName == HotelName && h.HotelImg == HotelImg);
             
-            HotelModel newHotel = new HotelModel { HotelName = HotelName, HotelImg = HotelImg };
+            HotelModel newHotel;
+            if (existingHotel != null)
+            {
+                newHotel = existingHotel;
+            }
+            else
+            {
+                newHotel = new HotelModel { HotelName = HotelName, HotelImg = HotelImg };
+                _dbContext.Hotels.Add(newHotel);
+                await _dbContext.SaveChangesAsync();
+            }
 
             BookingModel newBookingModel = new BookingModel
             {
                 StartAt = Convert.ToDateTime(StartAt),
                 Price = Convert.ToDouble(HotelPrice),
                 EndAt = Convert.ToDateTime(EndAt),
-                HotelModel = newHotel
+                HotelModel = newHotel,
+                HotelModelId = newHotel.Id
             };
 
+            await _dbContext.Bookings.AddAsync(newBookingModel);
+            await _dbContext.SaveChangesAsync();     // get generated BookingModel.Id
 
-            UserBookingModel newUserBookingModel = new UserBookingModel
+            var newUserBookingModel = new UserBookingModel
             {
-                BookingModel = newBookingModel,
-                UserId = UserId
-        };
-
-            _dbContext.Hotels.Add(newHotel);
-            _dbContext.Bookings.Add(newBookingModel);
-            _dbContext.UserBookings.Add(newUserBookingModel);
-            _dbContext.SaveChanges();
+                BookingModelId = newBookingModel.Id,   // now valid
+                UserId         = userId,
+                UserModel      = userModel
+            };
+            await _dbContext.UserBookings.AddAsync(newUserBookingModel);
+            await _dbContext.SaveChangesAsync();
 
 
             return RedirectToAction("Index", "Home");
@@ -56,6 +72,3 @@ namespace HotelBooking.Web.Controllers
         }
     }
 }
-
-
-

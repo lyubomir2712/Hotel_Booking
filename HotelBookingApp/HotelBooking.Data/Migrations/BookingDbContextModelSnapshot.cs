@@ -200,6 +200,62 @@ namespace HotelBooking.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "04b18e37-70cf-4e60-a2d7-773eb92e61ee",
+                            Email = "admin@hotel.com",
+                            EmailConfirmed = true,
+                            FirstName = "System",
+                            LastName = "Administrator",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@HOTEL.COM",
+                            NormalizedUserName = "ADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMEz2YTtK0Mkh+2qeteMlzR2zelm+wJwwF/fh0jXbQfEpG79oxi+KXAeuTGa9dizkA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fcb06689-1458-4f83-892e-f0b9342cdeeb",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "8a9d4419-137b-493a-9e8b-ba97efe1771f",
+                            Email = "john@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "John",
+                            LastName = "Doe",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JOHN@EXAMPLE.COM",
+                            NormalizedUserName = "JOHN",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKPnNqMny2Skhe2eOsqeSB9CsuUIbcLX8bZdOrLbKtimUWDqek1TK/dvuoBFnzPS0g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "c7b8752b-cc36-4f9b-bb54-7379d6e386a2",
+                            TwoFactorEnabled = false,
+                            UserName = "john"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "82c38b16-1245-473d-8128-fe6dce22b0bc",
+                            Email = "jane@example.com",
+                            EmailConfirmed = true,
+                            FirstName = "Jane",
+                            LastName = "Doe",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "JANE@EXAMPLE.COM",
+                            NormalizedUserName = "JANE",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDXewf4WWMlXlkAWIZaxvaggGh2+0xJcoe4b1InYdnYkPChbi1GVcVbV9vSOK49K2Q==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f0933088-80ed-4291-8f69-d9b4d370b486",
+                            TwoFactorEnabled = false,
+                            UserName = "jane"
+                        });
                 });
 
             modelBuilder.Entity("HotelBooking.Models.Identity.UserRole", b =>
@@ -330,6 +386,23 @@ namespace HotelBooking.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 3,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>

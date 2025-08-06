@@ -14,7 +14,6 @@ namespace HotelBooking.Web.Controllers
         public BookedHotelsByUserController(HotelAddService hotelAddService) 
         {
             _hotelAddService= hotelAddService;
-            
         }
 
         
