@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "vZVxFbPtr2zXWg6kI5dL2ciWzAWXMEluMVnbxugnWVtEAtr0ZIhauCmRWN5N2kywclIUvW+aY9PAlRU5TBIt3Q==",
+  "dgSpecHash": "CwgYHN0HP4M=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\src\\HotelBooking.Services\\HotelBooking.Services.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/Old/src/HotelBooking.Services/HotelBooking.Services.csproj",
+  "expectedPackageFiles": [
+    "/Users/lyubomirgeorgiev/.nuget/packages/microsoft.netcore.app.ref/6.0.36/microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "/Users/lyubomirgeorgiev/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.36/microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512"
+  ],
   "logs": []
 }

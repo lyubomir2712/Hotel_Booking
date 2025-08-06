@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HotelBooking.Models
-build_property.ProjectDir = C:\Users\Lubo\OneDrive\Desktop\AspProject\Hotel_Booking\HotelBookingApp\HotelBooking.Models\
+build_property.ProjectDir = /Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Models/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 

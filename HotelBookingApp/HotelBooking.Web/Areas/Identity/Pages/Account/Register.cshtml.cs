@@ -30,15 +30,17 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
         private readonly RoleManager<UserRole> roleManager;
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly Microsoft.AspNetCore.Identity.IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             RoleManager<UserRole> roleManager,
             SignInManager<UserModel> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            ILogger<RegisterModel> logger
+            // ,
+            // IEmailSender emailSender
+            )
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -46,7 +48,7 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            _emailSender = emailSender;
+            // _emailSender = emailSender;
         }
 
         /// <summary>

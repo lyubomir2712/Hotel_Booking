@@ -60,7 +60,7 @@ namespace HotelBooking.Web.Controllers
         public IActionResult ErrorWithStatusCode(int errorCode)
         {
             ViewBag.StatusCode = errorCode;
-            return this.View();
+            return View();
         }
 
 

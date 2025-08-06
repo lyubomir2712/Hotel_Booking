@@ -1,8 +1,14 @@
 ﻿@using HotelBooking.Models.AppModels
 @using HotelBooking.Services.ViewModels
 @model UserBookedHotels
+<form asp-controller="Checkout" asp-action="CheckoutHotels" method="post">
+    
+            <input type="hidden" name="bookings" value="@Model.Bookings" />
+        }
+    
+    <button type="submit" class="btn btn-success" style="background:green;margin-left:84.5%; margin-bottom: 1%; width: 200px;">Check out</button>
+</form>
 
-<button type="submit" class="btn btn-success" style="background:green;margin-left:84.5%; margin-bottom: 1%; width: 200px;">Check out</button>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
     
@@ -25,7 +31,7 @@
                                 
                                 <br><br>
 
-                                <form asp-controller="RemoveHotelFromCart" asp-action="Index" method="post">
+                                <form asp-controller="RemoveHotelFromCart" asp-action="RemoveHotel" method="post">
                                     <input type="hidden" name="BookingId" value="@booking.Id" />
                                     <button type="submit" class="btn btn-danger" style="background:darkred">Remove</button>
                                 </form>

@@ -10920,32 +10920,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lubo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/lyubomirgeorgiev/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\src\\HotelBooking\\HotelBooking.csproj",
+      "projectUniqueName": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/Old/src/HotelBooking/HotelBooking.csproj",
       "projectName": "HotelBooking",
-      "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\src\\HotelBooking\\HotelBooking.csproj",
-      "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\src\\HotelBooking\\obj\\",
+      "projectPath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/Old/src/HotelBooking/HotelBooking.csproj",
+      "packagesPath": "/Users/lyubomirgeorgiev/.nuget/packages/",
+      "outputPath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/Old/src/HotelBooking/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Lubo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/lyubomirgeorgiev/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -10958,7 +10950,13 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
       "net6.0": {
@@ -11014,6 +11012,20 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.osx-arm64",
+            "version": "[6.0.36, 6.0.36]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[6.0.36, 6.0.36]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -11022,7 +11034,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.101/RuntimeIdentifierGraph.json"
       }
     }
   }

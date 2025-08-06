@@ -1,4 +1,4 @@
-﻿using HotelBooking.Models.AppModels;
+﻿ using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.HotelAddService;
 using HotelBooking.Services.ViewModels;

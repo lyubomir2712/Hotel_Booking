@@ -4,14 +4,14 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace HotelBooking.Web.Controllers
 {
-    public class RemoveHotelFromCart : Controller
+    public class RemoveHotelFromCartController : Controller
     {
-        readonly BookingDbContext _bookingDbContext;
-        public RemoveHotelFromCart(BookingDbContext bookingDbContext) 
+        private readonly BookingDbContext _bookingDbContext;
+        public RemoveHotelFromCartController(BookingDbContext bookingDbContext) 
         {
             _bookingDbContext = bookingDbContext;
         }
-        public IActionResult Index(int BookingId)
+        public IActionResult RemoveHotel(int BookingId)
         {
             _bookingDbContext.Bookings.Remove(_bookingDbContext.Bookings.First(b=>b.Id == BookingId));
             _bookingDbContext.SaveChanges();

@@ -19,7 +19,7 @@ namespace HotelBooking.Data
         public DbSet<HotelModel>? Hotels { get; set; }
         public DbSet<UserBookingModel>? UserBookings { get; set; }
 
-
+        public DbSet<AdminPanelBookings> AdminPanelBookings { get; set; }
 
         public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options)
         {
@@ -55,6 +55,13 @@ namespace HotelBooking.Data
                 .HasOne(b => b.HotelModel)
                 .WithMany(h => h.BookingModels)
                 .HasForeignKey(b => b.Id)
+                .OnDelete(DeleteBehavior.NoAction);
+            
+            
+            builder.Entity<AdminPanelBookings>()
+                .HasOne(apb => apb.HotelModel)
+                .WithMany(h => h.AdminPanelBookings)
+                .HasForeignKey(apb => apb.HotelModelId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(builder);

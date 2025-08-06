@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
+    "net8.0": {
       "Microsoft.AspNetCore.Cryptography.Internal/6.0.16": {
         "type": "package",
         "compile": {
@@ -835,7 +835,7 @@
       },
       "HotelBooking.Data/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
+        "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "HotelBooking.Models": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.16",
@@ -851,7 +851,7 @@
       },
       "HotelBooking.Models/1.0.0": {
         "type": "project",
-        "framework": ".NETCoreApp,Version=v6.0",
+        "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.16"
         },
@@ -2160,50 +2160,42 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0": [
+    "net8.0": [
       "HotelBooking.Data >= 1.0.0",
       "HotelBooking.Models >= 1.0.0",
       "Newtonsoft.Json >= 13.0.3"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Lubo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/Users/lyubomirgeorgiev/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
+      "projectUniqueName": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Services/HotelBooking.Services.csproj",
       "projectName": "HotelBooking.Services",
-      "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\HotelBooking.Services.csproj",
-      "packagesPath": "C:\\Users\\Lubo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Services\\obj\\",
+      "projectPath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Services/HotelBooking.Services.csproj",
+      "packagesPath": "/Users/lyubomirgeorgiev/.nuget/packages/",
+      "outputPath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Services/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Lubo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/lyubomirgeorgiev/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj": {
-              "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Data\\HotelBooking.Data.csproj"
+            "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Data/HotelBooking.Data.csproj": {
+              "projectPath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Data/HotelBooking.Data.csproj"
             },
-            "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj": {
-              "projectPath": "C:\\Users\\Lubo\\OneDrive\\Desktop\\AspProject\\Hotel_Booking\\HotelBookingApp\\HotelBooking.Models\\HotelBooking.Models.csproj"
+            "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Models/HotelBooking.Models.csproj": {
+              "projectPath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Models/HotelBooking.Models.csproj"
             }
           }
         }
@@ -2212,11 +2204,17 @@
         "warnAsError": [
           "NU1605"
         ]
-      }
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "net8.0": {
+        "targetAlias": "net8.0",
         "dependencies": {
           "Newtonsoft.Json": {
             "target": "Package",
@@ -2234,12 +2232,22 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.11, 8.0.11]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.11, 8.0.11]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.101/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
