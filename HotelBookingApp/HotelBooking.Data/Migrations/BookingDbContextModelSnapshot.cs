@@ -22,6 +22,44 @@ namespace HotelBooking.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("HotelBooking.Models.AppModels.AdminPanelBookings", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ClientFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HotelModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HotelModelId");
+
+                    b.ToTable("AdminPanelBookings");
+                });
+
             modelBuilder.Entity("HotelBooking.Models.AppModels.BookingModel", b =>
                 {
                     b.Property<int>("Id")
@@ -197,14 +235,12 @@ namespace HotelBooking.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "d680d608-4691-427c-9405-fbdab25f7fe6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "902c5ed7-0cb0-4d73-8a7d-ffb083bc9de8",
                             Name = "Regular",
                             NormalizedName = "REGULAR"
                         });
@@ -317,6 +353,17 @@ namespace HotelBooking.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("HotelBooking.Models.AppModels.AdminPanelBookings", b =>
+                {
+                    b.HasOne("HotelBooking.Models.AppModels.HotelModel", "HotelModel")
+                        .WithMany("AdminPanelBookings")
+                        .HasForeignKey("HotelModelId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("HotelModel");
+                });
+
             modelBuilder.Entity("HotelBooking.Models.AppModels.BookingModel", b =>
                 {
                     b.HasOne("HotelBooking.Models.AppModels.HotelModel", "HotelModel")
@@ -405,6 +452,8 @@ namespace HotelBooking.Data.Migrations
 
             modelBuilder.Entity("HotelBooking.Models.AppModels.HotelModel", b =>
                 {
+                    b.Navigation("AdminPanelBookings");
+
                     b.Navigation("BookingModels");
                 });
 
