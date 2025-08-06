@@ -10,7 +10,7 @@ public class AdminPanelBookings : BaseModel
     public string ClientLastName { get; set; }
     public DateTime StartAt { get; set; }
     public DateTime EndAt { get; set; }
-    public int Price { get; set; }
+    public double Price { get; set; }
     public int HotelModelId { get; set; }
 
     public HotelModel HotelModel { get; set; }

@@ -47,8 +47,8 @@ namespace HotelBooking.Data.Migrations
                     b.Property<int>("HotelModelId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<DateTime>("StartAt")
                         .HasColumnType("datetime2");

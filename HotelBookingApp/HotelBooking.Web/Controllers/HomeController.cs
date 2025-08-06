@@ -10,6 +10,7 @@ using HotelBooking.Data;
 using HotelBooking.Models.AppModels;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -18,15 +19,15 @@ namespace HotelBooking.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IApiService _apiService;
         private readonly IStarsService _starsService;
+        private readonly BookingDbContext _dbContext;
 
 
-        public HomeController(ILogger<HomeController> logger, IApiService apiService, IStarsService starsService)
+        public HomeController(ILogger<HomeController> logger, IApiService apiService, IStarsService starsService, BookingDbContext dbContext)
         {
             _logger = logger;
             _apiService = apiService;
             _starsService = starsService;
-           
-
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -42,11 +43,7 @@ namespace HotelBooking.Web.Controllers
         
         public async Task<IActionResult> Hotels(ApiDataViewModel apiDataViewModel)
         {
-
             var response =await _apiService.GetHotelsByLocation("https://booking-com.p.rapidapi.com/v1/hotels/locations", "https://booking-com.p.rapidapi.com/v1/hotels/search", apiDataViewModel);
-
-
-
             return View(response);
         }
 
@@ -67,7 +64,10 @@ namespace HotelBooking.Web.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult AdminPanel()
         {
-            return View();
+            var bookings = _dbContext.AdminPanelBookings
+                .Include(x => x.HotelModel)
+                .ToList();
+            return View(bookings);
         }
     }
 }

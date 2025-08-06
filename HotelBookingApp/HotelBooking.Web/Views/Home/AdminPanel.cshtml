@@ -1,1 +1,30 @@
-﻿
+﻿@model IEnumerable<HotelBooking.Models.AppModels.AdminPanelBookings>
+
+<h2>Всички резервации</h2>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Име</th>
+        <th>Фамилия</th>
+        <th>Хотел</th>
+        <th>Начало</th>
+        <th>Край</th>
+        <th>Цена</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var b in Model)
+    {
+        <tr>
+            <td>@b.ClientFirstName</td>
+            <td>@b.ClientLastName</td>
+            <td>@b.HotelModel.HotelName</td>
+            <td>@b.HotelModel.HotelImg</td>
+            <td>@b.StartAt.ToString("dd.MM.yyyy")</td>
+            <td>@b.EndAt.ToString("dd.MM.yyyy")</td>
+            <td>@b.Price</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -16,34 +16,37 @@ public class CheckoutController : Controller
         _bookingDbContext = bookingDbContext;
         _userManager = userManager;
     }
+    [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> CheckoutHotels(List<BookingModel> bookings)
     {
-        List<BookingModel> allBookings = _bookingDbContext.Bookings.ToList();
-        var adminRole = "Admin";
-        var usersInAdminRole = await _userManager.GetUsersInRoleAsync(adminRole);
-        var adminUser = usersInAdminRole.FirstOrDefault();
+        // 1. Вземаме текущия потребител
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser == null || bookings == null || bookings.Count == 0)
+            return RedirectToAction("Index", "Home");
 
-        // if (adminUser != null)
-        // {
-        //     foreach (BookingModel booking in allBookings)
-        //     {
-        //         var userBooking = new UserBookingModel
-        //         {
-        //             BookingModelId = booking.Id,
-        //             UserId = Convert.ToInt32(adminUser.Id)
-        //         };
-        //     
-        //         booking.UserBookingModels.Add(userBooking);
-        //     }
-        //     
-        //     _bookingDbContext.Bookings.AddRange(bookings);
-        // }
-        
-        foreach (BookingModel booking in allBookings)
+        // 2. Конвертираме всеки BookingModel в AdminPanelBookings
+        var adminPanelBookings = bookings.Select(b => new AdminPanelBookings
         {
-            _bookingDbContext.Bookings.Remove(booking);
-        }
+            ClientId = currentUser.Id,
+            ClientFirstName = currentUser.FirstName,   // предполага се, че имаш FirstName в UserModel
+            ClientLastName = currentUser.LastName,     // предполага се, че имаш LastName в UserModel
+            StartAt = b.StartAt,
+            EndAt = b.EndAt,
+            Price = b.Price,
+            HotelModelId = b.HotelModelId
+        }).ToList();
+
+        // 3. Записваме новите AdminPanelBookings
+        await _bookingDbContext.AdminPanelBookings.AddRangeAsync(adminPanelBookings);
+
+        // 4. Изтриваме резервациите на текущия потребител
+        _bookingDbContext.Bookings.RemoveRange(bookings);
+
+        // 5. Записваме промените
         await _bookingDbContext.SaveChangesAsync();
+
+        // 6. Пренасочваме към „BookedHotels“
         return RedirectToAction("BookedHotels", "BookedHotelsByUser");
     }
 }
