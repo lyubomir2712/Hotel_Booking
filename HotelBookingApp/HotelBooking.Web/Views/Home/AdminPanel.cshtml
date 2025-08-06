@@ -1,5 +1,14 @@
 ﻿@model IEnumerable<HotelBooking.Models.AppModels.AdminPanelBookings>
 
+<style>
+    body {
+        color: white;
+    }
+    h2, th, td {
+        color: white;
+    }
+</style>
+
 <h2>Всички резервации</h2>
 
 <table class="table table-striped">
@@ -8,6 +17,7 @@
         <th>Име</th>
         <th>Фамилия</th>
         <th>Хотел</th>
+        <th>Снимка на хотела</th>
         <th>Начало</th>
         <th>Край</th>
         <th>Цена</th>
@@ -20,10 +30,10 @@
             <td>@b.ClientFirstName</td>
             <td>@b.ClientLastName</td>
             <td>@b.HotelModel.HotelName</td>
-            <td>@b.HotelModel.HotelImg</td>
-            <td>@b.StartAt.ToString("dd.MM.yyyy")</td>
-            <td>@b.EndAt.ToString("dd.MM.yyyy")</td>
-            <td>@b.Price</td>
+            <td><img src="@b.HotelModel.HotelImg" alt="Снимка на хотела" height="100" /></td>
+            <td>@b.StartAt.ToString("dd.MM.yyyy") г.</td>
+            <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
+            <td>@b.Price $</td>
         </tr>
     }
     </tbody>

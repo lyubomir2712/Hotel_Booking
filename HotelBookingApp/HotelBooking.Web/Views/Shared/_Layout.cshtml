@@ -26,7 +26,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy" style="color: lightgray">Privacy</a>
                         </li>
                     </ul>
-                    @if (User.IsInRole("admin"))
+                    @if (User.IsInRole("Admin"))
                     {
                     <a class="nav-link" style="color: lightgray; " asp-controller="Home" asp-action="AdminPanel">Admin panel</a>
                     }
