@@ -23,7 +23,7 @@
         {
             foreach (var hotel in Model.Hotels)
             {
-                if (booking.Id == hotel.Id)
+                if (booking.HotelModelId == hotel.Id)
                 {
                     <div class="col">
                         <div class="card h-100">
@@ -32,8 +32,6 @@
                                 <h5 class="card-title">@hotel.HotelName</h5>
                                 <p class="card-text"><span>Dates: </span><span class="start">@booking.StartAt</span><span>-</span><span class="end">@booking.EndAt</span></p>
                                 <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", booking.Price)$</span></p>
-
-                                
                                 
                                 <br><br>
 
