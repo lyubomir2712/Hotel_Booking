@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
+using HotelBooking.Services.HotelAddService;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -14,11 +15,13 @@ namespace HotelBooking.Web.Controllers
     {
         private readonly BookingDbContext _dbContext;
         private readonly UserManager<UserModel> _userManager;
+        private readonly HotelAddService _hotelAddService;
 
-        public BookingsCartController(BookingDbContext dbContext, UserManager<UserModel> userManager)
+        public BookingsCartController(BookingDbContext dbContext, UserManager<UserModel> userManager, HotelAddService hotelAddService)
         {
             _dbContext = dbContext;
             _userManager = userManager;
+            _hotelAddService = hotelAddService;
         }
 
 
@@ -76,7 +79,23 @@ namespace HotelBooking.Web.Controllers
         {
             _dbContext.Bookings.Remove(_dbContext.Bookings.First(b=>b.Id == BookingId));
             _dbContext.SaveChanges();
-            return RedirectToAction("BookedHotels", "BookedHotelsByUser");
+            return RedirectToAction("BookedHotels");
+        }
+        
+        public IActionResult BookedHotels()
+        {
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            List<BookingModel> bookings = _hotelAddService.GetBookedHotels(userId);
+            List<HotelModel> hotels = _hotelAddService.GetHotels(bookings);
+
+            UserBookedHotels userBookedHotels = new UserBookedHotels 
+            {
+                Hotels = hotels,
+                Bookings = bookings
+            };
+            
+            return View("~/Views/Home/BookedHotels.cshtml", userBookedHotels);
+
         }
     }
 }

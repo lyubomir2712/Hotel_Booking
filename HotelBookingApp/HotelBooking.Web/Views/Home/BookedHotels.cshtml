@@ -18,32 +18,28 @@
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
     
-    @{
-        foreach (var booking in Model.Bookings)
+    @foreach (var booking in Model.Bookings)
+    {
+        var hotel = booking.HotelModel;
+        if (hotel != null)
         {
-            foreach (var hotel in Model.Hotels)
-            {
-                if (booking.HotelModelId == hotel.Id)
-                {
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="@hotel.HotelImg" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">@hotel.HotelName</h5>
-                                <p class="card-text"><span>Dates: </span><span class="start">@booking.StartAt</span><span>-</span><span class="end">@booking.EndAt</span></p>
-                                <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", booking.Price)$</span></p>
-                                
-                                <br><br>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="@hotel.HotelImg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@hotel.HotelName</h5>
+                        <p class="card-text"><span>Dates: </span><span class="start">@booking.StartAt</span><span>-</span><span class="end">@booking.EndAt</span></p>
+                        <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", booking.Price)$</span></p>
 
-                                <form asp-controller="BookingsCart" asp-action="RemoveHotel" method="post">
-                                    <input type="hidden" name="BookingId" value="@booking.Id" />
-                                    <button type="submit" class="btn btn-danger" style="background:darkred">Remove</button>
-                                </form>
-                            </div>
-                        </div>
+                        <br><br>
+
+                        <form asp-controller="BookingsCart" asp-action="RemoveHotel" method="post">
+                            <input type="hidden" name="BookingId" value="@booking.Id" />
+                            <button type="submit" class="btn btn-danger" style="background:darkred">Remove</button>
+                        </form>
                     </div>
-                }
-            }
+                </div>
+            </div>
         }
     }
 </div>

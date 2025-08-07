@@ -46,12 +46,6 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// using (var scope = app.Services.CreateScope())
-//      {
-//          var db = scope.ServiceProvider.GetRequiredService<BookingDbContext>();
-//          db.Database.Migrate();
-// }
-
 
 
 //app.UseExceptionHandler("/Home/ErrorWithStatusCode?errorCode={0}");
@@ -81,7 +75,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "bookedHotelsByUser",
     pattern: "Home/BookedHotels",
-    defaults: new { controller = "BookedHotelsByUser", action = "BookedHotels" });
+    defaults: new { controller = "BookingsCart", action = "BookedHotels" });
 
 
 

@@ -47,6 +47,6 @@ public class CheckoutController : Controller
         await _bookingDbContext.SaveChangesAsync();
 
         // 6. Пренасочваме към „BookedHotels“
-        return RedirectToAction("BookedHotels", "BookedHotelsByUser");
+        return RedirectToAction("BookedHotels", "BookingsCart");
     }
 }

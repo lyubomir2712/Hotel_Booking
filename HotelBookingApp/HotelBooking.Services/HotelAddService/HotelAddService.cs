@@ -24,9 +24,10 @@ namespace HotelBooking.Services.HotelAddService
         {
             return _bookingDbContext.UserBookings
                 .Where(b => b.UserId == Convert.ToInt32(userId))
+                .Include(b => b.BookingModel)
+                    .ThenInclude(b => b.HotelModel)
                 .Select(b => b.BookingModel)
                 .ToList();
-                
         }
 
         public List<HotelModel> GetHotels(List<BookingModel> bookingModel)
