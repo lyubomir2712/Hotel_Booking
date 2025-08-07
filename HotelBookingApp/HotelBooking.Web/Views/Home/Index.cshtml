@@ -65,7 +65,12 @@
 
 
 <div class="container mt-5">
-    <h1>Reservation Form</h1>
+    <h1>Find your next stay</h1>
+    <h4>Search low prices on hotels, homes and much more...</h4>
+    <style>
+      /* Make all text inputs, date inputs, and selects the same height */
+      .equal-h { height: 42px; }
+    </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
 
 
@@ -84,25 +89,19 @@
 
 
         
-        <div class="grid-container">
-            <div row-cols-3>
-            <div class="col-3">
-                <label for="City">City:</label>
-                    <input type="text" class="form-control form-control-sm" id="city" name="City" asp-for="@Model.City" required>
+        <div class="grid-container d-flex align-items-end flex-nowrap gap-3" style="background-color: red;">
+            <div class="col-3" style="width:auto;">
+                <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="City" required>
             </div>
-            <div class="col-3">
-                <label for="checkinDate">Check-in Date:</label>
-                <input type="date" class="form-control" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" required>
+            <div class="col-3" style="width:auto;">
+                <input type="date" class="form-control equal-h" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" placeholder="Check-in Date" required>
             </div>
-            <div class="col-3">
-                <label for="checkoutDate">Check-out Date:</label>
-                <input type="date" class="form-control" id="checkoutDate"  name="CheckoutDate" asp-for="@Model.CheckoutDate" required>
+            <div class="col-3" style="width:auto;">
+                <input type="date" class="form-control equal-h" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate" placeholder="Check-out Date" required>
             </div>
-            </div>
-            <div class="col-3">
-                <label for="locale">Locale</label>
-                <br />
-                <select id="locale" asp-for="@Model.Locale" required>
+            <div class="col-3" style="width:auto;">
+                <select id="locale" class="form-select equal-h" asp-for="@Model.Locale" required>
+                    <option value="" disabled selected hidden>Language</option>
                     <option value="en-us">English</option>
                     <option value="de">German</option>
                     <option value="es">Spanish</option>
@@ -115,13 +114,11 @@
                 <label for="hasBreakfast">Breakfast Included</label>
                 <input id="hasBreakfast" type="checkbox" asp-for="@Model.HasBreakfast" />
 
-                    <label for="hasPool">Pool</label>
-                 <input id="hasPool" type="checkbox" asp-for="@Model.HasPool"/>
+                <label for="hasPool">Pool</label>
+                <input id="hasPool" type="checkbox" asp-for="@Model.HasPool"/>
 
-                    <label for="hasParking">Parking</label>
-                 <input id="hasParking" type="checkbox" asp-for="@Model.HasParking" />       
-
-                  
+                <label for="hasParking">Parking</label>
+                <input id="hasParking" type="checkbox" asp-for="@Model.HasParking" />       
             </div>
         </div>
         <br />
