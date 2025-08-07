@@ -10,9 +10,9 @@
 </head>
 <body>
     <header>
-        <nav id = "navbar"class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-transparent box-shadow mb-3">
+        <nav id = "navbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-transparent box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color: mediumpurple">EasyBook</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color: white; font-weight: bold">EasyBook</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,15 +20,15 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" style="color:lightgray;">Home</a>
+                            <a class="nav-link" style="color:white;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy" style="color: lightgray">Privacy</a>
+                            <a class="nav-link" style="color: white" asp-area="" asp-controller="Home" asp-action="Privacy" >Privacy</a>
                         </li>
                     </ul>
                     @if (User.IsInRole("Admin"))
                     {
-                    <a class="nav-link" style="color: lightgray; " asp-controller="AdminPanel" asp-action="GetCheckoutedHotels">Admin panel</a>
+                    <a class="nav-link" style="color: white; " asp-controller="AdminPanel" asp-action="GetCheckoutedHotels">Admin panel</a>
                     }
 
                    

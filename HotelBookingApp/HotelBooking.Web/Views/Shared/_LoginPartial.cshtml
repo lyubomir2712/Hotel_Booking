@@ -4,22 +4,36 @@
 @inject UserManager<UserModel> UserManager
 @inject UserRole Role
 
+<style>
+    .LogoutButton, .register-button, .login-button {
+        color: #003b95;
+        background-color: white;
+        padding: 6px 12px;
+        border: 1px solid dodgerblue;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+    .LogoutButton:hover {
+        background-color: #e6f0ff;
+    }
+</style>
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
         <li class="nav-item">
         <a asp-controller="BookingsCart" asp-action="GetBookedHotels">
-                <svg class="booked-hotels bi bi-book" style="color: lightgray" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
+                <svg class="booked-hotels bi bi-book" style="color: white" xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" viewBox="0 0 16 16">
       <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z" />
     </svg>
             </a>
     </li>
     <li class="nav-item">
-        <a  class="nav-link" style="color:lightgray;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+        <a  class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name</a>
     </li>
     <li class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link" style="color:lightgray;">Logout</button>
+                <button type="submit" class="btn LogoutButton">Logout</button>
         </form>
     </li>
 }
@@ -27,10 +41,10 @@ else
 {
 
     <li class="nav-item">
-        <a class="nav-link" style="color:lightgray;" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="nav-link text register-button" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text" style="color:lightgray;" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link text login-button" asp-area="Identity" asp-page="/Account/Login">Login</a>
     </li>
 }
 </ul>
