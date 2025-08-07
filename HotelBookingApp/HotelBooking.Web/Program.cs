@@ -75,7 +75,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "bookedHotelsByUser",
     pattern: "Home/BookedHotels",
-    defaults: new { controller = "BookingsCart", action = "BookedHotels" });
+    defaults: new { controller = "BookingsCart", action = "GetBookedHotels" });
 
 
 

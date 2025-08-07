@@ -20,8 +20,7 @@ namespace HotelBooking.Web.Controllers
         private readonly IApiService _apiService;
         private readonly IStarsService _starsService;
         private readonly BookingDbContext _dbContext;
-
-
+        
         public HomeController(ILogger<HomeController> logger, IApiService apiService,
             IStarsService starsService, BookingDbContext dbContext)
         {
@@ -30,50 +29,31 @@ namespace HotelBooking.Web.Controllers
             _starsService = starsService;
             _dbContext = dbContext;
         }
+        
 
         public IActionResult Index()
         {
             return View();
         }
+        
 
         public IActionResult Privacy()
         {
             return View();
         }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-
+        
+        
         public IActionResult ErrorWithStatusCode(int errorCode)
         {
             ViewBag.StatusCode = errorCode;
             return View();
-        }
-
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminPanel()
-        {
-            var bookings = _dbContext.AdminPanelBookings
-                .Include(x => x.HotelModel)
-                .ToList();
-            return View(bookings);
-        }
-
-        [Authorize(Roles = "Admin")]
-        public IActionResult AdminPanelDeleteBooking(int bookingId)
-        {
-            var adminPanelBooking = _dbContext.AdminPanelBookings.Find(bookingId);
-            if (adminPanelBooking != null)
-            {
-                _dbContext.AdminPanelBookings.Remove(adminPanelBooking);
-                _dbContext.SaveChanges();
-            }
-            return RedirectToAction("AdminPanel");
         }
     }
 }

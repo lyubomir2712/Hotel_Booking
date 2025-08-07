@@ -1,7 +1,7 @@
 ﻿@using HotelBooking.Models.AppModels
 @using HotelBooking.Services.ViewModels
 @model UserBookedHotels
-<form asp-controller="Checkout" asp-action="CheckoutHotels" method="post">
+<form asp-controller="BookingsCart" asp-action="CheckoutHotels" method="post">
     @for (int i = 0; i < Model.Bookings.Count; i++)
     {
         <input type="hidden" name="bookings[@i].Id" value="@Model.Bookings[i].Id" />

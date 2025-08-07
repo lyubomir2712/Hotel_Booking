@@ -39,7 +39,7 @@
             <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.Price $</td>
             <td>
-                <form asp-controller="Home" asp-action="AdminPanelDeleteBooking" method="post">
+                <form asp-controller="AdminPanel" asp-action="AdminPanelDeleteBooking" method="post">
                     <input type="hidden" name="bookingId" value="@b.Id" />
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
