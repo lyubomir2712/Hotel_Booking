@@ -4,7 +4,6 @@ using HotelBooking.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +53,13 @@ namespace HotelBooking.Data
                 
 
             builder.Entity<BookingModel>()
+                .Property(b => b.Id)
+                .ValueGeneratedOnAdd();              // Id is an IDENTITY PK
+
+            builder.Entity<BookingModel>()
                 .HasOne(b => b.HotelModel)
                 .WithMany(h => h.BookingModels)
-                .HasForeignKey(b => b.Id)
+                .HasForeignKey(b => b.HotelModelId)  // correct FK
                 .OnDelete(DeleteBehavior.NoAction);
             
             
@@ -67,65 +70,6 @@ namespace HotelBooking.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             // Create a password hasher
-            var hasher = new PasswordHasher<UserModel>();
-
-            // Seed users
-            var adminUser = new UserModel
-            {
-                Id = 1,
-                UserName = "admin",
-                NormalizedUserName = "ADMIN",
-                Email = "admin@hotel.com",
-                NormalizedEmail = "ADMIN@HOTEL.COM",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "Admin123!"),
-                FirstName = "System",
-                LastName  = "Administrator",
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-                SecurityStamp = Guid.NewGuid().ToString(),
-            };
-
-            var user1 = new UserModel
-            {
-                Id = 2,
-                UserName = "john",
-                NormalizedUserName = "JOHN",
-                Email = "john@example.com",
-                NormalizedEmail = "JOHN@EXAMPLE.COM",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "User123!"),
-                FirstName = "John",
-                LastName  = "Doe",
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-                SecurityStamp = Guid.NewGuid().ToString(),
-            };
-
-            var user2 = new UserModel
-            {
-                Id = 3,
-                UserName = "jane",
-                NormalizedUserName = "JANE",
-                Email = "jane@example.com",
-                NormalizedEmail = "JANE@EXAMPLE.COM",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "User123!"),
-                FirstName = "Jane",
-                LastName  = "Doe",
-                ConcurrencyStamp = Guid.NewGuid().ToString(),
-                SecurityStamp = Guid.NewGuid().ToString(),
-            };
-            
-            
-
-            builder.Entity<UserModel>().HasData(adminUser, user1, user2);
-
-            // Assign users to roles
-            builder.Entity<IdentityUserRole<int>>().HasData(
-                new IdentityUserRole<int> { UserId = 1, RoleId = 1 }, // Admin
-                new IdentityUserRole<int> { UserId = 2, RoleId = 2 }, // Regular
-                new IdentityUserRole<int> { UserId = 3, RoleId = 2 }  // Regular
-            );
-
             base.OnModelCreating(builder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

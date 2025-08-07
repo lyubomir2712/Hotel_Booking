@@ -44,10 +44,13 @@ builder.Services.AddScoped<UserRole>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
-
-
-
 var app = builder.Build();
+
+// using (var scope = app.Services.CreateScope())
+//      {
+//          var db = scope.ServiceProvider.GetRequiredService<BookingDbContext>();
+//          db.Database.Migrate();
+// }
 
 
 
