@@ -41,13 +41,6 @@ namespace HotelBooking.Web.Controllers
             return View();
         }
 
-        
-        // public async Task<IActionResult> Hotels(ApiDataViewModel apiDataViewModel)
-        // {
-        //     var response =await _apiService.GetHotelsByLocation("https://booking-com.p.rapidapi.com/v1/hotels/locations", "https://booking-com.p.rapidapi.com/v1/hotels/search", apiDataViewModel);
-        //     return View(response);
-        // }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

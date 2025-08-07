@@ -10,12 +10,12 @@ using System.Linq;
 
 namespace HotelBooking.Web.Controllers
 {
-    public class Cart : Controller
+    public class BookingsCartController : Controller
     {
         private readonly BookingDbContext _dbContext;
         private readonly UserManager<UserModel> _userManager;
 
-        public Cart(BookingDbContext dbContext, UserManager<UserModel> userManager)
+        public BookingsCartController(BookingDbContext dbContext, UserManager<UserModel> userManager)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -70,6 +70,13 @@ namespace HotelBooking.Web.Controllers
 
             return RedirectToAction("Index", "Home");
 
+        }
+        
+        public IActionResult RemoveHotel(int BookingId)
+        {
+            _dbContext.Bookings.Remove(_dbContext.Bookings.First(b=>b.Id == BookingId));
+            _dbContext.SaveChanges();
+            return RedirectToAction("BookedHotels", "BookedHotelsByUser");
         }
     }
 }

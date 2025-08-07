@@ -35,7 +35,7 @@
                                 
                                 <br><br>
 
-                                <form asp-controller="RemoveHotelFromCart" asp-action="RemoveHotel" method="post">
+                                <form asp-controller="BookingsCart" asp-action="RemoveHotel" method="post">
                                     <input type="hidden" name="BookingId" value="@booking.Id" />
                                     <button type="submit" class="btn btn-danger" style="background:darkred">Remove</button>
                                 </form>

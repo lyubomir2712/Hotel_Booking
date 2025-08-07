@@ -17,7 +17,7 @@
                         <p class="card-text">Review Score: @hotel.ReviewScore</p>
                         @Html.Raw(hotel.Facilities)
                         <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", hotel.Price)$</span></p>
-                        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
                             <input type="hidden" name="HotelName" value="@hotel.Name" />
                             <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl" />
                             <input type="hidden" name="HotelPrice" value="@hotel.Price" />
