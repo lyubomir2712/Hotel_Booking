@@ -71,6 +71,22 @@
     <style>
       /* Make all text inputs, date inputs, and selects the same height */
       .equal-h { height: 42px; }
+      .city-suggestions {
+        position: absolute;
+        left: 0;           /* anchor to the start (left) of the input */
+        top: calc(100% + 4px); /* just below the input */
+        z-index: 1050;
+        display: none;
+        max-height: 240px;
+        overflow-y: auto;
+        width: 100%;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .375rem;
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+      }
+      .city-suggestions .suggestion-item { cursor: pointer; }
+      .city-suggestions .suggestion-item:hover { background-color: #f8f9fa; }
     </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
 
@@ -91,8 +107,9 @@
 
         
         <div class="form-container grid-container d-flex align-items-end flex-nowrap gap-1" >
-            <div class="col-3" style="width:auto;">
-                <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="City" required>
+            <div class="col-3 position-relative" style="width:auto;">
+                <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="City" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
+                <div id="citySuggestions" class="city-suggestions" role="listbox" aria-label="City suggestions"></div>
             </div>
             <div class="col-3" style="width:auto;">
                 <input type="text" class="form-control equal-h js-date" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" placeholder="Check-in Date" required autocomplete="off" inputmode="none">
@@ -121,6 +138,46 @@
       document.addEventListener('DOMContentLoaded', function () {
         flatpickr('#checkinDate', { dateFormat: 'Y-m-d', allowInput: true });
         flatpickr('#checkoutDate', { dateFormat: 'Y-m-d', allowInput: true });
+
+        const cityInput = document.getElementById('city');
+        const citySuggestions = document.getElementById('citySuggestions');
+        const popularCities = ['Sofia','Plovdiv','Sozopol','Varna'];
+
+        function renderCitySuggestions(filterText) {
+          const q = (filterText || '').trim().toLowerCase();
+          const results = q ? popularCities.filter(c => c.toLowerCase().startsWith(q)) : popularCities;
+          if (results.length === 0) {
+            citySuggestions.innerHTML = '<div class="px-3 py-2 text-muted">No matches</div>';
+          } else {
+            citySuggestions.innerHTML = results.map(c => `<div class="suggestion-item px-3 py-2" role="option" data-value="${c}">${c}</div>`).join('');
+          }
+        }
+
+        function openCitySuggestions() {
+          renderCitySuggestions(cityInput.value);
+          citySuggestions.style.display = 'block';
+          cityInput.setAttribute('aria-expanded', 'true');
+        }
+        function closeCitySuggestions() {
+          citySuggestions.style.display = 'none';
+          cityInput.setAttribute('aria-expanded', 'false');
+        }
+
+        cityInput.addEventListener('focus', openCitySuggestions);
+        cityInput.addEventListener('click', openCitySuggestions);
+        cityInput.addEventListener('input', () => {
+          renderCitySuggestions(cityInput.value);
+          citySuggestions.style.display = 'block';
+        });
+        // Use mousedown so selection registers before the input loses focus
+        citySuggestions.addEventListener('mousedown', (e) => {
+          const item = e.target.closest('.suggestion-item');
+          if (item) {
+            cityInput.value = item.getAttribute('data-value');
+            closeCitySuggestions();
+          }
+        });
+        cityInput.addEventListener('blur', () => setTimeout(closeCitySuggestions, 100));
       });
     </script>
 </div>

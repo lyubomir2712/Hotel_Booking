@@ -68,8 +68,7 @@ p, li,label{
 }
 
 #navbar {
-    background: transparent;
-    border-bottom: solid grey 1px;
+    margin-bottom: 0;
 }
 
 #carouselDiv {

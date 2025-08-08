@@ -17,6 +17,7 @@
     .LogoutButton:hover {
         background-color: #e6f0ff;
     }
+   
 </style>
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
@@ -29,9 +30,20 @@
             </a>
     </li>
     <li class="nav-item">
-        <a  class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name</a>
+        @{
+            var appUser = await UserManager.GetUserAsync(User);
+            var displayName = (appUser?.FirstName, appUser?.LastName) switch
+            {
+                (string f and not null, string l and not null) => $"{f} {l}",
+                (string f and not null, null) => f,
+                (null, string l and not null) => l,
+                _ => User.Identity?.Name
+            };
+        }
+        
+        <a  class="nav-link" style="color:white;" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @displayName</a>
     </li>
-    <li class="nav-item">
+    <li style="margin-right: 15rem" class="nav-item">
         <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="btn LogoutButton">Logout</button>
         </form>
