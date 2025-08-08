@@ -67,6 +67,7 @@
 <div class="container mt-5">
     <h1>Find your next stay</h1>
     <h4>Search low prices on hotels, homes and much more...</h4>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
       /* Make all text inputs, date inputs, and selects the same height */
       .equal-h { height: 42px; }
@@ -89,15 +90,15 @@
 
 
         
-        <div class="grid-container d-flex align-items-end flex-nowrap gap-3" style="background-color: red;">
+        <div class="form-container grid-container d-flex align-items-end flex-nowrap gap-1" >
             <div class="col-3" style="width:auto;">
                 <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="City" required>
             </div>
             <div class="col-3" style="width:auto;">
-                <input type="date" class="form-control equal-h" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" placeholder="Check-in Date" required>
+                <input type="text" class="form-control equal-h js-date" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" placeholder="Check-in Date" required autocomplete="off" inputmode="none">
             </div>
             <div class="col-3" style="width:auto;">
-                <input type="date" class="form-control equal-h" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate" placeholder="Check-out Date" required>
+                <input type="text" class="form-control equal-h js-date" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate" placeholder="Check-out Date" required autocomplete="off" inputmode="none">
             </div>
             <div class="col-3" style="width:auto;">
                 <select id="locale" class="form-select equal-h" asp-for="@Model.Locale" required>
@@ -110,24 +111,18 @@
                     <option value="it">Italian</option>
                 </select>
             </div>
-            <div>
-                <label for="hasBreakfast">Breakfast Included</label>
-                <input id="hasBreakfast" type="checkbox" asp-for="@Model.HasBreakfast" />
-
-                <label for="hasPool">Pool</label>
-                <input id="hasPool" type="checkbox" asp-for="@Model.HasPool"/>
-
-                <label for="hasParking">Parking</label>
-                <input id="hasParking" type="checkbox" asp-for="@Model.HasParking" />       
-            </div>
+            <div class="col-3" style="width:auto;">
+                <button type="submit" class="btn btn-primary">Search</button>
+                </div>
         </div>
-        <br />
-        <div class="grid-container">
-            <div class="grid-item-full">
-                <button type="submit" class="btn btn-dark">Search</button>
-            </div>
-            </div>
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        flatpickr('#checkinDate', { dateFormat: 'Y-m-d', allowInput: true });
+        flatpickr('#checkoutDate', { dateFormat: 'Y-m-d', allowInput: true });
+      });
+    </script>
 </div>
 <br />
 <br />

@@ -15,24 +15,19 @@ html {
 
 body {
     background-color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 header{
     background-color: #003b95;
 }
 
-h1,h5 {
-    color: #FF7A7A;
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.25;
-    font-weight: 700;
-    background-image: linear-gradient(45deg, #695EE6 0%, #FF7A7A 85%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+h1,h6 {
+    color: black;
+    font-weight: bold;
 }
-/*button {*/
-/*    background-image: linear-gradient(45deg, #695EE6 0%, #FF7A7A 85%);*/
-/*}*/
 
 p, li,label{
     color: white;
@@ -43,13 +38,20 @@ p, li,label{
 }
 
 #city, #checkinDate, #checkoutDate, select{
-    background-color: transparent;
+    background-color: white;
     color: mediumpurple;
-    border-style: solid;
-    border-color: mediumpurple;
-
 }
-
+.form-container {
+    background-color: #ffb700;
+    display: flex;
+    flex-direction: row; 
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 5px;
+    width: 65.5%;
+    height: 3.1rem;
+    margin: 0 auto;
+}
 #carouselDiv img{
     border-radius: 30px;
     padding: 10px, 10px, 10px, 10px;
@@ -70,19 +72,31 @@ p, li,label{
     border-bottom: solid grey 1px;
 }
 
-#footer,#carouselDiv {
+#carouselDiv {
     background-color: #272B36;
     filter: brightness(115%);
     align-items:center;
     border-radius: 30px;
     margin-bottom: 5%;
     margin-top: 3%;
-
     display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+footer{
+    background-color: #f1f1f1;
+}
+
+footer li, footer p{
+    color: black;
+}
+
+#footer {
+    margin: 0 auto;
+    width: 100%;
+    color: black;
 }
 
 #footer .text-uppercase {

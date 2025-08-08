@@ -28,7 +28,6 @@ namespace HotelBooking.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(string HotelName, string HotelImg, string HotelPrice, string StartAt, string EndAt) 
         {
-            await _bookingDbContext.FixBookingsIdentityAsync();
 
             int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
