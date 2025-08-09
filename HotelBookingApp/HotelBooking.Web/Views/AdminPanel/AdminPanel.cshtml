@@ -4,21 +4,26 @@
     body {
         color: white;
     }
-    h2, th, td {
-        color: white;
+    .admin-panel-container h2,
+    .admin-panel-container th,
+    .admin-panel-container td {
+        color: black;
     }
     .admin-panel-container{
-    margin-bottom: 50%;
+        margin-top: 2rem;
+        color: black;
     }
 </style>
 <div class="admin-panel-container"> 
-<h2>Всички резервации</h2>
+<h2>All bookings</h2>
 
 <table class="table table-striped">
     <thead>
     <tr>
+        <th>BookerId</th>
         <th>First Name</th>
         <th>Last Name</th>
+        <th>HotelId</th>
         <th>Hotel Name</th>
         <th>Hotel Image</th>
         <th>From</th>
@@ -31,16 +36,18 @@
     @foreach (var b in Model)
     {
         <tr>
+            <td>@b.ClientId</td>
             <td>@b.ClientFirstName</td>
             <td>@b.ClientLastName</td>
+            <td>@b.HotelModelId</td>
             <td>@b.HotelModel.HotelName</td>
-            <td><img src="@b.HotelModel.HotelImg" alt="Снимка на хотела" height="100" /></td>
+            <td><img src="@b.HotelModel.HotelImg" alt="Снимка на хотела" height="100"/></td>
             <td>@b.StartAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.Price $</td>
             <td>
                 <form asp-controller="AdminPanel" asp-action="AdminPanelDeleteBooking" method="post">
-                    <input type="hidden" name="bookingId" value="@b.Id" />
+                    <input type="hidden" name="bookingId" value="@b.Id"/>
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             </td>

@@ -111,10 +111,12 @@ namespace HotelBooking.Web.Controllers
             {
                 ClientId = currentUser.Id,
                 ClientFirstName = currentUser.FirstName,   
-                ClientLastName = currentUser.LastName,     
+                ClientLastName = currentUser.LastName, 
+                ClientEmail = currentUser.Email,
                 StartAt = b.StartAt,
                 EndAt = b.EndAt,
                 Price = b.Price,
+                
                 HotelModelId = b.HotelModelId
             }).ToList();
 
