@@ -69,7 +69,6 @@ namespace HotelBooking.Data
                 .HasForeignKey(apb => apb.HotelModelId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // Create a password hasher
             base.OnModelCreating(builder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

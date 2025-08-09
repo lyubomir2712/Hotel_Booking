@@ -29,10 +29,6 @@ h1,h6 {
     font-weight: bold;
 }
 
-p, li,label{
-    color: white;
-}
-
 .form-container {
     background-color: #ffb700;
     display: inline-flex;

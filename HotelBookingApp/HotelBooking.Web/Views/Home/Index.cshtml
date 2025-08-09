@@ -131,10 +131,10 @@
             <div class="col-auto">
                         <div class="d-flex align-items-center gap-1 flex-wrap">
                             <div class="currency-input no-spin">
-                                <input type="number" class="form-control equal-h" id="price-min" name="MinPrice" min="0" max="2000" step="50" inputmode="numeric" aria-label="Minimum price" placeholder="From">
+                                <input type="number" class="form-control equal-h" id="price-min" name="MinPrice" min="0" max="2000" inputmode="numeric" aria-label="Minimum price" placeholder="From">
                             </div>
                             <div class="currency-input no-spin">
-                                <input type="number" class="form-control equal-h" id="price-max" asp-for="MaxPrice" min="0" max="2000" step="50" inputmode="numeric" aria-label="Maximum price" placeholder="To">
+                                <input type="number" class="form-control equal-h" id="price-max" asp-for="MaxPrice" min="0" max="2000" inputmode="numeric" aria-label="Maximum price" placeholder="To">
                             </div>
                         </div>
                     </div>
@@ -193,33 +193,32 @@
         })();
 
 
-        // Price range (number inputs: min & max) with validation
+        // Price range (number inputs: min & max) with validation — independent fields
         const minPriceInput = document.getElementById('price-min');
         const maxPriceInput = document.getElementById('price-max');
 
-        function clamp(val, lo, hi) { return Math.min(Math.max(val, lo), hi); }
-
-        function syncPriceInputs() {
-          const min = parseInt(minPriceInput.value || '0', 10);
-          const max = parseInt(maxPriceInput.value || '0', 10);
-          const minClamped = clamp(min, 0, 2000);
-          const maxClamped = clamp(max, minClamped, 2000);
-          if (minClamped !== min) minPriceInput.value = minClamped;
-          if (maxClamped !== max) maxPriceInput.value = maxClamped;
-          maxPriceInput.setCustomValidity('');
+        function validatePrices() {
+          const min = minPriceInput.value === '' ? null : parseFloat(minPriceInput.value);
+          const max = maxPriceInput.value === '' ? null : parseFloat(maxPriceInput.value);
+          if (min != null && max != null && max < min) {
+            maxPriceInput.setCustomValidity('Max price must be greater than or equal to Min price.');
+          } else {
+            maxPriceInput.setCustomValidity('');
+          }
         }
 
         [minPriceInput, maxPriceInput].forEach(el => {
-          el.addEventListener('change', syncPriceInputs);
-          el.addEventListener('input', () => {
-            const min = parseInt(minPriceInput.value || '0', 10);
-            const max = parseInt(maxPriceInput.value || '0', 10);
-            if (max < min) {
-              maxPriceInput.setCustomValidity('Max price must be greater than or equal to Min price.');
-            } else {
-              maxPriceInput.setCustomValidity('');
-            }
-          });
+          el.addEventListener('input', validatePrices);
+          el.addEventListener('blur', validatePrices);
+        });
+
+        // Re-check on submit without altering user input
+        document.getElementById('reservationForm').addEventListener('submit', (e) => {
+          validatePrices();
+          if (!maxPriceInput.checkValidity()) {
+            e.preventDefault();
+            maxPriceInput.reportValidity();
+          }
         });
 
         maxPriceInput.setCustomValidity('');

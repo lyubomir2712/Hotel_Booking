@@ -20,6 +20,7 @@
 <table class="table table-striped">
     <thead>
     <tr>
+        <th>BookingId</th>
         <th>BookerId</th>
         <th>First Name</th>
         <th>Last Name</th>
@@ -36,6 +37,7 @@
     @foreach (var b in Model)
     {
         <tr>
+            <td>@b.Id</td>
             <td>@b.ClientId</td>
             <td>@b.ClientFirstName</td>
             <td>@b.ClientLastName</td>
