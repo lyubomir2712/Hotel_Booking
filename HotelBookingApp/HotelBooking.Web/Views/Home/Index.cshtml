@@ -5,66 +5,7 @@
     ViewData["Title"] = "EasyBook";
 }
 
-<h4 style="color: lightgray">Popular Destinations</h4>
-<span class="h4-underline"></span>
-
-<div id="carouselDiv">
-<div id="carouselExampleCaptions" class="carousel slide">
-    
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
-        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="~/img/newParis.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Paris</h5>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="~/img/Rome.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Rome</h5>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="~/img/london.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>London</h5>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="~/img/NewYork.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>NewYork</h5>
-            </div>
-        </div>
-        <div class="carousel-item">
-            <img src="~/img/Dubai.jpg" class="d-block w-100" alt="...">
-            <div class="carousel-caption d-none d-md-block">
-                <h5>Dubai</h5>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</div>
-</div>
-
-
-
-
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <h1>Find your next stay</h1>
     <h4>Search low prices on hotels, homes and much more...</h4>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -85,50 +26,119 @@
         border-radius: .375rem;
         box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
       }
-      .city-suggestions .suggestion-item { cursor: pointer; }
+      /* Suggestion items */
+      .city-suggestions .suggestion-item {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+      }
       .city-suggestions .suggestion-item:hover { background-color: #f8f9fa; }
+      .city-suggestions .pin-icon {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 16px;
+        color: #6c757d; /* muted */
+      }
+      .city-suggestions .suggestion-text { flex: 1 1 auto; }
+      .city-suggestions .suggestion-header {
+        font-size: .875rem; /* slightly bigger */
+        color: #000; /* black */
+        padding: .25rem .75rem;
+        border-bottom: 1px solid rgba(0,0,0,.05);
+        text-transform: none;
+        letter-spacing: .01em;
+        font-weight: 600;
+      }
+      /* Left icon inside the "Where are you going?" input */
+      #city { padding-left: 2rem; }
+      .input-left-icon {
+        position: absolute;
+        left: .625rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        color: #6c757d; /* muted */
+        pointer-events: none;
+        z-index: 2;
+      }
+      /* Left icon inside the Check-in — Check-out input */
+      #dateRange { padding-left: 2rem; }
+      /* Left icon inside the Language input */
+      #localeDisplay { padding-left: 2rem; }
+      /* Currency suffix inside inputs */
+      .currency-input { position: relative; }
+      .currency-input > input.form-control { padding-right: 3.25rem; }
+      .currency-input::after {
+        content: '$';
+        position: absolute;
+        right: 2.25rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #6c757d; /* muted */
+        pointer-events: none;
+      }
+
+      /* Remove native arrows only for the 'To' input */
+      #price-max::-webkit-outer-spin-button,
+      #price-max::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      #price-max[type=number] { -moz-appearance: textfield; }
+
+      /* Remove native arrows also for the 'From' input */
+      #price-min::-webkit-outer-spin-button,
+      #price-min::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      #price-min[type=number] { -moz-appearance: textfield; }
+
+      /* Since there's no spinner on the 'To' input, tighten the right padding and bring the $ closer */
+      .currency-input.no-spin > input.form-control { padding-right: 1.5rem; }
+      .currency-input.no-spin::after { right: .5rem; }
     </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
-
-
-        <div class="form-group">
-            <label for="price-range">Price Range:</label>
-            <input type="range" class="form-range" id="price-range" min="0" max="2000" step="50" value="50"
-                   oninput="updatePriceRange(this.value);" asp-for="MaxPrice">
-            <div class="d-flex justify-content-between align-items-center">
-                <span>$0</span>
-                <span>$2000</span>
+        <div class="form-container grid-container flex-nowrap gap-1 px-1">
+            <div class="col-auto position-relative">
+                <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="Where are you going?" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
+                <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M2.75 12h18.5c.69 0 1.25.56 1.25 1.25V18l.75-.75H.75l.75.75v-4.75c0-.69.56-1.25 1.25-1.25m0-1.5A2.75 2.75 0 0 0 0 13.25V18c0 .414.336.75.75.75h22.5A.75.75 0 0 0 24 18v-4.75a2.75 2.75 0 0 0-2.75-2.75zM0 18v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 0 18m22.5 0v3a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-1.5 0m-.75-6.75V4.5a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 2.25 4.5v6.75a.75.75 0 0 0 1.5 0V4.5a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 0 1.5 0m-13.25-3h7a.25.25 0 0 1 .25.25v2.75l.75-.75h-9l.75.75V8.5a.25.25 0 0 1 .25-.25m0-1.5A1.75 1.75 0 0 0 6.75 8.5v2.75c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75V8.5a1.75 1.75 0 0 0-1.75-1.75z"></path>
+                </svg>
+                <div id="citySuggestions" class="city-suggestions" role="listbox" aria-label="City suggestions" aria-live="polite"></div>
             </div>
-            <div class="d-flex justify-content-center">
-                <span id="price-range-value" >$0</span>
+            <div class="col-auto position-relative">
+                <input type="text" class="form-control equal-h js-date" id="dateRange" placeholder="Check-in — Check-out" required autocomplete="off" inputmode="none" aria-label="Date range">
+                <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path fill="currentColor" d="M22.5 13.5v8.25a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1-.75-.75V5.25a.75.75 0 0 1 .75-.75h19.5a.75.75 0 0 1 .75.75zm1.5 0V5.25A2.25 2.25 0 0 0 21.75 3H2.25A2.25 2.25 0 0 0 0 5.25v16.5A2.25 2.25 0 0 0 2.25 24h19.5A2.25 2.25 0 0 0 24 21.75zm-23.25-3h22.5a.75.75 0 0 0 0-1.5H.75a.75.75 0 0 0 0 1.5M7.5 6V.75a.75.75 0 0 0-1.5 0V6a.75.75 0 0 0 1.5 0M18 6V.75a.75.75 0 0 0-1.5 0V6A.75.75 0 0 0 18 6M5.095 14.03a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28A1.125 1.125 0 1 0 12 15a1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06M12 18a1.125 1.125 0 1 0 0 2.25A1.125 1.125 0 0 0 12 18a.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"/>
+                </svg>
+                <input type="hidden" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate">
+                <input type="hidden" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate">
             </div>
-        </div>
-
-
-        
-        <div class="form-container grid-container d-flex align-items-end flex-nowrap gap-1" >
-            <div class="col-3 position-relative" style="width:auto;">
-                <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="City" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
-                <div id="citySuggestions" class="city-suggestions" role="listbox" aria-label="City suggestions"></div>
+            <div class="col-auto position-relative">
+              <input type="text" class="form-control equal-h" id="localeDisplay" placeholder="Language" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
+              <svg class="input-left-icon bi bi-translate" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286zm1.634-.736L5.5 3.956h-.049l-.679 2.022z"/>
+                <path fill="currentColor" d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm7.138 9.995q(.289).451.63.846c-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6 6 0 0 1-.415-.492 2 2 0 0 1-.94.31"/>
+              </svg>
+              <select id="locale" class="form-select d-none" asp-for="@Model.Locale">
+                <option value="" disabled selected hidden>Language</option>
+                <option value="en-us">English</option>
+                <option value="de">German</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="bg">Bulgarian</option>
+                <option value="it">Italian</option>
+              </select>
+              <div id="localeSuggestions" class="city-suggestions" role="listbox" aria-label="Language suggestions" aria-live="polite"></div>
             </div>
-            <div class="col-3" style="width:auto;">
-                <input type="text" class="form-control equal-h js-date" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate" placeholder="Check-in Date" required autocomplete="off" inputmode="none">
-            </div>
-            <div class="col-3" style="width:auto;">
-                <input type="text" class="form-control equal-h js-date" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate" placeholder="Check-out Date" required autocomplete="off" inputmode="none">
-            </div>
-            <div class="col-3" style="width:auto;">
-                <select id="locale" class="form-select equal-h" asp-for="@Model.Locale" required>
-                    <option value="" disabled selected hidden>Language</option>
-                    <option value="en-us">English</option>
-                    <option value="de">German</option>
-                    <option value="es">Spanish</option>
-                    <option value="fr">French</option>
-                    <option value="bg">Bulgarian</option>
-                    <option value="it">Italian</option>
-                </select>
-            </div>
-            <div class="col-3" style="width:auto;">
+            <div class="col-auto">
+                        <div class="d-flex align-items-center gap-1 flex-wrap">
+                            <div class="currency-input no-spin">
+                                <input type="number" class="form-control equal-h" id="price-min" name="MinPrice" min="0" max="2000" step="50" inputmode="numeric" aria-label="Minimum price" placeholder="From">
+                            </div>
+                            <div class="currency-input no-spin">
+                                <input type="number" class="form-control equal-h" id="price-max" asp-for="MaxPrice" min="0" max="2000" step="50" inputmode="numeric" aria-label="Maximum price" placeholder="To">
+                            </div>
+                        </div>
+                    </div>
+            <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Search</button>
                 </div>
         </div>
@@ -136,21 +146,127 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        flatpickr('#checkinDate', { dateFormat: 'Y-m-d', allowInput: true });
-        flatpickr('#checkoutDate', { dateFormat: 'Y-m-d', allowInput: true });
+        // Combined date range picker (Check-in — Check-out)
+        (function() {
+          const dateRangeInput = document.getElementById('dateRange');
+          const hiddenCheckin = document.getElementById('checkinDate');
+          const hiddenCheckout = document.getElementById('checkoutDate');
+
+          const defaults = [];
+          if (hiddenCheckin && hiddenCheckin.value) defaults.push(hiddenCheckin.value);
+          if (hiddenCheckout && hiddenCheckout.value) defaults.push(hiddenCheckout.value);
+
+          const fp = flatpickr(dateRangeInput, {
+            mode: 'range',
+            dateFormat: 'Y-m-d',
+            allowInput: true,
+            static: true,
+            showMonths: 2,
+            monthSelectorType: 'dropdown',
+            defaultDate: defaults.length ? defaults : null,
+            onChange: function(selectedDates, dateStr, instance) {
+              if (selectedDates[0]) {
+                hiddenCheckin.value = instance.formatDate(selectedDates[0], 'Y-m-d');
+              } else {
+                hiddenCheckin.value = '';
+              }
+              if (selectedDates[1]) {
+                hiddenCheckout.value = instance.formatDate(selectedDates[1], 'Y-m-d');
+              } else {
+                hiddenCheckout.value = '';
+              }
+              dateRangeInput.setCustomValidity('');
+            },
+          });
+
+          // Validate both dates are chosen
+          document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            if (!hiddenCheckin.value || !hiddenCheckout.value) {
+              e.preventDefault();
+              dateRangeInput.setCustomValidity('Please select both check-in and check-out dates.');
+              dateRangeInput.reportValidity();
+              dateRangeInput.focus();
+            } else {
+              dateRangeInput.setCustomValidity('');
+            }
+          });
+        })();
+
+
+        // Price range (number inputs: min & max) with validation
+        const minPriceInput = document.getElementById('price-min');
+        const maxPriceInput = document.getElementById('price-max');
+
+        function clamp(val, lo, hi) { return Math.min(Math.max(val, lo), hi); }
+
+        function syncPriceInputs() {
+          const min = parseInt(minPriceInput.value || '0', 10);
+          const max = parseInt(maxPriceInput.value || '0', 10);
+          const minClamped = clamp(min, 0, 2000);
+          const maxClamped = clamp(max, minClamped, 2000);
+          if (minClamped !== min) minPriceInput.value = minClamped;
+          if (maxClamped !== max) maxPriceInput.value = maxClamped;
+          maxPriceInput.setCustomValidity('');
+        }
+
+        [minPriceInput, maxPriceInput].forEach(el => {
+          el.addEventListener('change', syncPriceInputs);
+          el.addEventListener('input', () => {
+            const min = parseInt(minPriceInput.value || '0', 10);
+            const max = parseInt(maxPriceInput.value || '0', 10);
+            if (max < min) {
+              maxPriceInput.setCustomValidity('Max price must be greater than or equal to Min price.');
+            } else {
+              maxPriceInput.setCustomValidity('');
+            }
+          });
+        });
+
+        maxPriceInput.setCustomValidity('');
 
         const cityInput = document.getElementById('city');
         const citySuggestions = document.getElementById('citySuggestions');
         const popularCities = ['Sofia','Plovdiv','Sozopol','Varna'];
+        function escapeRegExp(str) {
+          return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
 
         function renderCitySuggestions(filterText) {
-          const q = (filterText || '').trim().toLowerCase();
-          const results = q ? popularCities.filter(c => c.toLowerCase().startsWith(q)) : popularCities;
-          if (results.length === 0) {
-            citySuggestions.innerHTML = '<div class="px-3 py-2 text-muted">No matches</div>';
-          } else {
-            citySuggestions.innerHTML = results.map(c => `<div class="suggestion-item px-3 py-2" role="option" data-value="${c}">${c}</div>`).join('');
+          const raw = (filterText || '').trim();
+          const q = raw.toLowerCase();
+          const results = (() => {
+            if (!q) return [...popularCities];
+            const wordStart = new RegExp('(^|[\\s,\\-])' + escapeRegExp(q), 'i');
+            return popularCities.filter(c => wordStart.test(c));
+          })();
+
+          if (q) {
+            const starts = new RegExp('^' + escapeRegExp(q), 'i');
+            results.sort((a, b) => {
+              const aScore = starts.test(a) ? 0 : 1;
+              const bScore = starts.test(b) ? 0 : 1;
+              return aScore - bScore || a.localeCompare(b);
+            });
           }
+
+          const header = `<div class="suggestion-header">Trending destinations</div>`;
+
+          if (results.length === 0) {
+            citySuggestions.innerHTML = header + '<div class="px-3 py-2 text-muted">No matches</div>';
+            return;
+          }
+
+          const hiRe = q ? new RegExp('(^|[\\s,\\-])(' + escapeRegExp(q) + ')', 'ig') : null;
+          citySuggestions.innerHTML = header + results.map(c => {
+            const label = hiRe ? c.replace(hiRe, (m, p1, p2) => `${p1}<mark>${p2}</mark>`) : c;
+            return `
+              <div class="suggestion-item px-3 py-2" role="option" data-value="${c}">
+                <svg class="pin-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                </svg>
+                <span class="suggestion-text">${label}</span>
+              </div>`;
+          }).join('');
         }
 
         function openCitySuggestions() {
@@ -178,10 +294,99 @@
           }
         });
         cityInput.addEventListener('blur', () => setTimeout(closeCitySuggestions, 100));
+        // --- Locale typeahead dropdown ---
+        const localeDisplay = document.getElementById('localeDisplay');
+        const localeSelect = document.getElementById('locale');
+        const localeSuggestions = document.getElementById('localeSuggestions');
+        const locales = [
+          { code: 'en-us', label: 'English' },
+          { code: 'de',    label: 'German' },
+          { code: 'es',    label: 'Spanish' },
+          { code: 'fr',    label: 'French' },
+          { code: 'bg',    label: 'Bulgarian' },
+          { code: 'it',    label: 'Italian' }
+        ];
+
+        function renderLocaleSuggestions(filterText) {
+          const q = (filterText || '').trim().toLowerCase();
+          const results = q
+            ? locales.filter(x => x.label.toLowerCase().startsWith(q) || x.code.toLowerCase().startsWith(q))
+            : locales;
+          if (results.length === 0) {
+            localeSuggestions.innerHTML = '<div class="px-3 py-2 text-muted">No matches</div>';
+          } else {
+            localeSuggestions.innerHTML = results
+              .map(x => `<div class="suggestion-item px-3 py-2" role="option" data-code="${x.code}" data-label="${x.label}"><div>${x.label}</div><small class="text-muted">${x.code}</small></div>`)
+              .join('');
+          }
+        }
+
+        function setLocale(code, label) {
+          localeSelect.value = code;
+          localeDisplay.value = label;
+          localeDisplay.setCustomValidity('');
+        }
+
+        function openLocaleSuggestions() {
+          renderLocaleSuggestions(localeDisplay.value);
+          localeSuggestions.style.display = 'block';
+          localeDisplay.setAttribute('aria-expanded', 'true');
+        }
+        function closeLocaleSuggestions() {
+          localeSuggestions.style.display = 'none';
+          localeDisplay.setAttribute('aria-expanded', 'false');
+        }
+
+        function mapToLocaleCode(text) {
+          const q = (text || '').trim().toLowerCase();
+          if (!q) return '';
+          let hit = locales.find(x => x.label.toLowerCase() === q);
+          if (hit) return hit.code;
+          hit = locales.find(x => x.code.toLowerCase() === q);
+          if (hit) return hit.code;
+          const starts = locales.filter(x => x.label.toLowerCase().startsWith(q));
+          if (starts.length === 1) return starts[0].code;
+          return '';
+        }
+
+        if (localeSelect.value) {
+          const current = locales.find(x => x.code.toLowerCase() === localeSelect.value.toLowerCase());
+          if (current) localeDisplay.value = current.label;
+        }
+
+        localeDisplay.addEventListener('focus', openLocaleSuggestions);
+        localeDisplay.addEventListener('click', openLocaleSuggestions);
+        localeDisplay.addEventListener('input', () => {
+          localeSelect.value = '';
+          localeDisplay.setCustomValidity('');
+          renderLocaleSuggestions(localeDisplay.value);
+          localeSuggestions.style.display = 'block';
+        });
+        localeSuggestions.addEventListener('mousedown', (e) => {
+          const item = e.target.closest('.suggestion-item');
+          if (item) {
+            setLocale(item.getAttribute('data-code'), item.getAttribute('data-label'));
+            closeLocaleSuggestions();
+          }
+        });
+        localeDisplay.addEventListener('blur', () => setTimeout(closeLocaleSuggestions, 100));
+
+        document.getElementById('reservationForm').addEventListener('submit', (e) => {
+          if (!localeSelect.value) {
+            const code = mapToLocaleCode(localeDisplay.value);
+            if (code) {
+              const match = locales.find(x => x.code === code);
+              setLocale(code, match.label);
+            } else {
+              e.preventDefault();
+              openLocaleSuggestions();
+              localeDisplay.setCustomValidity('Please choose a language from the list.');
+              localeDisplay.reportValidity();
+            }
+          }
+        });
       });
     </script>
 </div>
-<br />
-<br />
 
 
