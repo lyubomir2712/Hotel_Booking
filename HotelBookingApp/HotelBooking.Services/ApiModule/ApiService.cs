@@ -58,14 +58,6 @@ namespace HotelBooking.Services.ApiModule
                 var hotel = responseToken.SelectToken("result");
 
 
-                Dictionary<string, bool> inputFlags = new Dictionary<string, bool>
-                {
-                    { FacilitiesImagesStorage.BreakfastImage, model.HasBreakfast },
-                    { FacilitiesImagesStorage.ParkingImage, model.HasParking },
-                    { FacilitiesImagesStorage.PoolImage, model.HasPool }
-                };
-
-
 
                 foreach (var h in hotel)
                 {
@@ -80,57 +72,22 @@ namespace HotelBooking.Services.ApiModule
 
 
 
-                    Dictionary<string, bool> facilitiesDictionary = new Dictionary<string, bool>(inputFlags.Where(f => f.Value == true));
-                    List<string> facilitiesList = new List<string>(facilitiesDictionary.Keys);
-                    string facilititesImages = String.Join(",", facilitiesList);
-
-                    if (facilitiesDictionary.All(b => b.Value == false))
+                    if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice <= model.MaxPrice)
                     {
-                        
-
-                        if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice <= model.MaxPrice)
+                        var newHotel = new Hotel
                         {
-                            var newHotel = new Hotel
-                            {
+                            Name = hotelName,
+                            PhotoMainUrl = hotelPhotoMainUrl,
+                            ReviewScore = reviewScore,
+                            ReviewScoreWord = reviewScoreWord,
+                            Price = hotelPrice,
+                            Stars = stars,
+                            StartAt = formattedCheckinDate,
+                            EndAt = formattedCheckoutDate,
+                        };
 
-                                Name = hotelName,
-                                PhotoMainUrl = hotelPhotoMainUrl,
-                                ReviewScore = reviewScore,
-                                ReviewScoreWord = reviewScoreWord,
-                                Price = hotelPrice,
-                                Stars = stars,
-                                StartAt = formattedCheckinDate,
-                                EndAt = formattedCheckoutDate,
-                            };
-
-                            newHotels.Add(newHotel);
-                        }
+                        newHotels.Add(newHotel);
                     }
-                    else
-                    {
-
-                        if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice <= model.MaxPrice)
-                        {
-                            var newHotel = new Hotel
-                            {
-                                
-                                Name = hotelName,
-                                PhotoMainUrl = hotelPhotoMainUrl,
-                                ReviewScore = reviewScore,
-                                ReviewScoreWord = reviewScoreWord,
-                                Price = hotelPrice,
-                                Stars = stars,
-                                Facilities = facilititesImages,
-                                StartAt = formattedCheckinDate,
-                                EndAt = formattedCheckoutDate,
-                            };
-
-                            newHotels.Add(newHotel);
-                        }
-
-                    }
-
-
 
                 }
 
@@ -141,7 +98,3 @@ namespace HotelBooking.Services.ApiModule
     }
 
 }
-
-
-
-

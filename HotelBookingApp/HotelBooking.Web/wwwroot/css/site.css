@@ -33,14 +33,6 @@ p, li,label{
     color: white;
 }
 
-#hasPool, #hasParking, #hasBreakfast {
-    margin-right: 2%;
-}
-
-#city, #checkinDate, #checkoutDate, select{
-    background-color: white;
-    color: mediumpurple;
-}
 .form-container {
     background-color: #ffb700;
     display: inline-flex;
@@ -53,36 +45,9 @@ p, li,label{
     height: 3.1rem;
     margin: 0 auto;
 }
-#carouselDiv img{
-    border-radius: 30px;
-    padding: 10px, 10px, 10px, 10px;
-    border: pink;
-    margin: auto;
-    display: inline-block;
-    border: solid mediumpurple 30px;
-    box-shadow: 0 0 0 30px hsl(230, 18%, 24%);
-}
-
-.carousel-item{
-    border-radius: 30px;
-    border:solid hsl(230, 18%, 24%) 30px
-}
 
 #navbar {
     margin-bottom: 0;
-}
-
-#carouselDiv {
-    background-color: #272B36;
-    filter: brightness(115%);
-    align-items:center;
-    border-radius: 30px;
-    margin-bottom: 5%;
-    margin-top: 3%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
 }
 
 footer{
@@ -103,14 +68,9 @@ footer li, footer p{
     margin-top: 20px;
 }
 
-.carousel-caption h5 {
-    color: lightgrey;
-}
-
 .card-body p, .card-body h5{
     color: black
 }
-
 
 .booked-hotels{
     margin-top:8px;

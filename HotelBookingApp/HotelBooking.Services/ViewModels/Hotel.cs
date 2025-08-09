@@ -18,7 +18,6 @@ namespace HotelBooking.Services.ViewModels
             public double? ReviewScore { get; set; } = 0;
             public string ReviewScoreWord { get; set; }           
             public string Stars { get; set; }
-            public string Facilities { get; set; }
             public string StartAt { get; set; }
             public string EndAt { get; set; }
         }  

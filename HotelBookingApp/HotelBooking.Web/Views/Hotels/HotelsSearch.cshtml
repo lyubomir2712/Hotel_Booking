@@ -5,8 +5,8 @@
     @{
         foreach (var hotel in Model)
         {
-            <div class="col">
-                <div class="card h-100">
+            <div class="col d-flex">
+                <div class="card h-100 hotel-card w-75 mx-auto overflow-hidden">
                     <img src="@hotel.PhotoMainUrl" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">@hotel.Name</h5>
@@ -15,7 +15,6 @@
                         @Html.Raw(hotel.Stars)
                         <br><br>
                         <p class="card-text">Review Score: @hotel.ReviewScore</p>
-                        @Html.Raw(hotel.Facilities)
                         <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", hotel.Price)$</span></p>
                         <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
                             <input type="hidden" name="HotelName" value="@hotel.Name" />
@@ -33,6 +32,9 @@
 </div>
 
 <style>
+    .hotel-card {
+        border-radius: 1rem;
+    }
     span {
         color: black
     }
