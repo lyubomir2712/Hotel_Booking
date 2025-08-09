@@ -63,10 +63,40 @@
         pointer-events: none;
         z-index: 2;
       }
-      /* Left icon inside the Check-in — Check-out input */
       #dateRange { padding-left: 2rem; }
-      /* Left icon inside the Language input */
-      #localeDisplay { padding-left: 2rem; }
+      #guestsSummary { padding-left: 2rem; width: 260px !important; }
+      #guestsSummary[readonly] { background-color: #fff !important; color: #212529; }
+
+      /* Guests popup Done button: wide, white with blue text and border */
+      #guestsPopup #guestsDone {
+        display: block;
+        width: 100%;
+        background-color: #fff !important;
+        color: #0d6efd !important;
+        border: 1px solid #0d6efd !important;
+        transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+      }
+      #guestsPopup #guestsDone:hover,
+      #guestsPopup #guestsDone:focus {
+        background-color: rgba(13,110,253,.08) !important; /* subtle blue darkening */
+        color: #0a58ca !important;
+        border-color: #0a58ca !important;
+        box-shadow: none !important; /* remove glow */
+      }
+      #guestsPopup #guestsDone:active {
+        background-color: rgba(13,110,253,.16) !important; /* slightly darker on press */
+        color: #0a58ca !important;
+        border-color: #0a58ca !important;
+        box-shadow: none !important;
+      }
+
+      /* Segmented stepper control */
+      .seg-control { display: inline-flex; align-items: center; border: 1px solid rgba(0,0,0,.08); border-radius: .5rem; background: rgba(255,255,255,.85); overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.04); backdrop-filter: blur(3px); }
+      .seg-control .seg-btn { appearance: none; border: 0; background: transparent; padding: .375rem .625rem; line-height: 1; font-size: 1rem; cursor: pointer; user-select: none; }
+      .seg-control .seg-value { min-width: 2.5rem; text-align: center; padding: .25rem .75rem; font-weight: 600; }
+      .seg-control .seg-btn:focus { outline: none; box-shadow: inset 0 0 0 2px rgba(13,110,253,.25); }
+      .seg-control .seg-btn:active { transform: translateY(0.5px); }
+      .seg-control .seg-btn[disabled] { opacity: .5; cursor: not-allowed; }
       /* Currency suffix inside inputs */
       .currency-input { position: relative; }
       .currency-input > input.form-control { padding-right: 3.25rem; }
@@ -112,21 +142,46 @@
                 <input type="hidden" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate">
             </div>
             <div class="col-auto position-relative">
-              <input type="text" class="form-control equal-h" id="localeDisplay" placeholder="Language" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
-              <svg class="input-left-icon bi bi-translate" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-                <path fill="currentColor" d="M4.545 6.714 4.11 8H3l1.862-5h1.284L8 8H6.833l-.435-1.286zm1.634-.736L5.5 3.956h-.049l-.679 2.022z"/>
-                <path fill="currentColor" d="M0 2a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-3H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zm7.138 9.995q(.289).451.63.846c-.748.575-1.673 1.001-2.768 1.292.178.217.451.635.555.867 1.125-.359 2.08-.844 2.886-1.494.777.665 1.739 1.165 2.93 1.472.133-.254.414-.673.629-.89-1.125-.253-2.057-.694-2.82-1.284.681-.747 1.222-1.651 1.621-2.757H14V8h-3v1.047h.765c-.318.844-.74 1.546-1.272 2.13a6 6 0 0 1-.415-.492 2 2 0 0 1-.94.31"/>
+              <input type="text" class="form-control equal-h" id="guestsSummary" placeholder="2 adults - 0 children - 1 room" readonly autocomplete="off" aria-haspopup="dialog" aria-expanded="false">
+              <svg class="input-left-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50px" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M16.5 6a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0M18 6A6 6 0 1 0 6 6a6 6 0 0 0 12 0M3 23.25a9 9 0 1 1 18 0 .75.75 0 0 0 1.5 0c0-5.799-4.701-10.5-10.5-10.5S1.5 17.451 1.5 23.25a.75.75 0 0 0 1.5 0"></path>
               </svg>
-              <select id="locale" class="form-select d-none" asp-for="@Model.Locale">
-                <option value="" disabled selected hidden>Language</option>
-                <option value="en-us">English</option>
-                <option value="de">German</option>
-                <option value="es">Spanish</option>
-                <option value="fr">French</option>
-                <option value="bg">Bulgarian</option>
-                <option value="it">Italian</option>
-              </select>
-              <div id="localeSuggestions" class="city-suggestions" role="listbox" aria-label="Language suggestions" aria-live="polite"></div>
+
+              <!-- Hidden fields to submit with the form -->
+              <input type="hidden" id="adultsNumber" name="AdultsNumber" value="2">
+              <input type="hidden" id="childrenNumber" name="ChildrenNumber" value="0">
+              <input type="hidden" id="roomNumber" name="RoomNumber" value="1">
+
+              <!-- Popup for selecting counts -->
+              <div id="guestsPopup" class="city-suggestions" role="dialog" aria-label="Select guests and rooms" aria-live="polite">
+                <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+                  <div>Adults</div>
+                  <div class="seg-control" role="group" aria-label="Adults">
+                    <button type="button" class="seg-btn" data-target="adults" data-op="dec" aria-label="Decrease adults">−</button>
+                    <div class="seg-value" id="adultsCount" aria-live="polite">2</div>
+                    <button type="button" class="seg-btn" data-target="adults" data-op="inc" aria-label="Increase adults">+</button>
+                  </div>
+                </div>
+                <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+                  <div>Children</div>
+                  <div class="seg-control" role="group" aria-label="Children">
+                    <button type="button" class="seg-btn" data-target="children" data-op="dec" aria-label="Decrease children">−</button>
+                    <div class="seg-value" id="childrenCount" aria-live="polite">0</div>
+                    <button type="button" class="seg-btn" data-target="children" data-op="inc" aria-label="Increase children">+</button>
+                  </div>
+                </div>
+                <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+                  <div>Rooms</div>
+                  <div class="seg-control" role="group" aria-label="Rooms">
+                    <button type="button" class="seg-btn" data-target="rooms" data-op="dec" aria-label="Decrease rooms">−</button>
+                    <div class="seg-value" id="roomsCount" aria-live="polite">1</div>
+                    <button type="button" class="seg-btn" data-target="rooms" data-op="inc" aria-label="Increase rooms">+</button>
+                  </div>
+                </div>
+                <div class="px-3 pb-2">
+                  <button type="button" class="btn btn-outline-primary btn-sm w-100 bg-white" id="guestsDone">Done</button>
+                </div>
+              </div>
             </div>
             <div class="col-auto">
                         <div class="d-flex align-items-center gap-1 flex-wrap">
@@ -293,97 +348,91 @@
           }
         });
         cityInput.addEventListener('blur', () => setTimeout(closeCitySuggestions, 100));
-        // --- Locale typeahead dropdown ---
-        const localeDisplay = document.getElementById('localeDisplay');
-        const localeSelect = document.getElementById('locale');
-        const localeSuggestions = document.getElementById('localeSuggestions');
-        const locales = [
-          { code: 'en-us', label: 'English' },
-          { code: 'de',    label: 'German' },
-          { code: 'es',    label: 'Spanish' },
-          { code: 'fr',    label: 'French' },
-          { code: 'bg',    label: 'Bulgarian' },
-          { code: 'it',    label: 'Italian' }
-        ];
+        // --- Guests & Rooms picker ---
+        (function () {
+          const input = document.getElementById('guestsSummary');
+          const popup = document.getElementById('guestsPopup');
+          const adultsHidden = document.getElementById('adultsNumber');
+          const childrenHidden = document.getElementById('childrenNumber');
+          const roomsHidden = document.getElementById('roomNumber');
+          const adultsCountEl = document.getElementById('adultsCount');
+          const childrenCountEl = document.getElementById('childrenCount');
+          const roomsCountEl = document.getElementById('roomsCount');
+          const btnDecAdults = popup.querySelector('button[data-target="adults"][data-op="dec"]');
+          const btnDecChildren = popup.querySelector('button[data-target="children"][data-op="dec"]');
+          const btnDecRooms = popup.querySelector('button[data-target="rooms"][data-op="dec"]');
 
-        function renderLocaleSuggestions(filterText) {
-          const q = (filterText || '').trim().toLowerCase();
-          const results = q
-            ? locales.filter(x => x.label.toLowerCase().startsWith(q) || x.code.toLowerCase().startsWith(q))
-            : locales;
-          if (results.length === 0) {
-            localeSuggestions.innerHTML = '<div class="px-3 py-2 text-muted">No matches</div>';
-          } else {
-            localeSuggestions.innerHTML = results
-              .map(x => `<div class="suggestion-item px-3 py-2" role="option" data-code="${x.code}" data-label="${x.label}"><div>${x.label}</div><small class="text-muted">${x.code}</small></div>`)
-              .join('');
+          let adults = parseInt(adultsHidden.value || '2', 10);
+          let children = parseInt(childrenHidden.value || '0', 10);
+          let rooms = parseInt(roomsHidden.value || '1', 10);
+
+          const plural = (n, s, p) => (n === 1 ? s : p);
+
+          function update() {
+            adults = Math.max(1, adults);
+            children = Math.max(0, children);
+            rooms = Math.max(1, rooms);
+
+            adultsHidden.value = adults;
+            childrenHidden.value = children;
+            roomsHidden.value = rooms;
+
+            adultsCountEl.textContent = adults;
+            childrenCountEl.textContent = children;
+            roomsCountEl.textContent = rooms;
+
+            btnDecAdults.disabled = adults <= 1;
+            btnDecChildren.disabled = children <= 0;
+            btnDecRooms.disabled = rooms <= 1;
+
+            const text = `${adults} adults - ${children} children - ${rooms} ${plural(rooms, 'room', 'rooms')}`;
+            input.value = text;
+            input.placeholder = text; // keep the requested placeholder text in sync
           }
-        }
 
-        function setLocale(code, label) {
-          localeSelect.value = code;
-          localeDisplay.value = label;
-          localeDisplay.setCustomValidity('');
-        }
+          update();
 
-        function openLocaleSuggestions() {
-          renderLocaleSuggestions(localeDisplay.value);
-          localeSuggestions.style.display = 'block';
-          localeDisplay.setAttribute('aria-expanded', 'true');
-        }
-        function closeLocaleSuggestions() {
-          localeSuggestions.style.display = 'none';
-          localeDisplay.setAttribute('aria-expanded', 'false');
-        }
-
-        function mapToLocaleCode(text) {
-          const q = (text || '').trim().toLowerCase();
-          if (!q) return '';
-          let hit = locales.find(x => x.label.toLowerCase() === q);
-          if (hit) return hit.code;
-          hit = locales.find(x => x.code.toLowerCase() === q);
-          if (hit) return hit.code;
-          const starts = locales.filter(x => x.label.toLowerCase().startsWith(q));
-          if (starts.length === 1) return starts[0].code;
-          return '';
-        }
-
-        if (localeSelect.value) {
-          const current = locales.find(x => x.code.toLowerCase() === localeSelect.value.toLowerCase());
-          if (current) localeDisplay.value = current.label;
-        }
-
-        localeDisplay.addEventListener('focus', openLocaleSuggestions);
-        localeDisplay.addEventListener('click', openLocaleSuggestions);
-        localeDisplay.addEventListener('input', () => {
-          localeSelect.value = '';
-          localeDisplay.setCustomValidity('');
-          renderLocaleSuggestions(localeDisplay.value);
-          localeSuggestions.style.display = 'block';
-        });
-        localeSuggestions.addEventListener('mousedown', (e) => {
-          const item = e.target.closest('.suggestion-item');
-          if (item) {
-            setLocale(item.getAttribute('data-code'), item.getAttribute('data-label'));
-            closeLocaleSuggestions();
+          function open() {
+            popup.style.display = 'block';
+            input.setAttribute('aria-expanded', 'true');
           }
-        });
-        localeDisplay.addEventListener('blur', () => setTimeout(closeLocaleSuggestions, 100));
+          function close() {
+            popup.style.display = 'none';
+            input.setAttribute('aria-expanded', 'false');
+          }
 
-        document.getElementById('reservationForm').addEventListener('submit', (e) => {
-          if (!localeSelect.value) {
-            const code = mapToLocaleCode(localeDisplay.value);
-            if (code) {
-              const match = locales.find(x => x.code === code);
-              setLocale(code, match.label);
-            } else {
-              e.preventDefault();
-              openLocaleSuggestions();
-              localeDisplay.setCustomValidity('Please choose a language from the list.');
-              localeDisplay.reportValidity();
+          input.addEventListener('focus', open);
+          input.addEventListener('click', open);
+          // Close when clicking outside the input or popup (works for mouse & touch)
+          document.addEventListener('pointerdown', (e) => {
+            if (!popup.contains(e.target) && e.target !== input) {
+              close();
             }
-          }
-        });
+          });
+          // Optionally improve keyboard UX: close on Escape
+          input.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
+
+          popup.addEventListener('pointerdown', (e) => {
+            const btn = e.target.closest('button[data-target]');
+            if (!btn) return;
+            const t = btn.getAttribute('data-target');
+            const op = btn.getAttribute('data-op');
+            const delta = op === 'inc' ? 1 : -1;
+            if (t === 'adults') adults += delta;
+            if (t === 'children') children += delta;
+            if (t === 'rooms') rooms += delta;
+            update();
+            e.preventDefault();
+            e.stopPropagation();
+          });
+
+          const doneBtn = document.getElementById('guestsDone');
+          doneBtn.addEventListener('click', () => {
+            update();
+            close();
+            input.blur();
+          });
+        })();
       });
     </script>
 </div>
