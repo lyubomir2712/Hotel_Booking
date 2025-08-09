@@ -28,7 +28,7 @@ namespace HotelBooking.Services.ApiModule
             client.DefaultRequestHeaders.Add("X-RapidAPI-Host", "booking-com.p.rapidapi.com");
 
 
-            var response = await client.GetAsync(apiUrl + $"?name={model.City}&locale={model.Locale}");
+            var response = await client.GetAsync(apiUrl + $"?name={model.City}&locale=en-us");
 
             response.EnsureSuccessStatusCode();
             var responseJson = await response.Content.ReadAsStringAsync();
@@ -50,7 +50,7 @@ namespace HotelBooking.Services.ApiModule
 
             foreach (var id in destIds)
             {
-                var newResponse = await client.GetAsync(newApiUrl + $"?order_by=price&adults_number=2&checkin_date={formattedCheckinDate}&filter_by_currency=USD&dest_id={id}&locale={model.Locale}&checkout_date={formattedCheckoutDate}&units=metric&room_number=1&dest_type=city");
+                var newResponse = await client.GetAsync(newApiUrl + $"?order_by=price&adults_number={model.AdultsNumber}&children_number={model.ChildrenNumber}&checkin_date={formattedCheckinDate}&filter_by_currency=USD&dest_id={id}&locale=en-us&checkout_date={formattedCheckoutDate}&units=metric&room_number={model.RoomsNumber}&dest_type=city");
                 response.EnsureSuccessStatusCode();
                 var newResponseJson = await newResponse.Content.ReadAsStringAsync();
                 
