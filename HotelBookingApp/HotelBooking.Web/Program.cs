@@ -1,4 +1,5 @@
 using HotelBooking.Data;
+using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.AdminPanelServices;
 using HotelBooking.Services.ApiModule;
@@ -44,7 +45,7 @@ builder.Services.AddScoped<UserRole>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
-
+builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

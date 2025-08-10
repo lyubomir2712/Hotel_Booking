@@ -10,10 +10,13 @@ public class AdminPanelController : Controller
 {
     private BookingDbContext _bookingDbContext;
     private IGetCheckoutedHotelsService _getCheckoutedHotelsService;
-    public AdminPanelController(BookingDbContext bookingDbContext, IGetCheckoutedHotelsService getCheckoutedHotelsService)
+    private IAdminPanelDeleteBookingService _adminPanelDeleteBookingService;
+    public AdminPanelController(BookingDbContext bookingDbContext, IGetCheckoutedHotelsService getCheckoutedHotelsService,
+        IAdminPanelDeleteBookingService adminPanelDeleteBookingService)
     {
         _bookingDbContext = bookingDbContext;
         _getCheckoutedHotelsService = getCheckoutedHotelsService;
+        _adminPanelDeleteBookingService = adminPanelDeleteBookingService;
     }
     
     [Authorize(Roles = "Admin")]
@@ -27,12 +30,8 @@ public class AdminPanelController : Controller
     [Authorize(Roles = "Admin")]
     public IActionResult AdminPanelDeleteBooking(int bookingId)
     {
-        var adminPanelBooking = _bookingDbContext.AdminPanelBookings.Find(bookingId);
-        if (adminPanelBooking != null)
-        {
-            _bookingDbContext.AdminPanelBookings.Remove(adminPanelBooking);
-            _bookingDbContext.SaveChanges();
-        }
+        _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_bookingDbContext, bookingId);
+        
         return RedirectToAction("GetCheckoutedHotels");
     }
 }
