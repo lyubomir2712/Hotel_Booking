@@ -93,7 +93,7 @@ namespace HotelBooking.Web.Controllers
                 Bookings = bookings
             };
             
-            return View("~/Views/Home/BookedHotels.cshtml", userBookedHotels);
+            return View("~/Views/Hotels/BookedHotels.cshtml", userBookedHotels);
 
         }
         

@@ -44,13 +44,18 @@ namespace HotelBooking.Services.ApiModule
             string formattedCheckinDate = model.CheckinDate.ToString("yyyy-MM-dd");
             string formattedCheckoutDate = model.CheckoutDate.ToString("yyyy-MM-dd");
 
-
+            var responseString =
+                $"?order_by=price&adults_number={model.AdultsNumber}&checkin_date={formattedCheckinDate}&filter_by_currency=USD&locale=en-us&checkout_date={formattedCheckoutDate}&units=metric&room_number={model.RoomsNumber}&dest_type=city";
+            if (model.ChildrenNumber > 0)
+            {
+                responseString += ($"&children_number={model.ChildrenNumber}");
+            }
 
             List<Hotel> newHotels = new List<Hotel>();
 
             foreach (var id in destIds)
             {
-                var newResponse = await client.GetAsync(newApiUrl + $"?order_by=price&adults_number={model.AdultsNumber}&children_number={model.ChildrenNumber}&checkin_date={formattedCheckinDate}&filter_by_currency=USD&dest_id={id}&locale=en-us&checkout_date={formattedCheckoutDate}&units=metric&room_number={model.RoomsNumber}&dest_type=city");
+                var newResponse = await client.GetAsync(newApiUrl + responseString + $"dest_id={id}");
                 response.EnsureSuccessStatusCode();
                 var newResponseJson = await newResponse.Content.ReadAsStringAsync();
                 
@@ -66,12 +71,8 @@ namespace HotelBooking.Services.ApiModule
                     var hotelPrice = h.Value<double>("min_total_price");
                     var reviewScoreWord = h.Value<string>("review_score_word");
                     var reviewScore = h.Value<double?>("review_score");
-
-                    StarsService.StarsService starService = new StarsService.StarsService();
-                    string stars = starService.StarService(reviewScore);
-
-
-
+                    var reviewsCount = h.Value<int?>("review_nr");
+                    
                     if (hotelName != null && hotelPhotoMainUrl != null && hotelPrice > model.MinPrice && hotelPrice <= model.MaxPrice)
                     {
                         var newHotel = new Hotel
@@ -81,7 +82,7 @@ namespace HotelBooking.Services.ApiModule
                             ReviewScore = reviewScore,
                             ReviewScoreWord = reviewScoreWord,
                             Price = hotelPrice,
-                            Stars = stars,
+                            ReviewsCount = reviewsCount,
                             StartAt = formattedCheckinDate,
                             EndAt = formattedCheckoutDate,
                         };
