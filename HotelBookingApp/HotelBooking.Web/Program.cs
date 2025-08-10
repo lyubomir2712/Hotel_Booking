@@ -1,7 +1,9 @@
 using HotelBooking.Data;
 using HotelBooking.Models.Identity;
+using HotelBooking.Services.AdminPanelServices;
 using HotelBooking.Services.ApiModule;
 using HotelBooking.Services.Contracts;
+using HotelBooking.Services.Contracts.AdminPanelContracts;
 using HotelBooking.Web.Areas.Identity.Pages.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +42,9 @@ builder.Services.AddScoped<IStarsService, StarsService>();
 builder.Services.AddScoped<HotelAddService>();
 builder.Services.AddScoped<UserRole>();
 
+//Admin Panel Services
+builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -47,11 +52,6 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 
-
-//app.UseExceptionHandler("/Home/ErrorWithStatusCode?errorCode={0}");
-//app.UseStatusCodePagesWithRedirects("/Home/ErrorWithStatusCode?errorCode={0}");
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -59,7 +59,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -84,8 +83,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
-
-
 app.MapRazorPages();
-
 app.Run();
