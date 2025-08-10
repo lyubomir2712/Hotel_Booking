@@ -43,43 +43,99 @@
         </main>
     </div>
 
-    <footer class="text-dark pt-5 pb-3 mt-auto">
-        <div id="footer" class="container">
-            <div class="row">
-                <div class="col-md-4 mb-4 text-center">
-                    <h6 class="text-uppercase">About Our App</h6>
-                    <p>Our booking hotels app helps travelers find the best deals on accommodations. We work with top hotels to provide the most competitive rates and help you save money on your next trip.</p>
-                </div>
-                <div class="col-md-4 mb-4 text-center">
-                    <h6 class="text-uppercase">Contact Us</h6>
-                    <ul class="list-unstyled">
-                        <li>Email: info@easybook.com</li>
-                        <li>Phone:089-133-8778</li>
-                        <li>Address: 27 Main St, Sofia Bulgaira</li>
-                    </ul>
-                </div>
-                <div class="col-md-4 mb-4 text-center">
-                    <h6 class="text-uppercase">Follow Us</h6>
-                    <ul class="list-unstyled">
-                        <li>Facebook</li>
-                        <li>Twitter</li>
-                        <li>Instagram</li>
-                        <li>LinkedIn</li>
-                    </ul>
-                </div>
+<footer class="text-dark pt-5 pb-3 mt-auto">
+    <div id="footer" class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 text-center">
+                <h6 class="text-uppercase">About Our App</h6>
+                <p>Our booking hotels app helps travelers find the best deals on accommodations. We work with top hotels to provide the most competitive rates and help you save money on your next trip.</p>
             </div>
-            
+            <div class="col-md-4 mb-4 text-center">
+                <h6 class="text-uppercase">Contact Us</h6>
+                <ul class="list-unstyled">
+                    <li>Email: info@easybook.com</li>
+                    <li>Phone:089-133-8778</li>
+                    <li>Address: 27 Main St, Sofia Bulgaira</li>
+                </ul>
             </div>
-            <div class="row mt-3">
-                <div class="col-md-12">
-                    <hr class="bg-light">
-                    <p color="white" class="text-center">&copy; 2025 Booking Hotels App. All Rights Reserved.</p>
-                </div>
+            <div class="col-md-4 mb-4 text-center">
+                <h6 class="text-uppercase">Follow Us</h6>
+                <ul class="list-unstyled">
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                    <li>LinkedIn</li>
+                </ul>
+            </div>
         </div>
-    </footer>
+            
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <hr class="bg-light">
+            <p color="white" class="text-center">&copy; 2025 Booking Hotels App. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
+
+<div id="ai-chat-widget" style="position: fixed; right: 1rem; bottom: 1rem; width: 360px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border-radius: 8px; padding: 0.75rem; z-index: 1050;">
+        <label for="aiChatOutput" style="color: white; font-weight: 600; display: block; margin-bottom: .25rem;">AI отговор</label>
+        <textarea id="aiChatOutput" class="form-control mb-2" style="height: 180px; resize: vertical;" readonly placeholder="Тук ще виждаш отговорите..."></textarea>
+        <div class="input-group">
+            <input id="aiChatInput" class="form-control" type="text" placeholder="Напиши съобщение и натисни Enter…" />
+            <button id="aiChatSend" class="btn btn-primary" type="button">Изпрати</button>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+      (function () {
+        async function sendAiChat() {
+          const input = document.getElementById('aiChatInput');
+          const output = document.getElementById('aiChatOutput');
+          if (!input || !output) return;
+          const msg = input.value.trim();
+          if (!msg) return;
+
+          // Show the user's message and a placeholder for the assistant
+          output.value += (output.value ? "\n\n" : "") + "Ти: " + msg + "\nАсистент: ";
+          input.value = '';
+
+          try {
+            const res = await fetch('/Ai/Ask?question=' + encodeURIComponent(msg), {
+              method: 'GET',
+              headers: { 'X-Requested-With': 'XMLHttpRequest' }
+            });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const answer = await res.text();
+            output.value += answer || '[празен отговор]';
+          } catch (err) {
+            // Fallback: echo the message if no backend is available yet
+            console.error('AI chat error:', err);
+            output.value += '(ехо) ' + msg;
+          }
+
+          // Scroll to bottom
+          output.scrollTop = output.scrollHeight;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const input = document.getElementById('aiChatInput');
+          const btn = document.getElementById('aiChatSend');
+          if (btn) btn.addEventListener('click', sendAiChat);
+          if (input) {
+            input.addEventListener('keydown', function (e) {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendAiChat();
+              }
+            });
+          }
+        });
+      })();
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -13,6 +13,9 @@ using HotelBooking.Services.StarsService;
 using Newtonsoft.Json;
 using NuGet.Protocol;
 using HotelBooking.Services.HotelsServices;
+using Microsoft.Extensions.AI;
+using HotelBooking.Services.AI;
+using HotelBooking.Services.Contracts.AIServicesContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,11 +58,15 @@ builder.Services.AddScoped<UserRole>();
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
 builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
 
+//AI Service
+builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "llama3"));
+builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
+builder.Services.AddScoped<IAskAppAiStreamService, AskAppAiStreamService>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -77,8 +84,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-app.UseAuthorization();
 
+app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "bookedHotelsByUser",
