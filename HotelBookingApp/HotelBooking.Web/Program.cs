@@ -5,13 +5,14 @@ using HotelBooking.Services.AdminPanelServices;
 using HotelBooking.Services.ApiModule;
 using HotelBooking.Services.Contracts;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
+using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using HotelBooking.Web.Areas.Identity.Pages.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using HotelBooking.Services.StarsService;
 using Newtonsoft.Json;
 using NuGet.Protocol;
-using HotelBooking.Services.HotelAddService;
+using HotelBooking.Services.HotelsServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +41,12 @@ builder.Services
 
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IStarsService, StarsService>();
-builder.Services.AddScoped<HotelAddService>();
+
+//Hotels Services
+builder.Services.AddScoped<IGetHotelsService, GetHotelsService>();
+builder.Services.AddScoped<IGetBookedHotelsService, GetBookedHotelsService>();
+
+//Identity Services
 builder.Services.AddScoped<UserRole>();
 
 //Admin Panel Services

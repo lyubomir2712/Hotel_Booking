@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
-using HotelBooking.Services.HotelAddService;
+using HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -15,13 +15,16 @@ namespace HotelBooking.Web.Controllers
     {
         private readonly BookingDbContext _bookingDbContext;
         private readonly UserManager<UserModel> _userManager;
-        private readonly HotelAddService _hotelAddService;
+        private readonly IGetHotelsService _getHotelsService;
+        private readonly IGetBookedHotelsService _getBookedHotelsService;
 
-        public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager, HotelAddService hotelAddService)
+        public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager,
+             IGetHotelsService getHotelsService, IGetBookedHotelsService getBookedHotelsService)
         {
             _bookingDbContext = bookingDbContext;
             _userManager = userManager;
-            _hotelAddService = hotelAddService;
+            _getHotelsService = getHotelsService;
+            _getBookedHotelsService = getBookedHotelsService;
         }
 
 
@@ -84,8 +87,12 @@ namespace HotelBooking.Web.Controllers
         public IActionResult GetBookedHotels()
         {
             string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<BookingModel> bookings = _hotelAddService.GetBookedHotels(userId);
-            List<HotelModel> hotels = _hotelAddService.GetHotels(bookings);
+            
+            
+            var bookings = _getBookedHotelsService.GetBookedHotels(_bookingDbContext, userId);
+            
+            
+            var hotels = _getHotelsService.GetHotels(_bookingDbContext,bookings);
 
             UserBookedHotels userBookedHotels = new UserBookedHotels 
             {
