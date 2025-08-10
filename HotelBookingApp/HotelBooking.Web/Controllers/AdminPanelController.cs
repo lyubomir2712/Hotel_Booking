@@ -23,7 +23,6 @@ public class AdminPanelController : Controller
     public IActionResult GetCheckoutedHotels()
     {
         var checkoutedBookings = _getCheckoutedHotelsService.GetCheckoutedHotels(_bookingDbContext);
-        
         return View("AdminPanel", checkoutedBookings);
     }
 
@@ -31,7 +30,6 @@ public class AdminPanelController : Controller
     public IActionResult AdminPanelDeleteBooking(int bookingId)
     {
         _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_bookingDbContext, bookingId);
-        
         return RedirectToAction("GetCheckoutedHotels");
     }
 }

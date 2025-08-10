@@ -330,6 +330,14 @@
               "target": "Package",
               "version": "[6.0.16, )"
             },
+            "Microsoft.Extensions.AI": {
+              "target": "Package",
+              "version": "[9.7.1, )"
+            },
+            "Microsoft.Extensions.AI.Ollama": {
+              "target": "Package",
+              "version": "[9.7.0-preview.1.25356.2, )"
+            },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[6.0.13, )"

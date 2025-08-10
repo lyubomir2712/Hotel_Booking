@@ -39,6 +39,8 @@ builder.Services
     .AddEntityFrameworkStores<BookingDbContext>()
     .AddSignInManager<SignInManager<UserModel>>();
 
+
+//Api Configuration Services
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IStarsService, StarsService>();
 
