@@ -6,18 +6,18 @@ namespace HotelBooking.Web.Controllers;
 
 public class AiController : Controller
 {
-    private readonly IAskAppAiService _ai;
+    private readonly IAskAppAiService _askAppAiService;
     private readonly IChatClient _chatClient;
 
-    public AiController(IAskAppAiService ai, IChatClient chatClient)
+    public AiController(IAskAppAiService askAppAiService, IChatClient chatClient)
     {
-        _ai = ai;
+        _askAppAiService = askAppAiService;
         _chatClient = chatClient;
     }
     
     public async Task<IActionResult> Ask(string question)
     {
-        var answer = await _ai.AskAsync(_chatClient, question);
+        var answer = await _askAppAiService.AskAsync(_chatClient, question);
         return Content(answer);
     }
 }

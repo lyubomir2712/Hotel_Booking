@@ -7,6 +7,95 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HotelBooking.Web.styles.css" asp-append-version="true" />
+    <style>
+      /* Floating Action Button (FAB) for AI */
+      #ai-fab {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: #0d6efd;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 16px rgba(0,0,0,.3);
+        cursor: pointer;
+        z-index: 1051;
+        user-select: none;
+        font-weight: 700;
+      }
+      #ai-fab .close-icon { display: none; font-size: 28px; line-height: 1; }
+      #ai-fab .ai-icon { font-size: 16px; line-height: 1; }
+      #ai-fab.open .ai-icon { display: none; }
+      #ai-fab.open .close-icon { display: inline; }
+
+      /* Chat widget panel */
+      #ai-chat-widget {
+        position: fixed;
+        right: 1rem;
+        bottom: 5.5rem; /* sits above the FAB */
+        width: 360px;
+        max-width: calc(100vw - 2rem);
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(4px);
+        border-radius: 8px;
+        padding: 0.75rem;
+        z-index: 1050;
+        display: none; /* hidden by default */
+      }
+      #ai-chat-widget.open { display: block; }
+      /* Header bar */
+      #ai-chat-widget .ai-header {
+        background: #0d6efd;
+        color: #fff;
+        font-weight: 700;
+        padding: .5rem .75rem;
+        /* Pull the header over the widget padding so it touches the edges */
+        margin: -0.75rem -0.75rem .5rem;
+        /* Match the widget corner radius on top only */
+        border-radius: 8px 8px 0 0;
+      }
+      /* Chat messages UI */
+      #ai-chat-widget .chat-messages {
+        height: 260px;
+        overflow-y: auto;
+        padding-right: .25rem;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+      }
+      #ai-chat-widget .message { display: flex; align-items: flex-end; gap: .5rem; }
+      #ai-chat-widget .message.ai { justify-content: flex-start; }
+      #ai-chat-widget .message.user { justify-content: flex-end; }
+      #ai-chat-widget .bubble {
+        max-width: 80%;
+        padding: .5rem .75rem;
+        border-radius: 6px;
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: pre-wrap;
+      }
+      #ai-chat-widget .message.ai .bubble { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
+      #ai-chat-widget .message.user .bubble { background: #0d6efd; border: 1px solid #0d6efd; color: #fff; }
+      #ai-chat-widget .ai-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #0d6efd;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 12px;
+        flex: 0 0 28px;
+        user-select: none;
+        overflow: hidden; /* so a future <img> is clipped to circle */
+      }
+    </style>
 </head>
 <body>
     <header>
@@ -79,28 +168,61 @@
 </footer>
 
 
-<div id="ai-chat-widget" style="position: fixed; right: 1rem; bottom: 1rem; width: 360px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border-radius: 8px; padding: 0.75rem; z-index: 1050;">
-        <label for="aiChatOutput" style="color: white; font-weight: 600; display: block; margin-bottom: .25rem;">AI отговор</label>
-        <textarea id="aiChatOutput" class="form-control mb-2" style="height: 180px; resize: vertical;" readonly placeholder="Тук ще виждаш отговорите..."></textarea>
+<div id="ai-chat-widget" aria-hidden="true">
+        <div class="ai-header" role="heading" aria-level="2">EasyBook AI</div>
+        <div id="aiMessages" class="chat-messages mb-2" role="log" aria-live="polite" aria-relevant="additions"></div>
         <div class="input-group">
             <input id="aiChatInput" class="form-control" type="text" placeholder="Напиши съобщение и натисни Enter…" />
             <button id="aiChatSend" class="btn btn-primary" type="button">Изпрати</button>
         </div>
+    </div>
+    <div id="ai-fab" role="button" aria-label="Open AI chat" aria-expanded="false">
+      <span class="ai-icon">AI</span>
+      <span class="close-icon" aria-hidden="true">&times;</span>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
       (function () {
+        function appendUserMessage(text) {
+          const messages = document.getElementById('aiMessages');
+          if (!messages) return;
+          const row = document.createElement('div');
+          row.className = 'message user';
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          bubble.textContent = text;
+          row.appendChild(bubble);
+          messages.appendChild(row);
+          messages.scrollTop = messages.scrollHeight;
+        }
+
+        function appendAiMessage(text) {
+          const messages = document.getElementById('aiMessages');
+          if (!messages) return;
+          const row = document.createElement('div');
+          row.className = 'message ai';
+          const avatar = document.createElement('div');
+          avatar.className = 'ai-avatar';
+          avatar.textContent = 'AI';
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble';
+          bubble.textContent = text;
+          row.appendChild(avatar);
+          row.appendChild(bubble);
+          messages.appendChild(row);
+          messages.scrollTop = messages.scrollHeight;
+        }
+
         async function sendAiChat() {
           const input = document.getElementById('aiChatInput');
-          const output = document.getElementById('aiChatOutput');
-          if (!input || !output) return;
+          const messages = document.getElementById('aiMessages');
+          if (!input || !messages) return;
           const msg = input.value.trim();
           if (!msg) return;
 
-          // Show the user's message and a placeholder for the assistant
-          output.value += (output.value ? "\n\n" : "") + "Ти: " + msg + "\nАсистент: ";
+          appendUserMessage(msg);
           input.value = '';
 
           try {
@@ -110,20 +232,60 @@
             });
             if (!res.ok) throw new Error('HTTP ' + res.status);
             const answer = await res.text();
-            output.value += answer || '[празен отговор]';
+            appendAiMessage(answer || '[празен отговор]');
           } catch (err) {
-            // Fallback: echo the message if no backend is available yet
             console.error('AI chat error:', err);
-            output.value += '(ехо) ' + msg;
+            appendAiMessage('(ехо) ' + msg);
           }
-
-          // Scroll to bottom
-          output.scrollTop = output.scrollHeight;
         }
 
         document.addEventListener('DOMContentLoaded', function () {
           const input = document.getElementById('aiChatInput');
           const btn = document.getElementById('aiChatSend');
+          const widget = document.getElementById('ai-chat-widget');
+          const fab = document.getElementById('ai-fab');
+
+          function openWidget() {
+            if (widget) {
+              widget.classList.add('open');
+              widget.setAttribute('aria-hidden', 'false');
+            }
+            if (fab) {
+              fab.classList.add('open');
+              fab.setAttribute('aria-label', 'Close AI chat');
+              fab.setAttribute('aria-expanded', 'true');
+            }
+            if (input) input.focus();
+          }
+
+          function closeWidget() {
+            if (widget) {
+              widget.classList.remove('open');
+              widget.setAttribute('aria-hidden', 'true');
+            }
+            if (fab) {
+              fab.classList.remove('open');
+              fab.setAttribute('aria-label', 'Open AI chat');
+              fab.setAttribute('aria-expanded', 'false');
+            }
+          }
+
+          if (fab) {
+            fab.addEventListener('click', function () {
+              if (fab.classList.contains('open')) {
+                closeWidget();
+              } else {
+                openWidget();
+              }
+            });
+          }
+
+          document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+              closeWidget();
+            }
+          });
+
           if (btn) btn.addEventListener('click', sendAiChat);
           if (input) {
             input.addEventListener('keydown', function (e) {
