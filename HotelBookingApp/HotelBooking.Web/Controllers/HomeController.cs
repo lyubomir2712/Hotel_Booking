@@ -16,20 +16,6 @@ namespace HotelBooking.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IApiService _apiService;
-        private readonly IStarsService _starsService;
-        private readonly BookingDbContext _dbContext;
-        
-        public HomeController(ILogger<HomeController> logger, IApiService apiService,
-            IStarsService starsService, BookingDbContext dbContext)
-        {
-            _logger = logger;
-            _apiService = apiService;
-            _starsService = starsService;
-            _dbContext = dbContext;
-        }
-
         public IActionResult Index()
         {
             return View();
