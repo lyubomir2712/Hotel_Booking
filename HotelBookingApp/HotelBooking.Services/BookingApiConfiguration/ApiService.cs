@@ -55,12 +55,13 @@ namespace HotelBooking.Services.ApiModule
 
             foreach (var id in destIds)
             {
-                var newResponse = await client.GetAsync(newApiUrl + responseString + $"dest_id={id}");
-                response.EnsureSuccessStatusCode();
+                var newResponse = await client.GetAsync(newApiUrl + responseString + $"&dest_id={id}");
+                newResponse.EnsureSuccessStatusCode();
                 var newResponseJson = await newResponse.Content.ReadAsStringAsync();
                 
                 JToken responseToken = JToken.Parse(newResponseJson);
                 var hotel = responseToken.SelectToken("result");
+                if (hotel == null || !hotel.HasValues) continue;
 
 
 

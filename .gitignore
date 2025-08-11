@@ -1,0 +1,32 @@
+# IDE project files
+.idea/
+
+# macOS system files
+.DS_Store
+
+# Old backups folder at repo root
+/.Old/
+
+# .NET / build artifacts
+**/bin/
+**/obj/
+**/out/
+apphost
+*.sourcelink.json
+
+# Editors / IDE
+.vs/
+.vscode/
+*.user
+*.rsuser
+*.suo
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+
+# Archives
+*.rar
+*.zip

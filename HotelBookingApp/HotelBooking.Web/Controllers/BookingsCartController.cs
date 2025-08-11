@@ -72,9 +72,7 @@ namespace HotelBooking.Web.Controllers
             await _bookingDbContext.UserBookings.AddAsync(newUserBookingModel);
             await _bookingDbContext.SaveChangesAsync();
 
-
             return RedirectToAction("Index", "Home");
-
         }
         
         public IActionResult RemoveHotel(int BookingId)
