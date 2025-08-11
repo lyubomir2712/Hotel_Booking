@@ -15,6 +15,7 @@ using NuGet.Protocol;
 using HotelBooking.Services.HotelsServices;
 using Microsoft.Extensions.AI;
 using HotelBooking.Services.AI;
+using HotelBooking.Services.AIServices;
 using HotelBooking.Services.Contracts.AIServicesContracts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -58,10 +59,9 @@ builder.Services.AddScoped<UserRole>();
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
 builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
 
-//AI Service
-builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "llama3"));
+//AI Services
+builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "qwen2.5:7b-instruct"));
 builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
-builder.Services.AddScoped<IAskAppAiStreamService, AskAppAiStreamService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

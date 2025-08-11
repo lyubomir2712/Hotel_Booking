@@ -44,7 +44,7 @@
         border-radius: 8px;
         padding: 0.75rem;
         z-index: 1050;
-        display: none; /* hidden by default */
+        display: none;
       }
       #ai-chat-widget.open { display: block; }
       /* Header bar */
@@ -172,7 +172,7 @@
         <div class="ai-header" role="heading" aria-level="2">EasyBook AI</div>
         <div id="aiMessages" class="chat-messages mb-2" role="log" aria-live="polite" aria-relevant="additions"></div>
         <div class="input-group">
-            <input id="aiChatInput" class="form-control" type="text" placeholder="Напиши съобщение и натисни Enter…" />
+            <input id="aiChatInput" class="form-control" type="text" placeholder="Ask EasyBook AI anything" />
             <button id="aiChatSend" class="btn btn-primary" type="button">Изпрати</button>
         </div>
     </div>
@@ -226,7 +226,7 @@
           input.value = '';
 
           try {
-            const res = await fetch('/Ai/Ask?question=' + encodeURIComponent(msg), {
+            const res = await fetch('/Ai/AskAi?question=' + encodeURIComponent(msg), {
               method: 'GET',
               headers: { 'X-Requested-With': 'XMLHttpRequest' }
             });
@@ -235,7 +235,7 @@
             appendAiMessage(answer || '[празен отговор]');
           } catch (err) {
             console.error('AI chat error:', err);
-            appendAiMessage('(ехо) ' + msg);
+            appendAiMessage('Получи се грешка при изпращане на съобщението: "' + msg + '"');
           }
         }
 

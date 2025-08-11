@@ -7,6 +7,7 @@ namespace HotelBooking.Web.Controllers;
 public class AiController : Controller
 {
     private readonly IAskAppAiService _askAppAiService;
+    private readonly IAskAppAiStreamService _askAppAiStreamService;
     private readonly IChatClient _chatClient;
 
     public AiController(IAskAppAiService askAppAiService, IChatClient chatClient)
@@ -15,7 +16,7 @@ public class AiController : Controller
         _chatClient = chatClient;
     }
     
-    public async Task<IActionResult> Ask(string question)
+    public async Task<IActionResult> AskAi(string question)
     {
         var answer = await _askAppAiService.AskAsync(_chatClient, question);
         return Content(answer);
