@@ -17,62 +17,28 @@ namespace HotelBooking.Web.Controllers
         private readonly UserManager<UserModel> _userManager;
         private readonly IGetHotelsService _getHotelsService;
         private readonly IGetBookedHotelsService _getBookedHotelsService;
+        private readonly IAddToCartService _addToCartService;
 
         public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager,
-             IGetHotelsService getHotelsService, IGetBookedHotelsService getBookedHotelsService)
+             IGetHotelsService getHotelsService, IGetBookedHotelsService getBookedHotelsService, IAddToCartService addToCartService)
         {
             _bookingDbContext = bookingDbContext;
             _userManager = userManager;
             _getHotelsService = getHotelsService;
             _getBookedHotelsService = getBookedHotelsService;
+            _addToCartService = addToCartService;
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddToCart(string HotelName, string HotelImg, string HotelPrice, string StartAt, string EndAt) 
+        public async Task<IActionResult> AddToCart(AddToCartInput addToCartInput) 
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser is null) return Challenge();
 
-            int userId = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
-            // Retrieve the UserModel based on the current user's ID
-            UserModel userModel = await _userManager.FindByIdAsync(userId.ToString());
-
-            var existingHotel = _bookingDbContext.Hotels.FirstOrDefault(h => h.HotelName == HotelName && h.HotelImg == HotelImg);
+            await _addToCartService.AddToCartAsync(_bookingDbContext, addToCartInput, currentUser);
             
-            HotelModel newHotel;
-            if (existingHotel != null)
-            {
-                newHotel = existingHotel;
-            }
-            else
-            {
-                newHotel = new HotelModel { HotelName = HotelName, HotelImg = HotelImg };
-                _bookingDbContext.Hotels.Add(newHotel);
-                await _bookingDbContext.SaveChangesAsync();
-            }
-
-            BookingModel newBookingModel = new BookingModel
-            {
-                StartAt = Convert.ToDateTime(StartAt),
-                Price = Convert.ToDouble(HotelPrice),
-                EndAt = Convert.ToDateTime(EndAt),
-                HotelModel = newHotel,
-                HotelModelId = newHotel.Id
-            };
-
-            await _bookingDbContext.Bookings.AddAsync(newBookingModel);
-            await _bookingDbContext.SaveChangesAsync();     // get generated BookingModel.Id
-
-            var newUserBookingModel = new UserBookingModel
-            {
-                BookingModelId = newBookingModel.Id,   // now valid
-                UserId         = userId,
-                UserModel      = userModel
-            };
-            await _bookingDbContext.UserBookings.AddAsync(newUserBookingModel);
-            await _bookingDbContext.SaveChangesAsync();
-
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(GetBookedHotels));
         }
         
         public IActionResult RemoveHotel(int BookingId)

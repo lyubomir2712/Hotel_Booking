@@ -10,8 +10,8 @@ namespace HotelBooking.Models.AppModels
     public class HotelModel : BaseModel
     {
         
-        public string HotelName { get; set; }
-        public string HotelImg { get; set; }
+        public string HotelName { get; set; } = string.Empty;
+        public string HotelImg { get; set; } = string.Empty;
         public ICollection<BookingModel> BookingModels { get; set; }
         
         public ICollection<AdminPanelBookings> AdminPanelBookings { get; set; } = new List<AdminPanelBookings>();

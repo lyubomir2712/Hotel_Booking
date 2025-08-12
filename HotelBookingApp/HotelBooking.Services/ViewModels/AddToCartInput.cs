@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HotelBooking.Services.ViewModels
 {
-    public class BookedHotel
+    public class AddToCartInput
     {
         public int Id { get; set; }
         public string HotelName { get; set; }
