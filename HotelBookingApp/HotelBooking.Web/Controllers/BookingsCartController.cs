@@ -20,10 +20,12 @@ namespace HotelBooking.Web.Controllers
         private readonly IGetBookingsService _getBookingsService;
         private readonly IAddToCartService _addToCartService;
         private readonly IRemoveBookingService _removeBookingService;
+        private readonly ICheckoutBookingsService _checkoutBookingsService;
 
         public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager,
              IGetHotelsService getHotelsService, IGetBookingsService getBookingsService,
-             IAddToCartService addToCartService, IRemoveBookingService removeBookingService)
+             IAddToCartService addToCartService, IRemoveBookingService removeBookingService,
+             ICheckoutBookingsService checkoutBookingsService)
         {
             _bookingDbContext = bookingDbContext;
             _userManager = userManager;
@@ -31,6 +33,7 @@ namespace HotelBooking.Web.Controllers
             _getBookingsService = getBookingsService;
             _addToCartService = addToCartService;
             _removeBookingService = removeBookingService;
+            _checkoutBookingsService = checkoutBookingsService;
         }
 
 
@@ -75,33 +78,13 @@ namespace HotelBooking.Web.Controllers
         }
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckoutHotels(List<BookingModel> bookings)
+        public async Task<IActionResult> CheckoutHotels(List<BookingModel>? bookings)
         {
-            // 1. Вземаме текущия потребител
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null || bookings == null || bookings.Count == 0)
                 return RedirectToAction("Index", "Home");
 
-            // 2. Конвертираме всеки BookingModel в AdminPanelBookings
-            var adminPanelBookings = bookings.Select(b => new AdminPanelBookings
-            {
-                ClientId = currentUser.Id,
-                ClientFirstName = currentUser.FirstName,   
-                ClientLastName = currentUser.LastName, 
-                ClientEmail = currentUser.Email,
-                StartAt = b.StartAt,
-                EndAt = b.EndAt,
-                Price = b.Price,
-                
-                HotelModelId = b.HotelModelId
-            }).ToList();
-
-            await _bookingDbContext.AdminPanelBookings.AddRangeAsync(adminPanelBookings);
-
-            _bookingDbContext.Bookings.RemoveRange(bookings);
-
-            await _bookingDbContext.SaveChangesAsync();
+            await _checkoutBookingsService.CheckoutBookingsAsync(_bookingDbContext, currentUser, bookings);
 
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }

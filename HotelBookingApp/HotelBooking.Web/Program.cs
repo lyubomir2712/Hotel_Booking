@@ -53,6 +53,7 @@ builder.Services.AddScoped<IGetHotelsService, GetHotelsService>();
 builder.Services.AddScoped<IGetBookingsService, GetBookingsService>();
 builder.Services.AddScoped<IAddToCartService, AddToCartService>();
 builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
+builder.Services.AddScoped<ICheckoutBookingsService, CheckoutBookingsService>();
 
 //Identity Services
 builder.Services.AddScoped<UserRole>();
