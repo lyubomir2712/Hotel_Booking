@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotelBooking.Services.Contracts
+namespace HotelBooking.Services.Contracts.BookingApiConfigurationContracts
 {
     public interface IApiService
     {
-        public Task<List<Hotel>?> GetHotelsByLocation(string apiUrl,string newApiUrl,ApiDataViewModel model);
+        public Task<List<Hotel>?> GetHotelsByLocation(ApiDataViewModel model);
     }
 }

@@ -16,7 +16,9 @@ using HotelBooking.Services.HotelsServices;
 using Microsoft.Extensions.AI;
 using HotelBooking.Services.AI;
 using HotelBooking.Services.AIServices;
+using HotelBooking.Services.BookingApiConfiguration;
 using HotelBooking.Services.Contracts.AIServicesContracts;
+using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
