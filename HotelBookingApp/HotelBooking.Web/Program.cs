@@ -52,6 +52,7 @@ builder.Services.AddScoped<IStarsService, StarsService>();
 builder.Services.AddScoped<IGetHotelsService, GetHotelsService>();
 builder.Services.AddScoped<IGetBookedHotelsService, GetBookedHotelsService>();
 builder.Services.AddScoped<IAddToCartService, AddToCartService>();
+builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
 
 //Identity Services
 builder.Services.AddScoped<UserRole>();

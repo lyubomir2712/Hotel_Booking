@@ -18,15 +18,18 @@ namespace HotelBooking.Web.Controllers
         private readonly IGetHotelsService _getHotelsService;
         private readonly IGetBookedHotelsService _getBookedHotelsService;
         private readonly IAddToCartService _addToCartService;
+        private readonly IRemoveBookingService _removeBookingService;
 
         public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager,
-             IGetHotelsService getHotelsService, IGetBookedHotelsService getBookedHotelsService, IAddToCartService addToCartService)
+             IGetHotelsService getHotelsService, IGetBookedHotelsService getBookedHotelsService,
+             IAddToCartService addToCartService, IRemoveBookingService removeBookingService)
         {
             _bookingDbContext = bookingDbContext;
             _userManager = userManager;
             _getHotelsService = getHotelsService;
             _getBookedHotelsService = getBookedHotelsService;
             _addToCartService = addToCartService;
+            _removeBookingService = removeBookingService;
         }
 
 
@@ -41,11 +44,11 @@ namespace HotelBooking.Web.Controllers
             return RedirectToAction(nameof(GetBookedHotels));
         }
         
-        public IActionResult RemoveHotel(int BookingId)
+        [HttpPost]
+        public async Task<IActionResult> RemoveHotel(int bookingId)
         {
-            _bookingDbContext.Bookings.Remove(_bookingDbContext.Bookings.First(b=>b.Id == BookingId));
-            _bookingDbContext.SaveChanges();
-            return RedirectToAction("GetBookedHotels");
+            await _removeBookingService.RemoveHotelAsync(_bookingDbContext, bookingId);
+            return RedirectToAction(nameof(GetBookedHotels));
         }
         
         public IActionResult GetBookedHotels()
