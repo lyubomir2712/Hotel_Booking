@@ -9,11 +9,13 @@ public class GetBookedHotelsService : IGetBookedHotelsService
 {
     public List<BookingModel> GetBookedHotels(BookingDbContext bookingDbContext ,string userId)
     {
-        return bookingDbContext.UserBookings
-            .Where(b => b.UserId == Convert.ToInt32(userId))
-            .Include(b => b.BookingModel)
-            .ThenInclude(b => b.HotelModel)
-            .Select(b => b.BookingModel)
-            .ToList();
+        if (bookingDbContext.UserBookings != null)
+            return bookingDbContext.UserBookings
+                .Where(b => b.UserId == Convert.ToInt32(userId))
+                .Include(b => b.BookingModel)
+                .ThenInclude(b => b.HotelModel)
+                .Select(b => b.BookingModel)
+                .ToList();
+        return new List<BookingModel>();
     }
 }
