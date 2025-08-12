@@ -3,7 +3,7 @@ using HotelBooking.Models.AppModels;
 
 namespace HotelBooking.Services.Contracts.HotelsServicesContracts;
 
-public interface IGetBookedHotelsService
+public interface IGetBookingsService
 {
-    public List<BookingModel> GetBookedHotels(BookingDbContext bookingDbContext, string userId);
+    public List<BookingModel> GetBookings(BookingDbContext bookingDbContext, string userId);
 }

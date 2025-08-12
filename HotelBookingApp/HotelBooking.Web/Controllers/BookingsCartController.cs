@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 namespace HotelBooking.Web.Controllers
@@ -16,18 +17,18 @@ namespace HotelBooking.Web.Controllers
         private readonly BookingDbContext _bookingDbContext;
         private readonly UserManager<UserModel> _userManager;
         private readonly IGetHotelsService _getHotelsService;
-        private readonly IGetBookedHotelsService _getBookedHotelsService;
+        private readonly IGetBookingsService _getBookingsService;
         private readonly IAddToCartService _addToCartService;
         private readonly IRemoveBookingService _removeBookingService;
 
         public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager,
-             IGetHotelsService getHotelsService, IGetBookedHotelsService getBookedHotelsService,
+             IGetHotelsService getHotelsService, IGetBookingsService getBookingsService,
              IAddToCartService addToCartService, IRemoveBookingService removeBookingService)
         {
             _bookingDbContext = bookingDbContext;
             _userManager = userManager;
             _getHotelsService = getHotelsService;
-            _getBookedHotelsService = getBookedHotelsService;
+            _getBookingsService = getBookingsService;
             _addToCartService = addToCartService;
             _removeBookingService = removeBookingService;
         }
@@ -51,24 +52,26 @@ namespace HotelBooking.Web.Controllers
             return RedirectToAction(nameof(GetBookedHotels));
         }
         
+        [HttpGet]
         public IActionResult GetBookedHotels()
         {
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
-            
-            var bookings = _getBookedHotelsService.GetBookedHotels(_bookingDbContext, userId);
-            
-            
-            var hotels = _getHotelsService.GetHotels(_bookingDbContext,bookings);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            UserBookedHotels userBookedHotels = new UserBookedHotels 
+            if (userId != null)
             {
-                Hotels = hotels,
-                Bookings = bookings
-            };
-            
-            return View("~/Views/Hotels/BookedHotels.cshtml", userBookedHotels);
+                var bookings = _getBookingsService.GetBookings(_bookingDbContext, userId);
+                var hotels = _getHotelsService.GetHotels(_bookingDbContext, bookings);
 
+                var userBookedHotels = new UserBookedHotels
+                {
+                    Hotels = hotels,
+                    Bookings = bookings
+                };
+
+                return View("~/Views/Hotels/BookedHotels.cshtml", userBookedHotels);
+            }
+
+            return Challenge();
         }
         
         [HttpPost]

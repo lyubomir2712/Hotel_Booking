@@ -50,7 +50,7 @@ builder.Services.AddScoped<IStarsService, StarsService>();
 
 //Hotels Services
 builder.Services.AddScoped<IGetHotelsService, GetHotelsService>();
-builder.Services.AddScoped<IGetBookedHotelsService, GetBookedHotelsService>();
+builder.Services.AddScoped<IGetBookingsService, GetBookingsService>();
 builder.Services.AddScoped<IAddToCartService, AddToCartService>();
 builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
 

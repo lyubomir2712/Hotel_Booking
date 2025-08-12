@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Services.HotelsServices;
 
-public class GetBookedHotelsService : IGetBookedHotelsService
+public class GetBookingsService : IGetBookingsService
 {
-    public List<BookingModel> GetBookedHotels(BookingDbContext bookingDbContext ,string userId)
+    public List<BookingModel> GetBookings(BookingDbContext bookingDbContext ,string userId)
     {
         if (bookingDbContext.UserBookings != null)
             return bookingDbContext.UserBookings
