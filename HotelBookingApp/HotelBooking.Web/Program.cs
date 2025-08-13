@@ -47,8 +47,19 @@ builder.Services
 
 
 //Api Configuration Services
+
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IStarsService, StarsService>();
+builder.Services.Configure<RapidApiOptions>(
+    builder.Configuration.GetSection(RapidApiOptions.SectionName));
+
+builder.Services.AddHttpClient("RapidApiBooking", (sp, client) =>
+{
+    var opt = sp.GetRequiredService<IOptions<RapidApiOptions>>().Value;
+    client.BaseAddress = new Uri(opt.BaseUrl);
+    client.DefaultRequestHeaders.TryAddWithoutValidation("X-RapidAPI-Host", opt.Host);
+    client.DefaultRequestHeaders.TryAddWithoutValidation("X-RapidAPI-Key", opt.Key);
+});
 
 //Hotels Services
 builder.Services.AddScoped<IGetHotelsService, GetHotelsService>();
