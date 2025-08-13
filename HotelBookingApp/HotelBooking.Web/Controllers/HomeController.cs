@@ -1,16 +1,7 @@
-﻿using HotelBooking.Services.ApiModule;
-using HotelBooking.Services.StarsService;
-using HotelBooking.Services.ViewModels;
-using HotelBooking.Services.Contracts;
-using HotelBooking.Web.Models;
+﻿using HotelBooking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Protocol;
 using System.Diagnostics;
-using HotelBooking.Data;
-using HotelBooking.Models.AppModels;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace HotelBooking.Web.Controllers
 {
