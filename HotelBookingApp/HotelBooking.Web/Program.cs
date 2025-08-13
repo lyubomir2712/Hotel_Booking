@@ -23,17 +23,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddEnvironmentVariables(); // picks up RapidApi__*
+    .AddEnvironmentVariables();
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<BookingDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services
-    .AddDefaultIdentity<UserModel>(options =>
+builder.Services.AddDefaultIdentity<UserModel>(options =>
     {
         options.SignIn.RequireConfirmedAccount = true;
         options.Password.RequireDigit = false;
@@ -42,15 +40,13 @@ builder.Services
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
         options.Password.RequiredUniqueChars = 0;
-    })
+    }).AddRoles<UserRole>()
+      .AddEntityFrameworkStores<BookingDbContext>()
+      .AddSignInManager<SignInManager<UserModel>>();
 
-    .AddRoles<UserRole>()
-    .AddEntityFrameworkStores<BookingDbContext>()
-    .AddSignInManager<SignInManager<UserModel>>();
-
+builder.Services.AddScoped<UserRole>();
 
 //Api Configuration Services
-
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services
     .AddOptions<RapidApiOptions>()
@@ -58,7 +54,6 @@ builder.Services
     .ValidateDataAnnotations()
     .Validate(o => !string.IsNullOrWhiteSpace(o.Key), "RapidApi:Key is required.")
     .ValidateOnStart();
-
 
 builder.Services.AddHttpClient("RapidApiBooking", (sp, client) =>
 {
@@ -78,8 +73,7 @@ builder.Services.AddScoped<IAddToCartService, AddToCartService>();
 builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
 builder.Services.AddScoped<ICheckoutBookingsService, CheckoutBookingsService>();
 
-//Identity Services
-builder.Services.AddScoped<UserRole>();
+
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
