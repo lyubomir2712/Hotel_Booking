@@ -13,26 +13,22 @@ namespace HotelBooking.Services.BookingApiConfiguration
 {
     public class ApiService : IApiService
     {
-        private const string LocationsUrl = "https://booking-com.p.rapidapi.com/v1/hotels/locations";
-        private const string SearchUrl = "https://booking-com.p.rapidapi.com/v1/hotels/search";
-        private const string RapidApiHost = "booking-com.p.rapidapi.com";
-        private const string RapidApiKey = "b067df4ec3msh7add19d4e4747fbp12bc39jsna54fc447bbf1";
+        private const string LocationsUrl = "v1/hotels/locations";
+        private const string SearchUrl = "v1/hotels/search";
+        
 
-        private static readonly HttpClient Http = new HttpClient();
-
-        public async Task<List<Hotel>?> GetHotelsByLocation(ApiDataViewModel model)
+        public async Task<List<Hotel>?> GetHotelsByLocation(HttpClient httpClient,ApiDataViewModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (string.IsNullOrWhiteSpace(model.City)) return new List<Hotel>();
             if (model.CheckinDate > model.CheckoutDate)
                 throw new ArgumentException("Check-in date must be on or before check-out date.");
 
-            EnsureHeaders();
 
             var city = Uri.EscapeDataString(model.City.Trim());
             var locationsUri = $"{LocationsUrl}?name={city}&locale=en-us";
 
-            using (var response = await Http.GetAsync(locationsUri))
+            using (var response = await httpClient.GetAsync(locationsUri))
             {
                 response.EnsureSuccessStatusCode();
                 var responseJson = await response.Content.ReadAsStringAsync();
@@ -71,7 +67,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
                 {
                     var searchUri = $"{SearchUrl}{baseQuery}&dest_id={Uri.EscapeDataString(id)}";
 
-                    using var searchResponse = await Http.GetAsync(searchUri);
+                    using var searchResponse = await httpClient.GetAsync(searchUri);
                     if (!searchResponse.IsSuccessStatusCode) continue;
 
                     var json = await searchResponse.Content.ReadAsStringAsync();
@@ -121,18 +117,5 @@ namespace HotelBooking.Services.BookingApiConfiguration
             }
         }
 
-        private static void EnsureHeaders()
-        {
-
-            if (!Http.DefaultRequestHeaders.Contains("X-RapidAPI-Key"))
-            {
-                Http.DefaultRequestHeaders.Add("X-RapidAPI-Key", RapidApiKey);
-            }
-
-            if (!Http.DefaultRequestHeaders.Contains("X-RapidAPI-Host"))
-            {
-                Http.DefaultRequestHeaders.Add("X-RapidAPI-Host", RapidApiHost);
-            }
-        }
     }
 }

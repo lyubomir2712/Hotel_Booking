@@ -4,10 +4,10 @@ public class RapidApiOptions
 {
     public const string SectionName = "RapidApi";
 
-    public string Key { get; set; } = string.Empty;
-    public string Host { get; set; } = "booking-com.p.rapidapi.com";
-    public string BaseUrl { get; set; } = "https://booking-com.p.rapidapi.com/";
+    public string Key { get; } = "b067df4ec3msh7add19d4e4747fbp12bc39jsna54fc447bbf1";
+    public string Host { get; } = "booking-com.p.rapidapi.com";
+    public string BaseUrl { get; } = "https://booking-com.p.rapidapi.com/";
     
-    public string Locale { get; set; } = "en-us";
-    public string Currency { get; set; } = "USD";
+    public string Locale { get; } = "en-us";
+    public string Currency { get; } = "BGN";
 }
