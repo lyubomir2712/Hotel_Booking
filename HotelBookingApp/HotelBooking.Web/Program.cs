@@ -15,8 +15,15 @@ using HotelBooking.Services.Contracts.AIServicesContracts;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using Microsoft.Extensions.Options;
 using HotelBooking.Web.Controllers;
+using DotNetEnv;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddEnvironmentVariables(); // picks up RapidApi__*
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
