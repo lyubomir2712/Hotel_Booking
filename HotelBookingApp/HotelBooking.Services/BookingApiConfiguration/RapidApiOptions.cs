@@ -1,13 +1,15 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace HotelBooking.Services.BookingApiConfiguration;
 
 public class RapidApiOptions
 {
     public const string SectionName = "RapidApi";
 
-    public string Key { get; } = "b067df4ec3msh7add19d4e4747fbp12bc39jsna54fc447bbf1";
-    public string Host { get; } = "booking-com.p.rapidapi.com";
-    public string BaseUrl { get; } = "https://booking-com.p.rapidapi.com/";
+    [Required] public string Key { get; init; } = default!;
+    [Required] public string Host { get; init; } = default!;
+    [Required, Url]public string BaseUrl { get; init; } = default!;
     
-    public string Locale { get; } = "en-us";
-    public string Currency { get; } = "BGN";
+    public string Locale { get; init; } = "en-us";
+    public string Currency { get; init; } = "BGN";
 }

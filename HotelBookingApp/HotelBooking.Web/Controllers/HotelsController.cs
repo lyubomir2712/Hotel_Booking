@@ -8,13 +8,11 @@ namespace HotelBooking.Web.Controllers;
 public class HotelsController : Controller
 {
     private readonly IApiService _apiService;
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly HttpClient _httpClient;
 
-    public HotelsController(IApiService apiService,IHttpClientFactory httpClientFactory)
+    public HotelsController(IApiService apiService, HttpClient httpClient)
     {
-        _httpClientFactory = httpClientFactory;
-        _httpClient = _httpClientFactory.CreateClient("RapidApiBooking");
+        _httpClient = httpClient;
         _apiService = apiService;
     }
     

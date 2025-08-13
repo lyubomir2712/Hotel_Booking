@@ -14,6 +14,7 @@ using HotelBooking.Services.BookingApiConfiguration;
 using HotelBooking.Services.Contracts.AIServicesContracts;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using Microsoft.Extensions.Options;
+using HotelBooking.Web.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,17 +45,24 @@ builder.Services
 //Api Configuration Services
 
 builder.Services.AddScoped<IApiService, ApiService>();
-builder.Services.AddScoped<IStarsService, StarsService>();
-builder.Services.Configure<RapidApiOptions>(
-    builder.Configuration.GetSection(RapidApiOptions.SectionName));
+builder.Services
+    .AddOptions<RapidApiOptions>()
+    .Bind(builder.Configuration.GetSection(RapidApiOptions.SectionName))
+    .ValidateDataAnnotations()
+    .Validate(o => !string.IsNullOrWhiteSpace(o.Key), "RapidApi:Key is required.")
+    .ValidateOnStart();
+
 
 builder.Services.AddHttpClient("RapidApiBooking", (sp, client) =>
 {
-    var opt = sp.GetRequiredService<IOptions<RapidApiOptions>>().Value;
-    client.BaseAddress = new Uri(opt.BaseUrl);
-    client.DefaultRequestHeaders.TryAddWithoutValidation("X-RapidAPI-Host", opt.Host);
-    client.DefaultRequestHeaders.TryAddWithoutValidation("X-RapidAPI-Key", opt.Key);
+    var opts = sp.GetRequiredService<IOptions<RapidApiOptions>>().Value;
+    client.BaseAddress = new Uri((opts.BaseUrl ?? "").TrimEnd('/') + "/");
+    client.DefaultRequestHeaders.Add("x-rapidapi-host", opts.Host);
+    client.DefaultRequestHeaders.Add("x-rapidapi-key", opts.Key);
 });
+
+builder.Services.AddTransient<HttpClient>(sp =>
+    sp.GetRequiredService<IHttpClientFactory>().CreateClient("RapidApiBooking"));
 
 //Hotels Services
 builder.Services.AddScoped<IGetHotelsService, GetHotelsService>();
