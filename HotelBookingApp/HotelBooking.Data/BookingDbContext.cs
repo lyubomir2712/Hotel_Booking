@@ -43,6 +43,46 @@ namespace HotelBooking.Data
                 }
             );
 
+            // Seed default users
+            var hasher = new PasswordHasher<UserModel>();
+
+            var adminUser = new UserModel
+            {
+                Id = 1,
+                FirstName = "Admin",
+                LastName = "Admin",
+                UserName = "admin@yahoo.com",
+                NormalizedUserName = "ADMIN@YAHOO.COM",
+                Email = "admin@yahoo.com",
+                NormalizedEmail = "ADMIN@YAHOO.COM",
+                EmailConfirmed = true,
+                SecurityStamp = "f3e3d8b1-9c9c-4a8b-9e6f-5e5c67890a12",
+                ConcurrencyStamp = "7b6f0c8a-15c4-4a6e-9a03-ff0d3f6d1d7a"
+            };
+            adminUser.PasswordHash = hasher.HashPassword(adminUser, "Admin123");
+
+            var regularUser = new UserModel
+            {
+                Id = 2,
+                FirstName = "Lyubomir",
+                LastName = "Georgiev",
+                UserName = "lyubomir@gmail.com",
+                NormalizedUserName = "LYUBOMIR@GMAIL.COM",
+                Email = "lyubomir@gmail.com",
+                NormalizedEmail = "LYUBOMIR@GMAIL.COM",
+                EmailConfirmed = true,
+                SecurityStamp = "2a4b01f9-3e5d-4f53-ae4e-3a8b9c2d7f5e",
+                ConcurrencyStamp = "b7f4e9a2-1b2c-4e5f-9a1b-3c4d5e6f7a8b"
+            };
+            regularUser.PasswordHash = hasher.HashPassword(regularUser, "password123");
+
+            builder.Entity<UserModel>().HasData(adminUser, regularUser);
+
+            builder.Entity<IdentityUserRole<int>>().HasData(
+                new IdentityUserRole<int> { UserId = 1, RoleId = 1 },
+                new IdentityUserRole<int> { UserId = 2, RoleId = 2 }
+            );
+
          
 
             builder.Entity<UserBookingModel>()

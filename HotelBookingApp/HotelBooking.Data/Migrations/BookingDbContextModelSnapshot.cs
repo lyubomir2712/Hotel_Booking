@@ -209,6 +209,44 @@ namespace HotelBooking.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "7b6f0c8a-15c4-4a6e-9a03-ff0d3f6d1d7a",
+                            Email = "admin@yahoo.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@YAHOO.COM",
+                            NormalizedUserName = "ADMIN@YAHOO.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDG1q2ebIhfYF5GEXKVsL84rXz5Vr5OyHpPXz5sIGBgQs9qteld+pagxpIrviXwzMw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f3e3d8b1-9c9c-4a8b-9e6f-5e5c67890a12",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@yahoo.com"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "b7f4e9a2-1b2c-4e5f-9a1b-3c4d5e6f7a8b",
+                            Email = "lyubomir@gmail.com",
+                            EmailConfirmed = true,
+                            FirstName = "Lyubomir",
+                            LastName = "Georgiev",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "LYUBOMIR@GMAIL.COM",
+                            NormalizedUserName = "LYUBOMIR@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAECTR60KpGFW/2sh4q2libBiygAr7Ld7qLToixqwRVutkKWGpa74VdVobbWAJ10l8CA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2a4b01f9-3e5d-4f53-ae4e-3a8b9c2d7f5e",
+                            TwoFactorEnabled = false,
+                            UserName = "lyubomir@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("HotelBooking.Models.Identity.UserRole", b =>
@@ -339,6 +377,18 @@ namespace HotelBooking.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
