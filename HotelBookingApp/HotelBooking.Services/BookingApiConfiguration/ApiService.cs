@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using HotelBooking.Services.ViewModels;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 
 namespace HotelBooking.Services.BookingApiConfiguration
@@ -66,51 +65,15 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     if (!searchResponse.IsSuccessStatusCode) continue;
 
                     var json = await searchResponse.Content.ReadAsStringAsync();
-                    results.AddRange(ParseHotels(json, model.MinPrice, model.MaxPrice, formattedCheckinDate, formattedCheckoutDate));
+                    var dto = JsonConvert.DeserializeObject<BookingSearchJsonResponse>(json);
+                    if (dto?.Result != null && dto.Result.Count > 0)
+                    {
+                        results.AddRange(dto.Result.MapHotels(model.MinPrice, model.MaxPrice, formattedCheckinDate, formattedCheckoutDate));
+                    }
                 }
                 
                 return results;
             }
         }
-
-        private static IEnumerable<Hotel> ParseHotels(
-            string json,
-            double minPrice,
-            double maxPrice,
-            string startDate,
-            string endDate)
-        {
-            if (string.IsNullOrWhiteSpace(json)) yield break;
-
-            var token = JToken.Parse(json);
-            var result = token["result"] as JArray;
-            if (result == null || result.Count == 0) yield break;
-
-            foreach (var h in result)
-            {
-                var hotelName = h.Value<string>("hotel_name");
-                var photoUrl = h.Value<string>("main_photo_url");
-                var price = h.Value<double?>("min_total_price");
-
-                if (string.IsNullOrWhiteSpace(hotelName) || string.IsNullOrWhiteSpace(photoUrl)) continue;
-                if (!price.HasValue) continue;
-
-                var p = price.Value;
-                if (!(p > minPrice && p <= maxPrice)) continue;
-
-                yield return new Hotel
-                {
-                    Name = hotelName,
-                    PhotoMainUrl = photoUrl,
-                    ReviewScore = h.Value<double?>("review_score"),
-                    ReviewScoreWord = h.Value<string>("review_score_word"),
-                    Price = p,
-                    ReviewsCount = h.Value<int?>("review_nr"),
-                    StartAt = startDate,
-                    EndAt = endDate,
-                };
-            }
-        }
-
     }
 }

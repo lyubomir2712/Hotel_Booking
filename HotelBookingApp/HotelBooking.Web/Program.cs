@@ -25,7 +25,7 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
-// Add services to the container.
+// Identity/DB services
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BookingDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -73,8 +73,6 @@ builder.Services.AddScoped<IAddToCartService, AddToCartService>();
 builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
 builder.Services.AddScoped<ICheckoutBookingsService, CheckoutBookingsService>();
 
-
-
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
 builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
@@ -99,6 +97,7 @@ else
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -112,12 +111,9 @@ app.MapControllerRoute(
     pattern: "Home/BookedHotels",
     defaults: new { controller = "BookingsCart", action = "GetBookedHotels" });
 
-
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
 
 app.MapRazorPages();
 app.Run();
