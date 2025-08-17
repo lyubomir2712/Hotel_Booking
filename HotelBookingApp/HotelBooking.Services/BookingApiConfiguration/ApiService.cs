@@ -65,6 +65,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     if (!searchResponse.IsSuccessStatusCode) continue;
 
                     var json = await searchResponse.Content.ReadAsStringAsync();
+                   
                     var dto = JsonConvert.DeserializeObject<BookingSearchJsonResponse>(json);
                     if (dto?.Result != null && dto.Result.Count > 0)
                     {

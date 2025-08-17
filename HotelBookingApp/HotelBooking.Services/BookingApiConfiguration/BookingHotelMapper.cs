@@ -47,10 +47,14 @@ internal static class BookingHotelMapper
                 Latitude = h.Latitude,
                 Longitude = h.Longitude,
                 DistanceToCenter = h.DistanceToCenter,
-                RoomName = h.RoomName,
-                BedConfiguration = h.BedConfiguration,
-                RoomSurface = h.RoomSurface,
-                DistanceToCityCenter = h.DistanceToCityCenter
+                IsFreeCancellable = h.IsFreeCancellable,
+                IsNoPrepayment = h.IsNoPrepayment,
+                IncludesBreakfast = h.IncludesBreakfast,
+                HasFreeParking = h.HasFreeParking,
+                AccommodationType = h.AccommodationType,
+                IsBeachFront = h.IsBeachFront,
+                IsPreferred = h.IsPreferred,
+                IsInBestDistrict = h.IsPreferred
             };
         }
     }

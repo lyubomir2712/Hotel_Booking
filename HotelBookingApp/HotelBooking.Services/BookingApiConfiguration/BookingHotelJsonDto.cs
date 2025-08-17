@@ -42,16 +42,31 @@ internal class BookingHotelJsonDto
 
         [JsonProperty("distance_to_cc")]
         public double? DistanceToCenter { get; set; }
-
-        [JsonProperty("room_name")]
-        public string RoomName { get; set; }
-
-        [JsonProperty("bed_configuration")]
-        public string BedConfiguration { get; set; }
-
-        [JsonProperty("room_surface_in_m2")]
-        public double? RoomSurface { get; set; }
-
+        
         [JsonProperty("distance_to_cc_formatted")]
         public string DistanceToCityCenter { get; set; }
+        
+        [JsonProperty("is_free_cancellable")]
+        public bool? IsFreeCancellable { get; set; }
+
+        [JsonProperty("is_no_prepayment_block")]
+        public bool? IsNoPrepayment { get; set; }
+
+        [JsonProperty("hotel_include_breakfast")]
+        public bool? IncludesBreakfast { get; set; }
+
+        [JsonProperty("has_free_parking")]
+        public bool? HasFreeParking { get; set; }
+        
+        [JsonProperty("accommodation_type_name")]
+        public string? AccommodationType { get; set; }
+
+        [JsonProperty("is_beach_front")]
+        public bool? IsBeachFront { get; set; }
+
+        [JsonProperty("preferred")]
+        public bool? IsPreferred { get; set; }
+
+        [JsonProperty("in_best_district")]
+        public bool? IsInBestDistrict { get; set; }
 }

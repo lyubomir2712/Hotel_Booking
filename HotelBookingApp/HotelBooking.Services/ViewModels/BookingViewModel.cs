@@ -22,26 +22,31 @@ namespace HotelBooking.Services.ViewModels
             public double? Longitude { get; set; }
             
             public double? DistanceToCenter { get; set; }
-            
-            public string RoomName { get; set; }
-            
-            public string BedConfiguration { get; set; }
-            
-            public double? RoomSurface { get; set; }
-            
-            public string DistanceToCityCenter { get; set; }
             public string PhotoMainUrl { get; set; }       
             public double Price { get; set; }
-            public string Currency { get; set; }
             public double? ReviewScore { get; set; } = 0;
             public string? ReviewScoreWord { get; set; }           
-            public string Stars { get; set; }
             public string StartAt { get; set; }
             public string EndAt { get; set; }
             public int? ReviewsCount { get; set; }
-
             public int AdultsNumber { get; set; }
-            
             public int? ChildrenNumber { get; set; }
+            
+            public bool? IsFreeCancellable { get; set; }
+            
+            public bool? IsNoPrepayment { get; set; }
+            
+            public bool? IncludesBreakfast { get; set; }
+            
+            public bool? HasFreeParking { get; set; }
+            
+            public string? AccommodationType { get; set; }
+            
+            public bool? IsBeachFront { get; set; }
+            
+            public bool? IsPreferred { get; set; }
+            
+            public bool? IsInBestDistrict { get; set; }
+            
         }  
 }

@@ -25,10 +25,23 @@
                                 <div class="card-body d-flex flex-column justify-content-between w-100">
                                     <div>
                                         <h5 class="card-title">@hotel.Name</h5>
-                                        
+                                        <p class="card-text mb-2">@hotel.City, @hotel.Country</p>
+                                        <p class="card-text mb-2">@hotel.Address</p>
+                                        @if (hotel.Latitude != null && hotel.Longitude != null)
+                                        {
+                                            <p class="card-text mb-2 d-flex align-items-center gap-2">
+                                                <a target="_blank"
+                                                   href="https://www.google.com/maps/search/?api=1&query=@hotel.Latitude,@hotel.Longitude">
+                                                    View on Map
+                                                </a>
+                                                @if (hotel.DistanceToCenter != null)
+                                                {
+                                                    <span>@($"{hotel.DistanceToCenter:F1} km from city centre")</span>
+                                                }
+                                            </p>
+                                        }
                                         </div>
                                         <div class="purchase-cta d-flex flex-column align-items-end gap-1 align-self-end">
-                                            <p class="card-text mb-1 text-end"><span class="price-amount">BGN @String.Format("{0:0.00}", hotel.Price)</span></p>
                                             @{
                                                 var startDate2 = Convert.ToDateTime(hotel.StartAt, CultureInfo.InvariantCulture);
                                                 var endDate2 = Convert.ToDateTime(hotel.EndAt, CultureInfo.InvariantCulture);
@@ -38,13 +51,14 @@
                                                     ? (weeks2 == 1 ? "1 week" : weeks2 + " weeks")
                                                     : (days2 == 1 ? "1 day" : days2 + " days");
                                             }
-                                            <p class="card-text mb-1 text-end">
-                                                <span class="stay-length">@stayText2</span>, @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
+                                            <p class="card-text mb-1 text-end" style="font-size: 0.75rem; color: #6c757d;">
+                                                <span class="stay-length" style="color: #6c757d;">@stayText2</span>, @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
                                                 @if (hotel.ChildrenNumber > 0)
                                                 {
                                                     @: and @hotel.ChildrenNumber @((hotel.ChildrenNumber == 1) ? "child" : "children")
                                                 }
                                             </p>
+                                            <p class="card-text mb-1 text-end"><span class="price-amount">BGN @String.Format("{0:0.00}", hotel.Price)</span></p>
                                             <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
                                                 <input type="hidden" name="HotelName" value="@hotel.Name"/>
                                                 <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl"/>
