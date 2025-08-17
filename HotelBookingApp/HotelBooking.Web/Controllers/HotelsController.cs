@@ -18,10 +18,10 @@ public class HotelsController : Controller
     
     public async Task<IActionResult> HotelsSearch(ApiDataViewModel apiDataViewModel)
     {
-        // var response = await _apiService.GetHotelsByLocation(_httpClient, apiDataViewModel);
-        var response = new List<Hotel>
+        var oldResponse = await _apiService.GetHotelsByLocation(_httpClient, apiDataViewModel);
+        var response = new List<BookingViewModel>
         {
-            new Hotel
+            new BookingViewModel
             {
                 Name = "Test Hotel Alpha",
                 PhotoMainUrl = "https://picsum.photos/seed/hotel1/800/600",
@@ -32,9 +32,11 @@ public class HotelsController : Controller
                 Stars = "4",
                 StartAt = "2025-08-20",
                 EndAt = "2025-08-23",
-                ReviewsCount = 312
+                ReviewsCount = 312,
+                AdultsNumber = 3,
+                ChildrenNumber = 1,
             },
-            new Hotel
+            new BookingViewModel
             {
                 Name = "Test Hotel Beta",
                 PhotoMainUrl = "https://picsum.photos/seed/hotel2/800/600",
@@ -45,9 +47,11 @@ public class HotelsController : Controller
                 Stars = "3",
                 StartAt = "2025-09-01",
                 EndAt = "2025-09-04",
-                ReviewsCount = 128
+                ReviewsCount = 128,
+                AdultsNumber = 3,
+                ChildrenNumber = 1,
             }
         };
-        return View(response);
+        return View(oldResponse);
     }
 }

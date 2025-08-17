@@ -1,6 +1,6 @@
 ﻿@using HotelBooking.Services.ViewModels;
 @using System.Globalization
-@model List<Hotel>? 
+@model List<BookingViewModel>? 
 
 <div class="row row-cols-1 g-4">
     @{
@@ -25,10 +25,26 @@
                                 <div class="card-body d-flex flex-column justify-content-between w-100">
                                     <div>
                                         <h5 class="card-title">@hotel.Name</h5>
-                                        <p class="card-text mb-1"><span>Dates: </span><span class="start">@hotel.StartAt</span><span>-</span><span class="end">@hotel.EndAt</span></p>
+                                        
                                         </div>
                                         <div class="purchase-cta d-flex flex-column align-items-end gap-1 align-self-end">
                                             <p class="card-text mb-1 text-end"><span class="price-amount">BGN @String.Format("{0:0.00}", hotel.Price)</span></p>
+                                            @{
+                                                var startDate2 = Convert.ToDateTime(hotel.StartAt, CultureInfo.InvariantCulture);
+                                                var endDate2 = Convert.ToDateTime(hotel.EndAt, CultureInfo.InvariantCulture);
+                                                var days2 = Math.Max(0, (endDate2 - startDate2).Days);
+                                                var weeks2 = (days2 >= 7 && days2 % 7 == 0) ? days2 / 7 : 0;
+                                                var stayText2 = weeks2 > 0
+                                                    ? (weeks2 == 1 ? "1 week" : weeks2 + " weeks")
+                                                    : (days2 == 1 ? "1 day" : days2 + " days");
+                                            }
+                                            <p class="card-text mb-1 text-end">
+                                                <span class="stay-length">@stayText2</span>, @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
+                                                @if (hotel.ChildrenNumber > 0)
+                                                {
+                                                    @: and @hotel.ChildrenNumber @((hotel.ChildrenNumber == 1) ? "child" : "children")
+                                                }
+                                            </p>
                                             <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
                                                 <input type="hidden" name="HotelName" value="@hotel.Name"/>
                                                 <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl"/>

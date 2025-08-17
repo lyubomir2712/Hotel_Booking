@@ -11,10 +11,10 @@ namespace HotelBooking.Services.BookingApiConfiguration
         private const string SearchUrl = "v1/hotels/search";
         
 
-        public async Task<List<Hotel>?> GetHotelsByLocation(HttpClient httpClient,ApiDataViewModel model)
+        public async Task<List<BookingViewModel>?> GetHotelsByLocation(HttpClient httpClient,ApiDataViewModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
-            if (string.IsNullOrWhiteSpace(model.City)) return new List<Hotel>();
+            if (string.IsNullOrWhiteSpace(model.City)) return new List<BookingViewModel>();
             if (model.CheckinDate > model.CheckoutDate)
                 throw new ArgumentException("Check-in date must be on or before check-out date.");
 
@@ -34,7 +34,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     .Distinct()
                     .ToList();
 
-                if (destIds.Count == 0) return new List<Hotel>();
+                if (destIds.Count == 0) return new List<BookingViewModel>();
 
                 string formattedCheckinDate = model.CheckinDate.ToString("yyyy-MM-dd");
                 string formattedCheckoutDate = model.CheckoutDate.ToString("yyyy-MM-dd");
@@ -55,7 +55,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     baseQuery.Append($"&children_number={model.ChildrenNumber}");
                 }
 
-                var results = new List<Hotel>();
+                var results = new List<BookingViewModel>();
 
                 foreach (var id in destIds)
                 {
@@ -68,7 +68,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     var dto = JsonConvert.DeserializeObject<BookingSearchJsonResponse>(json);
                     if (dto?.Result != null && dto.Result.Count > 0)
                     {
-                        results.AddRange(dto.Result.MapHotels(model.MinPrice, model.MaxPrice, formattedCheckinDate, formattedCheckoutDate));
+                        results.AddRange(dto.Result.MapHotels(model.MinPrice, model.MaxPrice, formattedCheckinDate, formattedCheckoutDate, model.AdultsNumber, model.ChildrenNumber));
                     }
                 }
                 

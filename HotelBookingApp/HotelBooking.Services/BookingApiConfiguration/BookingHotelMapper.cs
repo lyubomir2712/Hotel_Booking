@@ -1,15 +1,18 @@
+using System.Text.Json;
 using HotelBooking.Services.ViewModels;
 
 namespace HotelBooking.Services.BookingApiConfiguration;
 
 internal static class BookingHotelMapper
 {
-    internal static IEnumerable<Hotel> MapHotels(this 
+    internal static IEnumerable<BookingViewModel> MapHotels(this 
         IEnumerable<BookingHotelJsonDto>? items,
         double minPrice,
         double maxPrice,
         string startDate,
-        string endDate)
+        string endDate,
+        int adultsNumber,
+        int childrenNumber)
     {
         if (items == null) yield break;
 
@@ -25,8 +28,9 @@ internal static class BookingHotelMapper
             var p = price.Value;
             if (!(p > minPrice && p <= maxPrice)) continue;
 
-            yield return new Hotel
+            yield return new BookingViewModel
             {
+                HotelId = h.HotelId,
                 Name = hotelName,
                 PhotoMainUrl = photoUrl,
                 ReviewScore = h.ReviewScore,
@@ -35,6 +39,18 @@ internal static class BookingHotelMapper
                 ReviewsCount = h.ReviewCount,
                 StartAt = startDate,
                 EndAt = endDate,
+                AdultsNumber = adultsNumber,
+                ChildrenNumber = childrenNumber,
+                Country = h.Country,
+                City = h.City,
+                Address = h.Address,
+                Latitude = h.Latitude,
+                Longitude = h.Longitude,
+                DistanceToCenter = h.DistanceToCenter,
+                RoomName = h.RoomName,
+                BedConfiguration = h.BedConfiguration,
+                RoomSurface = h.RoomSurface,
+                DistanceToCityCenter = h.DistanceToCityCenter
             };
         }
     }
