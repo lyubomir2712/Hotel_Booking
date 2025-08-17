@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace HotelBooking.Services.ViewModels
 {
-    
-       
-
         public class Hotel
         {
             public string Name { get; set; }
@@ -20,7 +17,6 @@ namespace HotelBooking.Services.ViewModels
             public string Stars { get; set; }
             public string StartAt { get; set; }
             public string EndAt { get; set; }
-            
             public int? ReviewsCount { get; set; }
         }  
 }
