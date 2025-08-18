@@ -12,7 +12,8 @@ internal static class BookingHotelMapper
         string startDate,
         string endDate,
         int adultsNumber,
-        int childrenNumber)
+        int childrenNumber,
+        int roomsNumber)
     {
         if (items == null) yield break;
 
@@ -41,6 +42,7 @@ internal static class BookingHotelMapper
                 EndAt = endDate,
                 AdultsNumber = adultsNumber,
                 ChildrenNumber = childrenNumber,
+                RoomsNumber = roomsNumber,
                 Country = h.Country,
                 City = h.City,
                 Address = h.Address,

@@ -31,6 +31,8 @@ namespace HotelBooking.Services.ViewModels
             public int? ReviewsCount { get; set; }
             public int AdultsNumber { get; set; }
             public int? ChildrenNumber { get; set; } = 0;
+
+            public int RoomsNumber { get; set; } = 1;
             
             public bool? IsFreeCancellable { get; set; }
             

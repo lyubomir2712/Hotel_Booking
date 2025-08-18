@@ -70,7 +70,7 @@
                                                         : (days2 == 1 ? "1 day" : days2 + " days");
                                                 }
                                                 <p class="card-text mb-1 text-end stay-absolute" style="font-size: 0.75rem; color: #6c757d;">
-                                                    <span class="stay-length" style="color: #6c757d;">@stayText2</span>, @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
+                                                    <span class="stay-length" style="color: #6c757d;">@stayText2</span>, @hotel.RoomsNumber @(@hotel.RoomsNumber == 1 ? "room" : "rooms"), @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
                                                     @if (hotel.ChildrenNumber > 0)
                                                     {
                                                         @: and @hotel.ChildrenNumber @((hotel.ChildrenNumber == 1) ? "child" : "children")
