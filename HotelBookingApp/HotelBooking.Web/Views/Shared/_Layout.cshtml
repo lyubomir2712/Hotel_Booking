@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HotelBooking.Web.styles.css" asp-append-version="true" />
     <style>
-      /* Floating Action Button (FAB) for AI */
+      header {
+        margin-bottom: 3rem;
+      }
       #ai-fab {
         position: fixed;
         right: 1rem;
@@ -32,11 +34,10 @@
       #ai-fab.open .ai-icon { display: none; }
       #ai-fab.open .close-icon { display: inline; }
 
-      /* Chat widget panel */
       #ai-chat-widget {
         position: fixed;
         right: 1rem;
-        bottom: 5.5rem; /* sits above the FAB */
+        bottom: 5.5rem; 
         width: 360px;
         max-width: calc(100vw - 2rem);
         background: rgba(0,0,0,0.6);
@@ -47,18 +48,15 @@
         display: none;
       }
       #ai-chat-widget.open { display: block; }
-      /* Header bar */
+      
       #ai-chat-widget .ai-header {
         background: #0d6efd;
         color: #fff;
         font-weight: 700;
         padding: .5rem .75rem;
-        /* Pull the header over the widget padding so it touches the edges */
         margin: -0.75rem -0.75rem .5rem;
-        /* Match the widget corner radius on top only */
         border-radius: 8px 8px 0 0;
       }
-      /* Chat messages UI */
       #ai-chat-widget .chat-messages {
         height: 260px;
         overflow-y: auto;
