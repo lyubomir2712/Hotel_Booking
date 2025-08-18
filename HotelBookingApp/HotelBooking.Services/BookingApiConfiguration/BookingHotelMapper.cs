@@ -53,8 +53,6 @@ internal static class BookingHotelMapper
                 HasFreeParking = h.HasFreeParking,
                 AccommodationType = h.AccommodationType,
                 IsBeachFront = h.IsBeachFront,
-                IsPreferred = h.IsPreferred,
-                IsInBestDistrict = h.IsPreferred
             };
         }
     }

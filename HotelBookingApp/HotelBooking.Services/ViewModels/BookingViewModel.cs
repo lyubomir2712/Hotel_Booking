@@ -44,9 +44,5 @@ namespace HotelBooking.Services.ViewModels
             
             public bool? IsBeachFront { get; set; }
             
-            public bool? IsPreferred { get; set; }
-            
-            public bool? IsInBestDistrict { get; set; }
-            
         }  
 }

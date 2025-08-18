@@ -63,10 +63,4 @@ internal class BookingHotelJsonDto
 
         [JsonProperty("is_beach_front")]
         public bool? IsBeachFront { get; set; }
-
-        [JsonProperty("preferred")]
-        public bool? IsPreferred { get; set; }
-
-        [JsonProperty("in_best_district")]
-        public bool? IsInBestDistrict { get; set; }
 }
