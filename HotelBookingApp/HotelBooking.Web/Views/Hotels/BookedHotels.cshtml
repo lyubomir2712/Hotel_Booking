@@ -1,5 +1,7 @@
 ﻿@using HotelBooking.Models.AppModels
 @using HotelBooking.Services.ViewModels
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Globalization
 @model UserBookedHotels
 <form asp-controller="BookingsCart" asp-action="CheckoutHotels" method="post">
     @for (int i = 0; i < Model.Bookings.Count; i++)
@@ -16,30 +18,110 @@
 </form>
 
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
+<div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; justify-content: center;">
     
     @foreach (var booking in Model.Bookings)
     {
         var hotel = booking.HotelModel;
-        if (hotel != null)
-        {
-            <div class="col">
-                <div class="card h-100">
-                    <img src="@hotel.HotelImg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">@hotel.HotelName</h5>
-                        <p class="card-text"><span>Dates: </span><span class="start">@booking.StartAt</span><span>-</span><span class="end">@booking.EndAt</span></p>
-                        <p class="card-text">Price: <span style="color:red">@String.Format("{0:0.00}", booking.Price)$</span></p>
-
-                        <br><br>
-
-                        <form asp-controller="BookingsCart" asp-action="RemoveHotel" method="post">
-                            <input type="hidden" name="BookingId" value="@booking.Id" />
-                            <button type="submit" class="btn btn-danger" style="background:darkred">Remove</button>
-                        </form>
+        <div style="display: flex; justify-content: center;">
+            <div class="card" style="width: 260px; margin: auto; border-radius:10px; overflow:hidden; height: 404px; position: relative;">
+                <img src="@hotel.HotelImg" class="card-img-top" alt="..." style="height:200px; object-fit:cover;">
+                <div class="card-body d-flex flex-column justify-content-between w-100">
+                    <h5 class="card-title" style="font-weight: 600; margin:  0 !important;">@hotel.HotelName</h5>
+                    <p class="hotel-location">@hotel.City, @hotel.Country</p>
+                    <p class="hotel-address">@hotel.Address</p>
+                    @{
+                        var days = Math.Max(0, (booking.EndAt - booking.StartAt).Days);
+                        var weeks = (days >= 7 && days % 7 == 0) ? days / 7 : 0;
+                        var stayText = weeks > 0
+                            ? (weeks == 1 ? "1 week" : weeks + " weeks")
+                            : (days == 1 ? "1 day" : days + " days");
+                    }
+                    <p class="stay-line">
+                        <span class="stay-length">@stayText</span>, @booking.AdultsNumber @(@booking.AdultsNumber == 1 ? "adult" : "adults")
+                        @if (booking.ChildrenNumber > 0)
+                        {
+                            @: and @booking.ChildrenNumber @((booking.ChildrenNumber == 1) ? "child" : "children")
+                        }
+                    </p>
+                    <div class="review-container">
+                        <div class="review-score-badge">@Convert.ToDouble(hotel.ReviewScore, CultureInfo.InvariantCulture).ToString("0.0", CultureInfo.InvariantCulture)</div>
+                        <div class="review-text">
+                            <span class="review-word">@hotel.ReviewScoreWord</span>
+                            <span class="review-count">@hotel.ReviewsCount reviews</span>
+                        </div>
                     </div>
+                    <p class="card-text" style="color:black; font-weight:600; font-size:1rem; position:absolute; bottom:10px; right:10px; margin:0;">BGN @String.Format("{0:0.00}", booking.Price) </p>
+
+                    <br><br>
+
+                    <form asp-controller="BookingsCart" asp-action="RemoveHotel" method="post">
+                        <input type="hidden" name="BookingId" value="@booking.Id"/>
+                        <button type="submit" class="btn btn-danger"
+                                style="position:absolute; top:10px; right:10px; width:30px; height:30px; border-radius:50%; padding:0; background:darkred; display:flex; align-items:center; justify-content:center;"
+                                onmouseover="this.style.backgroundColor='rgb(120,0,0)';"
+                                onmouseout="this.style.backgroundColor='darkred';">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <line x1="6" y1="6" x2="18" y2="18" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                                <line x1="6" y1="18" x2="18" y2="6" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             </div>
-        }
+        </div>
     }
 </div>
+
+<style>
+    .review-score-badge {
+        background-color: #003b95;
+        color: #fff;
+        font-weight: 600;
+        width: 37px;
+        height: 37px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top-left-radius: 0.35rem;
+        border-top-right-radius: 0.35rem;
+        border-bottom-right-radius: 0.35rem;
+    }
+    .review-container {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.25rem;
+    }
+    .review-word {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #333;
+    }
+    .review-text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+    .review-count {
+        font-size: 0.75rem;
+        color: #6c757d;
+    }
+    .hotel-location {
+        font-size: 0.85rem;
+        color: #555;
+        margin: 0;
+    }
+    .hotel-address {
+        font-size: 0.8rem;
+        color: #777;
+        margin: 0;
+    }
+    .stay-line {
+        font-size: 0.8rem;
+        color: #555;
+        margin-top: 0.15rem;
+        margin-bottom: 0;
+    }
+    .stay-length { font-weight: 500; }
+</style>
