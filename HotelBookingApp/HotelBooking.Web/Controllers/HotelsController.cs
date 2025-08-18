@@ -74,8 +74,7 @@ public class HotelsController : Controller
                 HasFreeParking = false,
                 AccommodationType = "Hostel",
                 IsBeachFront = false,
-                IsPreferred = false,
-                IsInBestDistrict = false
+
             }
         };
         return View(response);
