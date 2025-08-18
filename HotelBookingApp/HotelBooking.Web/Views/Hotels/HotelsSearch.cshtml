@@ -25,49 +25,68 @@
                                 <div class="card-body d-flex flex-column justify-content-between w-100">
                                     <div>
                                         <h5 class="card-title">@hotel.Name</h5>
-                                        <p class="card-text mb-2">@hotel.City, @hotel.Country</p>
-                                        <p class="card-text mb-2">@hotel.Address</p>
-                                        @if (hotel.Latitude != null && hotel.Longitude != null)
+                                        @if (!string.IsNullOrEmpty(hotel.AccommodationType))
                                         {
-                                            <p class="card-text mb-2 d-flex align-items-center gap-2">
+                                            <div class="card-subtitle mb-1" style="font-size: 0.75rem; color: black; font-weight: 700;">@hotel.AccommodationType</div>
+                                        }
+                                        <div class="card-text mb-2 d-flex flex-wrap align-items-center gap-2" style="font-size: 0.75rem;">
+                                            <span style="color: black;">@hotel.City, @hotel.Country</span>
+                                            <div class="w-100"></div>
+                                            <span style="color: black;">@hotel.Address</span>
+                                            @if (hotel.Latitude != null && hotel.Longitude != null)
+                                            {
+                                                <div class="w-100"></div>
                                                 <a target="_blank"
+                                                   style="color: #0d6efd;"
                                                    href="https://www.google.com/maps/search/?api=1&query=@hotel.Latitude,@hotel.Longitude">
                                                     View on Map
                                                 </a>
                                                 @if (hotel.DistanceToCenter != null)
                                                 {
-                                                    <span>@($"{hotel.DistanceToCenter:F1} km from city centre")</span>
+                                                    <span style="color: #6c757d;">@($"{hotel.DistanceToCenter:F1} km from city centre")</span>
                                                 }
-                                            </p>
-                                        }
-                                        </div>
-                                        <div class="purchase-cta d-flex flex-column align-items-end gap-1 align-self-end">
-                                            @{
-                                                var startDate2 = Convert.ToDateTime(hotel.StartAt, CultureInfo.InvariantCulture);
-                                                var endDate2 = Convert.ToDateTime(hotel.EndAt, CultureInfo.InvariantCulture);
-                                                var days2 = Math.Max(0, (endDate2 - startDate2).Days);
-                                                var weeks2 = (days2 >= 7 && days2 % 7 == 0) ? days2 / 7 : 0;
-                                                var stayText2 = weeks2 > 0
-                                                    ? (weeks2 == 1 ? "1 week" : weeks2 + " weeks")
-                                                    : (days2 == 1 ? "1 day" : days2 + " days");
                                             }
-                                            <p class="card-text mb-1 text-end" style="font-size: 0.75rem; color: #6c757d;">
-                                                <span class="stay-length" style="color: #6c757d;">@stayText2</span>, @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
-                                                @if (hotel.ChildrenNumber > 0)
-                                                {
-                                                    @: and @hotel.ChildrenNumber @((hotel.ChildrenNumber == 1) ? "child" : "children")
-                                                }
-                                            </p>
-                                            <p class="card-text mb-1 text-end"><span class="price-amount">BGN @String.Format("{0:0.00}", hotel.Price)</span></p>
-                                            <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
-                                                <input type="hidden" name="HotelName" value="@hotel.Name"/>
-                                                <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl"/>
-                                                <input type="hidden" name="HotelPrice" value="@hotel.Price"/>
-                                                <input type="hidden" name="StartAt" value="@hotel.StartAt"/>
-                                                <input type="hidden" name="EndAt" value="@hotel.EndAt"/>
-                                                <button type="submit" class="btn btn-dark">Book</button>
-                                            </form>
                                         </div>
+                                        @if (false) { } <!-- placeholder to keep Razor happy -->
+                                        @{
+                                            var tags = new List<string>();
+                                            if (hotel.IsFreeCancellable == true) tags.Add("Cancellable");
+                                            if (hotel.IsNoPrepayment == true) tags.Add("No prepayment required – pay at the property");
+                                            if (hotel.HasFreeParking == true) tags.Add("Free parking");
+                                        }
+                                        <div class="d-flex justify-content-between align-items-center mt-auto w-100">
+                                            <div class="hotel-benefits" style="max-width: 240px; font-size: 0.75rem; color: #198754;">
+                                                @string.Join(", ", tags)
+                                            </div>
+                                            <div class="purchase-cta d-flex flex-column align-items-end gap-1">
+                                                @{
+                                                    var startDate2 = Convert.ToDateTime(hotel.StartAt, CultureInfo.InvariantCulture);
+                                                    var endDate2 = Convert.ToDateTime(hotel.EndAt, CultureInfo.InvariantCulture);
+                                                    var days2 = Math.Max(0, (endDate2 - startDate2).Days);
+                                                    var weeks2 = (days2 >= 7 && days2 % 7 == 0) ? days2 / 7 : 0;
+                                                    var stayText2 = weeks2 > 0
+                                                        ? (weeks2 == 1 ? "1 week" : weeks2 + " weeks")
+                                                        : (days2 == 1 ? "1 day" : days2 + " days");
+                                                }
+                                                <p class="card-text mb-1 text-end" style="font-size: 0.75rem; color: #6c757d;">
+                                                    <span class="stay-length" style="color: #6c757d;">@stayText2</span>, @hotel.AdultsNumber @(@hotel.AdultsNumber == 1 ? "adult" : "adults")
+                                                    @if (hotel.ChildrenNumber > 0)
+                                                    {
+                                                        @: and @hotel.ChildrenNumber @((hotel.ChildrenNumber == 1) ? "child" : "children")
+                                                    }
+                                                </p>
+                                                <p class="card-text mb-1 text-end"><span class="price-amount">BGN @String.Format("{0:0.00}", hotel.Price)</span></p>
+                                                <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
+                                                    <input type="hidden" name="HotelName" value="@hotel.Name"/>
+                                                    <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl"/>
+                                                    <input type="hidden" name="HotelPrice" value="@hotel.Price"/>
+                                                    <input type="hidden" name="StartAt" value="@hotel.StartAt"/>
+                                                    <input type="hidden" name="EndAt" value="@hotel.EndAt"/>
+                                                    <button type="submit" class="btn btn-primary" style="background-color:#0d6efd; border-color:#0d6efd;">Book</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,6 +127,7 @@
         font-size: 1.1rem;
         line-height: 1.1;
         color: black;
+        font-weight: 550;
     }
 
     .review-top {
@@ -120,7 +140,7 @@
         z-index: 2;
     }
     .review-word {
-        font-weight: 600;
+        font-weight: 500;
         font-size: 0.85rem;
         line-height: 1;
         white-space: nowrap;
@@ -143,9 +163,9 @@
         line-height: 1;
     }
     .review-score-badge {
-        background-color: #003b95; /* Bootstrap primary blue */
+        background-color: #003b95;
         color: #fff;
-        font-weight: 700;
+        font-weight: 600;
         width: 42px;
         height: 42px;
         display: flex;
