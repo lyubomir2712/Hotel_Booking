@@ -38,10 +38,10 @@
                             : (days == 1 ? "1 day" : days + " days");
                     }
                     <p class="stay-line">
-                        <span class="stay-length">@stayText</span>, @booking.AdultsNumber @(@booking.AdultsNumber == 1 ? "adult" : "adults")
+                        <span class="stay-detail">@stayText</span>, <span class="stay-detail">@booking.AdultsNumber</span> <span class="stay-detail">@(@booking.AdultsNumber == 1 ? "adult" : "adults")</span>
                         @if (booking.ChildrenNumber > 0)
                         {
-                            @: and @booking.ChildrenNumber @((booking.ChildrenNumber == 1) ? "child" : "children")
+                            @:<span class="stay-detail">and</span> <span class="stay-detail">@booking.ChildrenNumber</span> <span class="stay-detail">@((booking.ChildrenNumber == 1) ? "child" : "children")</span>
                         }
                     </p>
                     <div class="review-container">
@@ -124,4 +124,7 @@
         margin-bottom: 0;
     }
     .stay-length { font-weight: 500; }
+    .stay-detail {
+        color: #777;
+    }
 </style>
