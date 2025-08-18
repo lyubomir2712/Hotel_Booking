@@ -42,7 +42,8 @@ public class AddToCartService : IAddToCartService
                 HotelModel = newHotel,
                 HotelModelId = newHotel.Id,
                 AdultsNumber = addToCartInput.AdultsNumber,
-                ChildrenNumber = addToCartInput.ChildrenNumber
+                ChildrenNumber = addToCartInput.ChildrenNumber,
+                RoomsNumber = addToCartInput.RoomsNumber,
             };
 
             if (bookingDbContext.Bookings != null) await bookingDbContext.Bookings.AddAsync(newBookingModel);
