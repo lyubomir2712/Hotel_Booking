@@ -21,7 +21,15 @@ public class AddToCartService : IAddToCartService
             }
             else
             {
-                newHotel = new HotelModel { HotelName = addToCartInput.HotelName, HotelImg = addToCartInput.hotelImg };
+                newHotel = new HotelModel { HotelName = addToCartInput.HotelName,
+                    HotelImg = addToCartInput.hotelImg,
+                    City = addToCartInput.City,
+                    Country = addToCartInput.Country,
+                    Address = addToCartInput.Address,
+                    ReviewScore = addToCartInput.ReviewScore,
+                    ReviewsCount = addToCartInput.ReviewsCount,
+                    ReviewScoreWord = addToCartInput.ReviewScoreWord
+                };
                 bookingDbContext.Hotels.Add(newHotel);
                 await bookingDbContext.SaveChangesAsync();
             }
@@ -32,7 +40,9 @@ public class AddToCartService : IAddToCartService
                 Price = Convert.ToDouble(addToCartInput.HotelPrice),
                 EndAt = Convert.ToDateTime(addToCartInput.EndAt),
                 HotelModel = newHotel,
-                HotelModelId = newHotel.Id
+                HotelModelId = newHotel.Id,
+                AdultsNumber = addToCartInput.AdultsNumber,
+                ChildrenNumber = addToCartInput.ChildrenNumber
             };
 
             if (bookingDbContext.Bookings != null) await bookingDbContext.Bookings.AddAsync(newBookingModel);

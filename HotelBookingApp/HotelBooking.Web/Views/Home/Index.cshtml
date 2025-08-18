@@ -10,12 +10,11 @@
     <h4 class="mb-5">Search low prices on hotels, homes and much more...</h4>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-      /* Make all text inputs, date inputs, and selects the same height */
       .equal-h { height: 42px; }
       .city-suggestions {
         position: absolute;
-        left: 0;           /* anchor to the start (left) of the input */
-        top: calc(100% + 4px); /* just below the input */
+        left: 0;           
+        top: calc(100% + 4px); 
         z-index: 1050;
         display: none;
         max-height: 240px;
@@ -26,7 +25,6 @@
         border-radius: .375rem;
         box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
       }
-      /* Suggestion items */
       .city-suggestions .suggestion-item {
         cursor: pointer;
         display: flex;
@@ -38,19 +36,18 @@
         width: 16px;
         height: 16px;
         flex: 0 0 16px;
-        color: #6c757d; /* muted */
+        color: #6c757d; 
       }
       .city-suggestions .suggestion-text { flex: 1 1 auto; }
       .city-suggestions .suggestion-header {
-        font-size: .875rem; /* slightly bigger */
-        color: #000; /* black */
+        font-size: .875rem; 
+        color: #000; 
         padding: .25rem .75rem;
         border-bottom: 1px solid rgba(0,0,0,.05);
         text-transform: none;
         letter-spacing: .01em;
         font-weight: 600;
       }
-      /* Left icon inside the "Where are you going?" input */
       #city { padding-left: 2rem; }
       .input-left-icon {
         position: absolute;
@@ -59,7 +56,7 @@
         transform: translateY(-50%);
         width: 18px;
         height: 18px;
-        color: #6c757d; /* muted */
+        color: #6c757d; 
         pointer-events: none;
         z-index: 2;
       }
@@ -67,7 +64,6 @@
       #guestsSummary { padding-left: 2rem; width: 260px !important; }
       #guestsSummary[readonly] { background-color: #fff !important; color: #212529; }
 
-      /* Guests popup Done button: wide, white with blue text and border */
       #guestsPopup #guestsDone {
         display: block;
         width: 100%;
@@ -78,26 +74,25 @@
       }
       #guestsPopup #guestsDone:hover,
       #guestsPopup #guestsDone:focus {
-        background-color: rgba(13,110,253,.08) !important; /* subtle blue darkening */
+        background-color: rgba(13,110,253,.08) !important; 
         color: #0a58ca !important;
         border-color: #0a58ca !important;
-        box-shadow: none !important; /* remove glow */
+        box-shadow: none !important; 
       }
       #guestsPopup #guestsDone:active {
-        background-color: rgba(13,110,253,.16) !important; /* slightly darker on press */
+        background-color: rgba(13,110,253,.16) !important; 
         color: #0a58ca !important;
         border-color: #0a58ca !important;
         box-shadow: none !important;
       }
 
-      /* Segmented stepper control */
       .seg-control { display: inline-flex; align-items: center; border: 1px solid rgba(0,0,0,.08); border-radius: .5rem; background: rgba(255,255,255,.85); overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.04); backdrop-filter: blur(3px); }
       .seg-control .seg-btn { appearance: none; border: 0; background: transparent; padding: .375rem .625rem; line-height: 1; font-size: 1rem; cursor: pointer; user-select: none; }
       .seg-control .seg-value { min-width: 2.5rem; text-align: center; padding: .25rem .75rem; font-weight: 600; }
       .seg-control .seg-btn:focus { outline: none; box-shadow: inset 0 0 0 2px rgba(13,110,253,.25); }
       .seg-control .seg-btn:active { transform: translateY(0.5px); }
       .seg-control .seg-btn[disabled] { opacity: .5; cursor: not-allowed; }
-      /* Currency suffix inside inputs (BGN in black) */
+
       .currency-input { position: relative; }
       .currency-input > input.form-control { padding-right: 3.25rem; }
       .currency-input::after {
@@ -106,33 +101,27 @@
         right: 2.25rem;
         top: 50%;
         transform: translateY(-50%);
-        color: #000; /* black */
+        color: #000; 
         pointer-events: none;
       }
 
-      /* Remove native arrows only for the 'To' input */
       #price-max::-webkit-outer-spin-button,
       #price-max::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
       #price-max[type=number] { -moz-appearance: textfield; }
 
-      /* Remove native arrows also for the 'From' input */
       #price-min::-webkit-outer-spin-button,
       #price-min::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
       #price-min[type=number] { -moz-appearance: textfield; }
 
-      /* Both price inputs have spinners removed; reserve room for 'BGN' on the right */
       .currency-input.no-spin > input.form-control { padding-right: 2.75rem; }
       .currency-input.no-spin::after { right: .5rem; }
 
-      /* Make the 'From' price input a bit wider */
       #price-min { width: 130px; }
 
-      /* Make all placeholder text black (override Bootstrap defaults) */
       .form-control::placeholder,
       input::placeholder,
       textarea::placeholder { color: #000 !important; opacity: 1; }
 
-      /* Vendor prefixes for wider support */
       .form-control::-webkit-input-placeholder,
       input::-webkit-input-placeholder,
       textarea::-webkit-input-placeholder { color: #000 !important; opacity: 1; }
@@ -143,7 +132,6 @@
       input::-ms-input-placeholder,
       textarea::-ms-input-placeholder { color: #000 !important; }
 
-      /* Ensure readonly inputs show black placeholders too */
       input[readonly]::placeholder { color: #000 !important; opacity: 1; }
     </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
@@ -223,7 +211,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        // Combined date range picker (Check-in — Check-out)
         (function() {
           const dateRangeInput = document.getElementById('dateRange');
           const hiddenCheckin = document.getElementById('checkinDate');
@@ -256,7 +243,6 @@
             },
           });
 
-          // Validate both dates are chosen
           document.getElementById('reservationForm').addEventListener('submit', function(e) {
             if (!hiddenCheckin.value || !hiddenCheckout.value) {
               e.preventDefault();
@@ -270,7 +256,6 @@
         })();
 
 
-        // Price range (number inputs: min & max) with validation — independent fields
         const minPriceInput = document.getElementById('price-min');
         const maxPriceInput = document.getElementById('price-max');
 
@@ -289,7 +274,6 @@
           el.addEventListener('blur', validatePrices);
         });
 
-        // Re-check on submit without altering user input
         document.getElementById('reservationForm').addEventListener('submit', (e) => {
           validatePrices();
           if (!maxPriceInput.checkValidity()) {
@@ -361,7 +345,6 @@
           renderCitySuggestions(cityInput.value);
           citySuggestions.style.display = 'block';
         });
-        // Use mousedown so selection registers before the input loses focus
         citySuggestions.addEventListener('mousedown', (e) => {
           const item = e.target.closest('.suggestion-item');
           if (item) {
@@ -370,7 +353,6 @@
           }
         });
         cityInput.addEventListener('blur', () => setTimeout(closeCitySuggestions, 100));
-        // --- Guests & Rooms picker ---
         (function () {
           const input = document.getElementById('guestsSummary');
           const popup = document.getElementById('guestsPopup');
@@ -409,7 +391,7 @@
 
             const text = `${adults} adults - ${children} children - ${rooms} ${plural(rooms, 'room', 'rooms')}`;
             input.value = text;
-            input.placeholder = text; // keep the requested placeholder text in sync
+            input.placeholder = text; 
           }
 
           update();
@@ -425,13 +407,11 @@
 
           input.addEventListener('focus', open);
           input.addEventListener('click', open);
-          // Close when clicking outside the input or popup (works for mouse & touch)
           document.addEventListener('pointerdown', (e) => {
             if (!popup.contains(e.target) && e.target !== input) {
               close();
             }
           });
-          // Optionally improve keyboard UX: close on Escape
           input.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
           popup.addEventListener('pointerdown', (e) => {

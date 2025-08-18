@@ -30,7 +30,7 @@ namespace HotelBooking.Services.ViewModels
             public string EndAt { get; set; }
             public int? ReviewsCount { get; set; }
             public int AdultsNumber { get; set; }
-            public int? ChildrenNumber { get; set; }
+            public int? ChildrenNumber { get; set; } = 0;
             
             public bool? IsFreeCancellable { get; set; }
             

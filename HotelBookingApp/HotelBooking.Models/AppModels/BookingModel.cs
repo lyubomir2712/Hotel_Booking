@@ -13,6 +13,10 @@ namespace HotelBooking.Models.AppModels
         public DateTime EndAt { get; set; }
         public double Price { get; set; }
         
+        public int AdultsNumber { get; set; }
+
+        public int? ChildrenNumber { get; set; } = 0;
+        
         public int HotelModelId  {get; set;}
         public HotelModel HotelModel { get; set; }
         public ICollection<UserBookingModel> UserBookingModels { get; set; }

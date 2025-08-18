@@ -83,6 +83,14 @@
                                                     <input type="hidden" name="HotelPrice" value="@hotel.Price"/>
                                                     <input type="hidden" name="StartAt" value="@hotel.StartAt"/>
                                                     <input type="hidden" name="EndAt" value="@hotel.EndAt"/>
+                                                    <input type="hidden" name="City" value="@hotel.City"/>
+                                                    <input type="hidden" name="Country" value="@hotel.Country"/>
+                                                    <input type="hidden" name="Address" value="@hotel.Address"/>
+                                                    <input type="hidden" name="ReviewScore" value="@hotel.ReviewScore"/>
+                                                    <input type="hidden" name="ReviewScoreWord" value="@hotel.ReviewScoreWord"/>
+                                                    <input type="hidden" name="ReviewsCount" value="@hotel.ReviewsCount"/>
+                                                    <input type="hidden" name="AdultsNumber" value="@hotel.AdultsNumber"/>
+                                                    <input type="hidden" name="ChildrenNumber" value="@hotel.ChildrenNumber"/>
                                                     <button type="submit" class="btn btn-primary book-btn" style="background-color:#0d6efd; border-color:#0d6efd;">Book</button>
                                                 </form>
                                             </div>
@@ -185,12 +193,12 @@
     }
     .price-absolute {
         position: absolute;
-        bottom: 4rem; /* place above the Book button */
+        bottom: 4rem; 
         right: 1.1rem;
     }
     .stay-absolute {
         position: absolute;
-        bottom: 5.5rem; /* above the price */
+        bottom: 5.5rem; 
         right: 1.1rem;
     }
 

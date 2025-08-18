@@ -24,7 +24,7 @@ public class HotelsController : Controller
             new BookingViewModel
             {
                 HotelId = 1,
-                Name = "Test Hotel Alpha",
+                Name = "Test Hotel Alphaa",
                 Country = "USA",
                 City = "New York",
                 Address = "123 Main Street",
@@ -50,7 +50,7 @@ public class HotelsController : Controller
             new BookingViewModel
             {
                 HotelId = 2,
-                Name = "Test Hotel Beta",
+                Name = "Test Hotel Betaa",
                 Country = "France",
                 City = "Paris",
                 Address = "456 Rue de Paris",

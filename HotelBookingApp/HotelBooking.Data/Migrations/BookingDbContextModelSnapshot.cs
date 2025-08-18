@@ -72,6 +72,12 @@ namespace HotelBooking.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AdultsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ChildrenNumber")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("EndAt")
                         .HasColumnType("datetime2");
 
@@ -99,6 +105,18 @@ namespace HotelBooking.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("HotelImg")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -106,6 +124,15 @@ namespace HotelBooking.Data.Migrations
                     b.Property<string>("HotelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("ReviewScore")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ReviewScoreWord")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ReviewsCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -223,7 +250,7 @@ namespace HotelBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@YAHOO.COM",
                             NormalizedUserName = "ADMIN@YAHOO.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDG1q2ebIhfYF5GEXKVsL84rXz5Vr5OyHpPXz5sIGBgQs9qteld+pagxpIrviXwzMw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHLTKYLAF7HZqD9SVVVDTInvMUt+DCQZOhBMiQCrf9gyULMckWn55RaRmgVwDziqhw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "f3e3d8b1-9c9c-4a8b-9e6f-5e5c67890a12",
                             TwoFactorEnabled = false,
@@ -241,7 +268,7 @@ namespace HotelBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LYUBOMIR@GMAIL.COM",
                             NormalizedUserName = "LYUBOMIR@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECTR60KpGFW/2sh4q2libBiygAr7Ld7qLToixqwRVutkKWGpa74VdVobbWAJ10l8CA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJ9w3Z2r3xdE/p6yxztqyl8FUrIGHqOfwLeot/cbFspVPuMCkNIR11pCKm/sdJoAng==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "2a4b01f9-3e5d-4f53-ae4e-3a8b9c2d7f5e",
                             TwoFactorEnabled = false,
