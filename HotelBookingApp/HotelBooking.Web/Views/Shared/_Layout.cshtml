@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/HotelBooking.Web.styles.css" asp-append-version="true" />
     <style>
+      footer {
+        padding: 0;
+      }
       header {
         margin-bottom: 3rem;
       }
@@ -129,15 +132,14 @@
             @RenderBody()
         </main>
     </div>
-
-<footer class="text-dark pt-5 pb-3 mt-auto">
+<footer class="text-dark mt-auto">
     <div id="footer" class="container">
         <div class="row">
-            <div class="col-md-4 mb-4 text-center">
+            <div class="col-md-4 text-center">
                 <h6 class="text-uppercase">About Our App</h6>
                 <p>Our booking hotels app helps travelers find the best deals on accommodations. We work with top hotels to provide the most competitive rates and help you save money on your next trip.</p>
             </div>
-            <div class="col-md-4 mb-4 text-center">
+            <div class="col-md-4 text-center">
                 <h6 class="text-uppercase">Contact Us</h6>
                 <ul class="list-unstyled">
                     <li>Email: info@easybook.com</li>
@@ -145,7 +147,7 @@
                     <li>Address: 27 Main St, Sofia Bulgaira</li>
                 </ul>
             </div>
-            <div class="col-md-4 mb-4 text-center">
+            <div class="col-md-4 text-center">
                 <h6 class="text-uppercase">Follow Us</h6>
                 <ul class="list-unstyled">
                     <li>Facebook</li>
@@ -157,9 +159,9 @@
         </div>
             
     </div>
-    <div class="row mt-3">
+    <div class="row">
         <div class="col-md-12">
-            <hr class="bg-light">
+            <hr class="bg-dark" style="width: 80%; margin: 0 auto;">
             <p color="white" class="text-center">&copy; 2025 Booking Hotels App. All Rights Reserved.</p>
         </div>
     </div>
