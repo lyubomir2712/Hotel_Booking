@@ -46,8 +46,6 @@ public class HotelsController : Controller
                 HasFreeParking = true,
                 AccommodationType = "Hotel",
                 IsBeachFront = false,
-                IsPreferred = true,
-                IsInBestDistrict = true
             },
             new BookingViewModel
             {
@@ -74,7 +72,6 @@ public class HotelsController : Controller
                 HasFreeParking = false,
                 AccommodationType = "Hostel",
                 IsBeachFront = false,
-
             }
         };
         return View(response);
