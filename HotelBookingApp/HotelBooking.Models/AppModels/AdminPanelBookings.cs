@@ -12,7 +12,12 @@ public class AdminPanelBookings : BaseModel
     public DateTime StartAt { get; set; }
     public DateTime EndAt { get; set; }
     public double Price { get; set; }
-    
+
+    public int AdultsNumber { get; set; } = 1;
+
+    public int? ChildrenNumber { get; set; }
+
+    public int RoomsNumber { get; set; } = 1;
     public int HotelModelId { get; set; }
     public HotelModel HotelModel { get; set; }
 

@@ -10,9 +10,12 @@
         color: black;
     }
     .admin-panel-container{
-        margin-top: 2rem;
+        margin: 2rem auto 0 auto;
         color: black;
+        width: 90%;
+        overflow-x: auto;  
     }
+    
 </style>
 <div class="admin-panel-container"> 
 <h2>All bookings</h2>
@@ -30,6 +33,9 @@
         <th>From</th>
         <th>To</th>
         <th>Price</th>
+        <th>Adults</th>
+        <th>Children</th>
+        <th>Rooms</th>
         <th></th>
     </tr>
     </thead>
@@ -46,7 +52,10 @@
             <td><img src="@b.HotelModel.HotelImg" alt="Снимка на хотела" height="100"/></td>
             <td>@b.StartAt.ToString("dd.MM.yyyy") г.</td>
             <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
-            <td>@b.Price $</td>
+            <td>BGN @b.Price</td>
+            <td>@b.AdultsNumber</td>
+            <td>@b.ChildrenNumber</td>
+            <td>@b.RoomsNumber</td>
             <td>
                 <form asp-controller="AdminPanel" asp-action="AdminPanelDeleteBooking" method="post">
                     <input type="hidden" name="bookingId" value="@b.Id"/>

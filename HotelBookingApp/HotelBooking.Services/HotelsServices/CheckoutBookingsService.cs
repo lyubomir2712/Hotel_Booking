@@ -20,7 +20,9 @@ public class CheckoutBookingsService : ICheckoutBookingsService
                 StartAt = b.StartAt,
                 EndAt = b.EndAt,
                 Price = b.Price,
-                
+                AdultsNumber = b.AdultsNumber,
+                ChildrenNumber = b.ChildrenNumber,
+                RoomsNumber = b.RoomsNumber,
                 HotelModelId = b.HotelModelId
             }).ToList();
 

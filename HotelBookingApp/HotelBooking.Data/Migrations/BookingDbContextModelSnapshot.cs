@@ -30,6 +30,12 @@ namespace HotelBooking.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AdultsNumber")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ChildrenNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("ClientEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -53,6 +59,9 @@ namespace HotelBooking.Data.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<int>("RoomsNumber")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartAt")
                         .HasColumnType("datetime2");
@@ -253,7 +262,7 @@ namespace HotelBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@YAHOO.COM",
                             NormalizedUserName = "ADMIN@YAHOO.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHQOrKSQJo2PudFn8Fj46D+zLBaO+w5Z8o0W+/yk7PeH9pZmbQgSEl4dQzJygVC3sg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKettpVK/JFH4LjUFUCWlqaU3F1Bk1+sC/iYE98VU1QPFHth4gkheeI3QNKTnDKMrg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "f3e3d8b1-9c9c-4a8b-9e6f-5e5c67890a12",
                             TwoFactorEnabled = false,
@@ -271,7 +280,7 @@ namespace HotelBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "LYUBOMIR@GMAIL.COM",
                             NormalizedUserName = "LYUBOMIR@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDk0bcTS8PdDRfwRn4sCFNVgQMrGlTenMa06D3Lqj+vAsmh3WNo++n7LhNK84X+6Hg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJuqAyrWkvEJFDWmtJ9vOe0Z3bAUCZ1v5x5Tl/01SgFM7NaRLwRVkW1AWBb3Ag2POQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "2a4b01f9-3e5d-4f53-ae4e-3a8b9c2d7f5e",
                             TwoFactorEnabled = false,
