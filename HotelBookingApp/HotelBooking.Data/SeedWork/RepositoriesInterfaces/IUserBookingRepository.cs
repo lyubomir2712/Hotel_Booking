@@ -2,4 +2,4 @@ using HotelBooking.Models.AppModels;
 
 namespace HotelBooking.Data.SeedWork;
 
-public interface IBookingRepository : IRepository<BookingModel>;
+public interface IUserBookingRepository : IRepository<UserBookingModel>;
