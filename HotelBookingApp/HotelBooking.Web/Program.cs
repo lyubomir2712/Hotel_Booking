@@ -16,6 +16,7 @@ using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using Microsoft.Extensions.Options;
 using HotelBooking.Web.Controllers;
 using DotNetEnv;
+using HotelBooking.Data.SeedWork;
 
 Env.Load();
 
@@ -72,6 +73,9 @@ builder.Services.AddScoped<IGetBookingsService, GetBookingsService>();
 builder.Services.AddScoped<IAddToCartService, AddToCartService>();
 builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
 builder.Services.AddScoped<ICheckoutBookingsService, CheckoutBookingsService>();
+
+// Unit of Work
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
