@@ -7,6 +7,10 @@ public interface IRepository<TEntity> where TEntity : class
 
     Task<TEntity?> GetByIdAsync(object id, CancellationToken ct = default);
 
+    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);
+
+    Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);
+
     Task<List<TEntity>> ListAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken ct = default);
 
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);

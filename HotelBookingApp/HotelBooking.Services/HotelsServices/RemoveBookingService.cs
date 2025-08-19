@@ -1,19 +1,19 @@
 using HotelBooking.Data;
+using HotelBooking.Data.SeedWork;
+using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 namespace HotelBooking.Services.HotelsServices;
 
 public class RemoveBookingService : IRemoveBookingService
 {
-    public async Task RemoveHotelAsync(BookingDbContext bookingDbContext, int bookingId)
+    public async Task RemoveHotelAsync(IUnitOfWork unitOfWork, int bookingId)
     {
-        if (bookingDbContext.Bookings != null)
+        var hotel = await unitOfWork.Repository<BookingModel>().FirstOrDefaultAsync(b => b.Id == bookingId);
+        if (hotel != null)
         {
-            var hotel = bookingDbContext.Bookings.First(b => b.Id == bookingId);
-        
-            bookingDbContext.Bookings.Remove(hotel);
+            unitOfWork.Repository<BookingModel>().Remove(hotel);
+            await unitOfWork.SaveChangesAsync();
         }
-
-        await bookingDbContext.SaveChangesAsync();
     }
 }

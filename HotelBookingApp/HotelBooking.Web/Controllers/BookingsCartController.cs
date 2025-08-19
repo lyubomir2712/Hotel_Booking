@@ -8,7 +8,9 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -21,8 +23,9 @@ namespace HotelBooking.Web.Controllers
         private readonly IAddToCartService _addToCartService;
         private readonly IRemoveBookingService _removeBookingService;
         private readonly ICheckoutBookingsService _checkoutBookingsService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BookingsCartController(BookingDbContext bookingDbContext, UserManager<UserModel> userManager,
+        public BookingsCartController(BookingDbContext bookingDbContext,IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetHotelsService getHotelsService, IGetBookingsService getBookingsService,
              IAddToCartService addToCartService, IRemoveBookingService removeBookingService,
              ICheckoutBookingsService checkoutBookingsService)
@@ -34,6 +37,7 @@ namespace HotelBooking.Web.Controllers
             _addToCartService = addToCartService;
             _removeBookingService = removeBookingService;
             _checkoutBookingsService = checkoutBookingsService;
+            _unitOfWork = unitOfWork;
         }
 
 
@@ -43,7 +47,7 @@ namespace HotelBooking.Web.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser is null) return Challenge();
 
-            await _addToCartService.AddToCartAsync(_bookingDbContext, addToCartInput, currentUser);
+            await _addToCartService.AddToCartAsync(_unitOfWork, addToCartInput, currentUser);
             
             return RedirectToAction(nameof(GetBookedHotels));
         }
@@ -51,7 +55,7 @@ namespace HotelBooking.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveHotel(int bookingId)
         {
-            await _removeBookingService.RemoveHotelAsync(_bookingDbContext, bookingId);
+            await _removeBookingService.RemoveHotelAsync(_unitOfWork, bookingId);
             return RedirectToAction(nameof(GetBookedHotels));
         }
         

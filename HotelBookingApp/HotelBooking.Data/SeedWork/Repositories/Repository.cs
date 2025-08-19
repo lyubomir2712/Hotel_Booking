@@ -19,6 +19,12 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public async Task<TEntity?> GetByIdAsync(object id, CancellationToken ct = default)
         => await _set.FindAsync(new object?[] { id }, ct).AsTask();
 
+    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
+        => _set.FirstOrDefaultAsync(predicate, ct);
+
+    public Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
+        => _set.FirstAsync(predicate, ct);
+
     public async Task<List<TEntity>> ListAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken ct = default)
         => predicate is null
             ? await _set.ToListAsync(ct)

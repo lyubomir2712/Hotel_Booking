@@ -1,4 +1,5 @@
 using HotelBooking.Data;
+using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
@@ -8,34 +9,34 @@ namespace HotelBooking.Services.HotelsServices;
 
 public class AddToCartService : IAddToCartService
 {
-    public async Task AddToCartAsync(BookingDbContext bookingDbContext, AddToCartInput addToCartInput, UserModel currentUser)
+    public async Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser)
     {
-        if (bookingDbContext.Hotels != null)
-        {
-            var existingHotel = bookingDbContext.Hotels.FirstOrDefault(h => h.HotelName == addToCartInput.HotelName && h.HotelImg == addToCartInput.hotelImg);
+        
+        var existingHotel = await unitOfWork.Repository<HotelModel>().FirstOrDefaultAsync(h => h.HotelName == addToCartInput.HotelName && h.HotelImg == addToCartInput.hotelImg);
             
-            HotelModel newHotel;
-            if (existingHotel != null)
-            {
-                newHotel = existingHotel;
-            }
-            else
-            {
-                newHotel = new HotelModel { HotelName = addToCartInput.HotelName,
-                    HotelImg = addToCartInput.hotelImg,
-                    City = addToCartInput.City,
-                    Country = addToCartInput.Country,
-                    Address = addToCartInput.Address,
-                    ReviewScore = addToCartInput.ReviewScore,
-                    ReviewsCount = addToCartInput.ReviewsCount,
-                    ReviewScoreWord = addToCartInput.ReviewScoreWord
-                };
-                bookingDbContext.Hotels.Add(newHotel);
-                await bookingDbContext.SaveChangesAsync();
-            }
+        HotelModel newHotel;
+        if (existingHotel != null)
+        {
+            newHotel = existingHotel;
+        }
+        else
+        {
+            newHotel = new HotelModel 
+            { HotelName = addToCartInput.HotelName, 
+                HotelImg = addToCartInput.hotelImg,
+                City = addToCartInput.City,
+                Country = addToCartInput.Country,
+                Address = addToCartInput.Address,
+                ReviewScore = addToCartInput.ReviewScore,
+                ReviewsCount = addToCartInput.ReviewsCount,
+                ReviewScoreWord = addToCartInput.ReviewScoreWord
+            };
+            await unitOfWork.Repository<HotelModel>().AddAsync(newHotel);
+            await unitOfWork.SaveChangesAsync();
+        }
 
             BookingModel newBookingModel = new BookingModel
-            {
+            { 
                 StartAt = Convert.ToDateTime(addToCartInput.StartAt),
                 Price = Convert.ToDouble(addToCartInput.HotelPrice),
                 EndAt = Convert.ToDateTime(addToCartInput.EndAt),
@@ -46,8 +47,8 @@ public class AddToCartService : IAddToCartService
                 RoomsNumber = addToCartInput.RoomsNumber,
             };
 
-            if (bookingDbContext.Bookings != null) await bookingDbContext.Bookings.AddAsync(newBookingModel);
-            await bookingDbContext.SaveChangesAsync();
+            await unitOfWork.Repository<BookingModel>().AddAsync(newBookingModel);
+            await unitOfWork.SaveChangesAsync();
 
             var newUserBookingModel = new UserBookingModel
             {
@@ -55,10 +56,8 @@ public class AddToCartService : IAddToCartService
                 UserId         = currentUser.Id,
                 UserModel      =  currentUser
             };
-            if (bookingDbContext.UserBookings != null)
-                await bookingDbContext.UserBookings.AddAsync(newUserBookingModel);
-        }
+            await unitOfWork.Repository<UserBookingModel>().AddAsync(newUserBookingModel);
 
-        await bookingDbContext.SaveChangesAsync();
+        await unitOfWork.SaveChangesAsync();
     }
 }
