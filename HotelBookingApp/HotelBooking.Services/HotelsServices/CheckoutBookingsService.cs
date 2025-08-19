@@ -1,4 +1,5 @@
 using HotelBooking.Data;
+using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
@@ -7,9 +8,9 @@ namespace HotelBooking.Services.HotelsServices;
 
 public class CheckoutBookingsService : ICheckoutBookingsService
 {
-    public async Task CheckoutBookingsAsync(BookingDbContext bookingDbContext, UserModel currentUser, List<BookingModel>? bookings)
+    public async Task CheckoutBookingsAsync(IUnitOfWork unitOfWork, UserModel currentUser, List<BookingModel>? bookings)
     {
-        if (bookings != null && bookingDbContext.Bookings != null)
+        if (bookings != null)
         {
             var adminPanelBookings = bookings.Select(b => new AdminPanelBooking
             {
@@ -26,11 +27,11 @@ public class CheckoutBookingsService : ICheckoutBookingsService
                 HotelModelId = b.HotelModelId
             }).ToList();
 
-            await bookingDbContext.AdminPanelBookings.AddRangeAsync(adminPanelBookings);
+            await unitOfWork.Repository<AdminPanelBooking>().AddRangeAsync(adminPanelBookings);
             
-            bookingDbContext.Bookings.RemoveRange(bookings);
+            unitOfWork.Repository<BookingModel>().RemoveRange(bookings);
             
-            await bookingDbContext.SaveChangesAsync();   
+            await unitOfWork.SaveChangesAsync();   
         }
     }
 }

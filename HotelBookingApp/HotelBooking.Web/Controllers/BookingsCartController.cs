@@ -84,7 +84,7 @@ namespace HotelBooking.Web.Controllers
             if (currentUser == null || bookings == null || bookings.Count == 0)
                 return RedirectToAction("Index", "Home");
 
-            await _checkoutBookingsService.CheckoutBookingsAsync(_bookingDbContext, currentUser, bookings);
+            await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
 
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }
