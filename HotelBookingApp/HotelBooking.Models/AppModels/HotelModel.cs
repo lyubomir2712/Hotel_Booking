@@ -27,6 +27,6 @@ namespace HotelBooking.Models.AppModels
 
         public ICollection<BookingModel> BookingModels { get; set; }
         
-        public ICollection<AdminPanelBookings> AdminPanelBookings { get; set; } = new List<AdminPanelBookings>();
+        public ICollection<AdminPanelBooking> AdminPanelBookings { get; set; } = new List<AdminPanelBooking>();
     }
 }

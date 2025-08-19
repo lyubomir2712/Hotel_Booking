@@ -5,5 +5,5 @@ namespace HotelBooking.Services.Contracts.AdminPanelContracts;
 
 public interface IGetCheckoutedHotelsService
 {
-    public List<AdminPanelBookings> GetCheckoutedHotels(BookingDbContext bookingDbContext);
+    public List<AdminPanelBooking> GetCheckoutedHotels(BookingDbContext bookingDbContext);
 }

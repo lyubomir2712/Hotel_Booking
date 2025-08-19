@@ -5,13 +5,13 @@ namespace HotelBooking.Data.SeedWork.Repositories;
 
 public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
 {
-    protected readonly DbContext _context;
+    protected readonly BookingDbContext _bookingDbContext;
     protected readonly DbSet<TEntity> _set;
 
-    public Repository(DbContext context)
+    public Repository(BookingDbContext bookingDbContext)
     {
-        _context = context;
-        _set = context.Set<TEntity>();
+        _bookingDbContext = bookingDbContext;
+        _set = bookingDbContext.Set<TEntity>();
     }
 
     public IQueryable<TEntity> Query() => _set.AsQueryable();

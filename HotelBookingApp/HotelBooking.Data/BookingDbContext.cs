@@ -20,7 +20,7 @@ namespace HotelBooking.Data
         public DbSet<HotelModel>? Hotels { get; set; }
         public DbSet<UserBookingModel>? UserBookings { get; set; }
 
-        public DbSet<AdminPanelBookings> AdminPanelBookings { get; set; }
+        public DbSet<AdminPanelBooking> AdminPanelBookings { get; set; }
 
         public BookingDbContext(DbContextOptions<BookingDbContext> options) : base(options)
         {
@@ -103,7 +103,7 @@ namespace HotelBooking.Data
                 .OnDelete(DeleteBehavior.NoAction);
             
             
-            builder.Entity<AdminPanelBookings>()
+            builder.Entity<AdminPanelBooking>()
                 .HasOne(apb => apb.HotelModel)
                 .WithMany(h => h.AdminPanelBookings)
                 .HasForeignKey(apb => apb.HotelModelId)

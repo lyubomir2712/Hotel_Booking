@@ -11,7 +11,7 @@ public class CheckoutBookingsService : ICheckoutBookingsService
     {
         if (bookings != null && bookingDbContext.Bookings != null)
         {
-            var adminPanelBookings = bookings.Select(b => new AdminPanelBookings
+            var adminPanelBookings = bookings.Select(b => new AdminPanelBooking
             {
                 ClientId = currentUser.Id,
                 ClientFirstName = currentUser.FirstName,   

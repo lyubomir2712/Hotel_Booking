@@ -6,10 +6,10 @@ namespace HotelBooking.Data.SeedWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly DbContext _context;
+    private readonly BookingDbContext _context;
     private readonly Dictionary<Type, object> _repositories = new();
 
-    public UnitOfWork(DbContext context)
+    public UnitOfWork(BookingDbContext context)
     {
         _context = context;
     }

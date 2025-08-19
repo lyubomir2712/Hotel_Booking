@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Models.AppModels;
 
-public class AdminPanelBookings : BaseModel
+public class AdminPanelBooking : BaseModel
 {
     public int ClientId { get; set; }
     public string ClientFirstName { get; set; }
