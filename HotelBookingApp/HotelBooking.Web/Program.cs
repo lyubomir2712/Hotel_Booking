@@ -6,7 +6,6 @@ using HotelBooking.Services.Contracts.AdminPanelContracts;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using HotelBooking.Services.StarsService;
 using HotelBooking.Services.HotelsServices;
 using Microsoft.Extensions.AI;
 using HotelBooking.Services.AIServices;
@@ -14,9 +13,10 @@ using HotelBooking.Services.BookingApiConfiguration;
 using HotelBooking.Services.Contracts.AIServicesContracts;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using Microsoft.Extensions.Options;
-using HotelBooking.Web.Controllers;
 using DotNetEnv;
 using HotelBooking.Data.SeedWork;
+using HotelBooking.Services.Contracts.EmailServicesContracts;
+using HotelBooking.Services.EmailServices;
 
 Env.Load();
 
@@ -76,6 +76,10 @@ builder.Services.AddScoped<ICheckoutBookingsService, CheckoutBookingsService>();
 
 // Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+//EmailSender
+builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();

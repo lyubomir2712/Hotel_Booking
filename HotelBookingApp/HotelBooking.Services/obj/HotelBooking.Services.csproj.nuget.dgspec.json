@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[3.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.13.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.16, )"
@@ -151,6 +155,10 @@
               "target": "Package",
               "version": "[3.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.13.0, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.16, )"
@@ -236,6 +244,10 @@
             "DotNetEnv": {
               "target": "Package",
               "version": "[3.1.1, )"
+            },
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.13.0, )"
             },
             "Microsoft.Extensions.AI.Abstractions": {
               "target": "Package",
