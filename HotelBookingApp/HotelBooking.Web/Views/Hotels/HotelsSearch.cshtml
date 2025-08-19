@@ -2,6 +2,7 @@
 @using System.Globalization
 @model List<BookingViewModel>? 
 
+<div class="container">
 <div class="row row-cols-1 g-4">
     @{
         if (Model != null)
@@ -108,7 +109,8 @@
             }
         }
     }
-    </div >
+</div>
+</div>
 
         <style>
     .hotel-card {
@@ -132,8 +134,8 @@
     .hotel-card .card-title {
         margin-bottom: 0.5rem;
     }
-    span {
-        color: black
+    .hotel-card span {
+        color: black;
     }
 
     .price-amount {
