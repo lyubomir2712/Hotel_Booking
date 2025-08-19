@@ -6,12 +6,12 @@ namespace HotelBooking.Data.SeedWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly BookingDbContext _context;
+    private readonly BookingDbContext _bookingDbContext;
     private readonly Dictionary<Type, object> _repositories = new();
 
-    public UnitOfWork(BookingDbContext context)
+    public UnitOfWork(BookingDbContext bookingDbContext)
     {
-        _context = context;
+        _bookingDbContext = bookingDbContext;
     }
 
     public IRepository<TEntity> Repository<TEntity>() where TEntity : class
@@ -20,13 +20,13 @@ public class UnitOfWork : IUnitOfWork
         if (_repositories.TryGetValue(type, out var repo))
             return (IRepository<TEntity>)repo;
 
-        var newRepo = new Repository<TEntity>(_context);
+        var newRepo = new Repository<TEntity>(_bookingDbContext);
         _repositories[type] = newRepo;
         return newRepo;
     }
 
-    public int SaveChanges() => _context.SaveChanges();
+    public int SaveChanges() => _bookingDbContext.SaveChanges();
 
     public Task<int> SaveChangesAsync(CancellationToken ct = default)
-        => _context.SaveChangesAsync(ct);
+        => _bookingDbContext.SaveChangesAsync(ct);
 }
