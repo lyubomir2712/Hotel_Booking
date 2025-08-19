@@ -17,7 +17,10 @@
         <input type="hidden" name="bookings[@i].RoomsNumber" value="@Model.Bookings[i].RoomsNumber" />
     }
 
-    <button type="submit" class="btn btn-success" style="background:green;margin-left:84.5%; margin-bottom: 1%; width: 200px;">Check out</button>
+    <button type="submit" class="btn btn-success"
+            style="background:green;margin-left:84.5%; margin-bottom: 1%; width: 200px;"
+            onmouseover="this.style.backgroundColor='darkgreen';"
+            onmouseout="this.style.backgroundColor='green';">Check out</button>
 </form>
 
 
