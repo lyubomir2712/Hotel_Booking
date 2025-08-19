@@ -1,4 +1,3 @@
-using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
 using Microsoft.AspNetCore.Authorization;
@@ -10,14 +9,12 @@ namespace HotelBooking.Web.Controllers;
 public class AdminPanelController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly BookingDbContext _bookingDbContext;
     private readonly IGetCheckoutedHotelsService _getCheckoutedHotelsService;
     private readonly IAdminPanelDeleteBookingService _adminPanelDeleteBookingService;
     
-    public AdminPanelController(BookingDbContext bookingDbContext,IUnitOfWork unitOfWork, IGetCheckoutedHotelsService getCheckoutedHotelsService,
+    public AdminPanelController(IUnitOfWork unitOfWork, IGetCheckoutedHotelsService getCheckoutedHotelsService,
         IAdminPanelDeleteBookingService adminPanelDeleteBookingService)
     {
-        _bookingDbContext = bookingDbContext;
         _getCheckoutedHotelsService = getCheckoutedHotelsService;
         _adminPanelDeleteBookingService = adminPanelDeleteBookingService;
         _unitOfWork = unitOfWork;
@@ -31,9 +28,9 @@ public class AdminPanelController : Controller
     }
 
     [Authorize(Roles = "Admin")]
-    public IActionResult AdminPanelDeleteBooking(int bookingId)
+    public async Task<IActionResult> AdminPanelDeleteBooking(int bookingId)
     {
-        _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_unitOfWork, bookingId);
+        await _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_unitOfWork, bookingId);
         return RedirectToAction("GetCheckoutedHotels");
     }
 }
