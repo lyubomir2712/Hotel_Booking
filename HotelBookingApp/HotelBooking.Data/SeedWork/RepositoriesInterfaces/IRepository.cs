@@ -11,6 +11,8 @@ public interface IRepository<TEntity> where TEntity : class
 
     Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);
 
+    IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate);
+
     Task<List<TEntity>> ListAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken ct = default);
 
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);

@@ -94,12 +94,12 @@ namespace HotelBooking.Data
 
             builder.Entity<BookingModel>()
                 .Property(b => b.Id)
-                .ValueGeneratedOnAdd();              // Id is an IDENTITY PK
+                .ValueGeneratedOnAdd();              
 
             builder.Entity<BookingModel>()
                 .HasOne(b => b.HotelModel)
                 .WithMany(h => h.BookingModels)
-                .HasForeignKey(b => b.HotelModelId)  // correct FK
+                .HasForeignKey(b => b.HotelModelId)  
                 .OnDelete(DeleteBehavior.NoAction);
             
             

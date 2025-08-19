@@ -18,7 +18,6 @@ namespace HotelBooking.Web.Controllers
     {
         private readonly BookingDbContext _bookingDbContext;
         private readonly UserManager<UserModel> _userManager;
-        private readonly IGetHotelsService _getHotelsService;
         private readonly IGetBookingsService _getBookingsService;
         private readonly IAddToCartService _addToCartService;
         private readonly IRemoveBookingService _removeBookingService;
@@ -26,13 +25,12 @@ namespace HotelBooking.Web.Controllers
         private readonly IUnitOfWork _unitOfWork;
 
         public BookingsCartController(BookingDbContext bookingDbContext,IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
-             IGetHotelsService getHotelsService, IGetBookingsService getBookingsService,
+             IGetBookingsService getBookingsService,
              IAddToCartService addToCartService, IRemoveBookingService removeBookingService,
              ICheckoutBookingsService checkoutBookingsService)
         {
             _bookingDbContext = bookingDbContext;
             _userManager = userManager;
-            _getHotelsService = getHotelsService;
             _getBookingsService = getBookingsService;
             _addToCartService = addToCartService;
             _removeBookingService = removeBookingService;
@@ -66,12 +64,10 @@ namespace HotelBooking.Web.Controllers
 
             if (userId != null)
             {
-                var bookings = _getBookingsService.GetBookings(_bookingDbContext, userId);
-                var hotels = _getHotelsService.GetHotels(_bookingDbContext, bookings);
+                var bookings = _getBookingsService.GetBookings(_unitOfWork, userId);
 
                 var userBookedHotels = new UserBookedHotels
                 {
-                    Hotels = hotels,
                     Bookings = bookings
                 };
 

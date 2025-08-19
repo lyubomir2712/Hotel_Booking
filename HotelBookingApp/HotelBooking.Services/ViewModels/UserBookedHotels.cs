@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 namespace HotelBooking.Services.ViewModels
 {
     public class UserBookedHotels
-    {
-        public List<HotelModel> Hotels { get; set; }
+    { 
         public List<BookingModel> Bookings { get; set; }
     }
 }

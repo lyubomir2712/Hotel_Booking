@@ -25,6 +25,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
         => _set.FirstAsync(predicate, ct);
 
+    public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
+    {
+        return _set.Where(predicate);
+    }
+
     public async Task<List<TEntity>> ListAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken ct = default)
         => predicate is null
             ? await _set.ToListAsync(ct)
