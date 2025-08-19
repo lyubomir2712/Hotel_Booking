@@ -15,6 +15,15 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     }
 
     public IQueryable<TEntity> Query() => _set.AsQueryable();
+    public IQueryable<TEntity> Include(params Expression<Func<TEntity, object>>[] includes)
+    {
+        IQueryable<TEntity> query = _set.AsQueryable();
+        foreach (var include in includes)
+        {
+            query = query.Include(include);
+        }
+        return query;
+    }
 
     public async Task<TEntity?> GetByIdAsync(object id, CancellationToken ct = default)
         => await _set.FindAsync(new object?[] { id }, ct).AsTask();
@@ -22,8 +31,10 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
         => _set.FirstOrDefaultAsync(predicate, ct);
 
-    public Task<TEntity> FirstAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
-        => _set.FirstAsync(predicate, ct);
+    public Task<TEntity?> FindAsync(int id, CancellationToken ct = default)
+    {
+        return _set.FindAsync(new object[] { id }, ct).AsTask();
+    }
 
     public IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> predicate)
     {
@@ -47,6 +58,11 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public void Update(TEntity entity) => _set.Update(entity);
 
     public void Remove(TEntity entity) => _set.Remove(entity);
+    public Task RemoveAsync(TEntity entity, CancellationToken ct = default)
+    {
+        _set.Remove(entity);
+        return Task.CompletedTask;
+    }
 
     public void RemoveRange(IEnumerable<TEntity> entities) => _set.RemoveRange(entities);
 }

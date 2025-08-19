@@ -1,9 +1,10 @@
 using HotelBooking.Data;
+using HotelBooking.Data.SeedWork;
 
 namespace HotelBooking.Services.Contracts.AdminPanelContracts;
 
 public interface IAdminPanelDeleteBookingService
 {
-    public void AdminPanelDeleteBooking(BookingDbContext bookingDbContext, int id);
+    public Task AdminPanelDeleteBooking(IUnitOfWork unitOfWork, int id);
 
 }

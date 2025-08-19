@@ -1,17 +1,19 @@
 using HotelBooking.Data;
+using HotelBooking.Data.SeedWork;
+using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
 
 namespace HotelBooking.Services.AdminPanelServices;
 
 public class AdminPanelDeleteBookingsService : IAdminPanelDeleteBookingService
 {
-    public void AdminPanelDeleteBooking(BookingDbContext bookingDbContext, int bookingId)
+    public async Task AdminPanelDeleteBooking(IUnitOfWork unitOfWork, int bookingId)
     {
-        var adminPanelBooking = bookingDbContext.AdminPanelBookings.Find(bookingId);
+        var adminPanelBooking = await unitOfWork.Repository<AdminPanelBooking>().FindAsync(bookingId);
         if (adminPanelBooking != null)
         {
-            bookingDbContext.AdminPanelBookings.Remove(adminPanelBooking);
-            bookingDbContext.SaveChanges();
+            await unitOfWork.Repository<AdminPanelBooking>().RemoveAsync(adminPanelBooking);
+            await unitOfWork.SaveChangesAsync();
         }
     }
 }
