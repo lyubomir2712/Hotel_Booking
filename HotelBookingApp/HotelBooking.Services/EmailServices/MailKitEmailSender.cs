@@ -26,7 +26,7 @@ public sealed class MailKitEmailSender(IOptionsSnapshot<SmtpOptions> options) : 
         var builder = new BodyBuilder
         {
             HtmlBody = htmlBody,
-            TextBody = textBody ?? TextFormatConverter(htmlBody)
+            TextBody = textBody ?? HtmlToText.TextFormatConverter(htmlBody)
         };
 
         if (attachments != null)
@@ -50,9 +50,5 @@ public sealed class MailKitEmailSender(IOptionsSnapshot<SmtpOptions> options) : 
         await smtp.SendAsync(message, ct);
         await smtp.DisconnectAsync(true, ct);
     }
-
-    // Проста конверсия ако няма текстово тяло (за по-добра доставяемост)
-    private static string TextFormatConverter(string html)
-        => HtmlToText.Simple(html);
 }
 
