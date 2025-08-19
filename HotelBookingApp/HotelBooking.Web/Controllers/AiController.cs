@@ -7,7 +7,6 @@ namespace HotelBooking.Web.Controllers;
 public class AiController : Controller
 {
     private readonly IAskAppAiService _askAppAiService;
-    private readonly IAskAppAiStreamService _askAppAiStreamService;
     private readonly IChatClient _chatClient;
 
     public AiController(IAskAppAiService askAppAiService, IChatClient chatClient)

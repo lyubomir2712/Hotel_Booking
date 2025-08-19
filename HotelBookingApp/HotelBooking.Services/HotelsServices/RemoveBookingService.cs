@@ -12,7 +12,7 @@ public class RemoveBookingService : IRemoveBookingService
         var hotel = await unitOfWork.Repository<BookingModel>().FirstOrDefaultAsync(b => b.Id == bookingId);
         if (hotel != null)
         {
-            unitOfWork.Repository<BookingModel>().Remove(hotel);
+            await unitOfWork.Repository<BookingModel>().RemoveAsync(hotel);
             await unitOfWork.SaveChangesAsync();
         }
     }
