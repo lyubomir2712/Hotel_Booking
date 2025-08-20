@@ -262,7 +262,7 @@ namespace HotelBooking.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@YAHOO.COM",
                             NormalizedUserName = "ADMIN@YAHOO.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAH2Su2XHn9sBNRAaGGnMeIbNsTNvIy+z5fvEzOCuqRSJLn0DdwhR7J44RalIQWVvw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKS6mlLukoJmtUx9G+UcE+akx1R3zWCfSw2cQdL6eMXs5kN4ckZktk+Xmhleb6iOBg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "f3e3d8b1-9c9c-4a8b-9e6f-5e5c67890a12",
                             TwoFactorEnabled = false,
@@ -273,18 +273,18 @@ namespace HotelBooking.Data.Migrations
                             Id = 2,
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "b7f4e9a2-1b2c-4e5f-9a1b-3c4d5e6f7a8b",
-                            Email = "lyubomir@gmail.com",
+                            Email = "lyubomirbratov@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Lyubomir",
-                            LastName = "Georgiev",
+                            LastName = "Bratov",
                             LockoutEnabled = false,
-                            NormalizedEmail = "LYUBOMIR@GMAIL.COM",
-                            NormalizedUserName = "LYUBOMIR@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHyQaAecamzWlBLE6Aaaod1OqWHfuUaFfITyGz8VvZSrqVPC1Rta8jdEAGZbOE4Mhg==",
+                            NormalizedEmail = "LYUBOMIRBRATOV@GMAIL.COM",
+                            NormalizedUserName = "LYUBOMIRBRATOV@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC9SFhqLO/Idu9jBUbx8RnUnv2dwC8B10ix83N5kusjFPLVrGtfNf3SkdO2dntCYQQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "2a4b01f9-3e5d-4f53-ae4e-3a8b9c2d7f5e",
                             TwoFactorEnabled = false,
-                            UserName = "lyubomir@gmail.com"
+                            UserName = "lyubomirbratov@gmail.com"
                         });
                 });
 

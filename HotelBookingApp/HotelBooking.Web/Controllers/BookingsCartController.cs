@@ -8,6 +8,7 @@ using System.Security.Claims;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
+using HotelBooking.Services.EmailServices;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -78,12 +79,20 @@ namespace HotelBooking.Web.Controllers
         public async Task<IActionResult> CheckoutHotels(List<BookingModel>? bookings)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            if (currentUser == null || bookings == null || bookings.Count == 0)
-            {
-                await _emailSender.SendAsync("lyubomirgeorgiev2712@gmail.com", "CheckoutTest", null);
-                return RedirectToAction("Index", "Home");
-            }
+            // if (currentUser == null || bookings == null || bookings.Count == 0)
+            // {
+            //    
+            //     return RedirectToAction("Index", "Home");
+            // }
+            
+            string subject = "Checkouted Bookings";
 
+            string checkoutBookingsEmailTemplatePath = EmailTemplatesRouter.CheckoutBookingsEmailTemplatePath;
+
+            string htmlBody = await System.IO.File.ReadAllTextAsync(checkoutBookingsEmailTemplatePath);
+            
+            await _emailSender.SendAsync(currentUser.ToString(), subject, htmlBody);
+            
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
             
             

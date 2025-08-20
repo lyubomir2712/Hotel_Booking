@@ -18,14 +18,6 @@ public sealed class MailKitEmailSender(IOptionsSnapshot<SmtpOptions> options) : 
         IEnumerable<(string fileName, byte[] bytes)>? attachments = null,
         CancellationToken ct = default)
     {
-        ////
-        if (string.IsNullOrEmpty(htmlBody))
-        {
-            var path = "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Services/EmailServices/HtmlToText.cs";
-            htmlBody = await File.ReadAllTextAsync(path);
-        }
-        ////
-        
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(_smtpOptions.FromName, _smtpOptions.FromAddress));
         message.To.Add(MailboxAddress.Parse(to));
@@ -45,7 +37,7 @@ public sealed class MailKitEmailSender(IOptionsSnapshot<SmtpOptions> options) : 
 
         using var smtp = new SmtpClient();
 
-        // подаване само на валиднивалиден сертификат:
+        // sending only validated certificates
         // smtp.ServerCertificateValidationCallback = (s, c, h, e) => e == SslPolicyErrors.None;
 
         var secure = _smtpOptions.UseStartTls ? SecureSocketOptions.StartTls : SecureSocketOptions.SslOnConnect;

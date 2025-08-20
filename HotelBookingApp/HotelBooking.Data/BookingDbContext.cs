@@ -65,11 +65,11 @@ namespace HotelBooking.Data
             {
                 Id = 2,
                 FirstName = "Lyubomir",
-                LastName = "Georgiev",
-                UserName = "lyubomir@gmail.com",
-                NormalizedUserName = "LYUBOMIR@GMAIL.COM",
-                Email = "lyubomir@gmail.com",
-                NormalizedEmail = "LYUBOMIR@GMAIL.COM",
+                LastName = "Bratov",
+                UserName = "lyubomirbratov@gmail.com",
+                NormalizedUserName = "LYUBOMIRBRATOV@GMAIL.COM",
+                Email = "lyubomirbratov@gmail.com",
+                NormalizedEmail = "LYUBOMIRBRATOV@GMAIL.COM",
                 EmailConfirmed = true,
                 SecurityStamp = "2a4b01f9-3e5d-4f53-ae4e-3a8b9c2d7f5e",
                 ConcurrencyStamp = "b7f4e9a2-1b2c-4e5f-9a1b-3c4d5e6f7a8b"
