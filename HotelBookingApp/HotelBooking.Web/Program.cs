@@ -80,6 +80,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 //EmailSender
 builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp"));
 builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
+builder.Services.AddSingleton<IEmailTemplatePathProvider, EmailTemplatePathProvider>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
