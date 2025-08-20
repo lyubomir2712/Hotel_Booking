@@ -1,5 +1,4 @@
 using HotelBooking.Services.Contracts.EmailServicesContracts;
-using HotelBooking.Services.EmailServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelBooking.Web.Controllers;

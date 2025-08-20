@@ -6,6 +6,7 @@ using HotelBooking.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using HotelBooking.Data.SeedWork;
+using HotelBooking.Services.Contracts.EmailServicesContracts;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 namespace HotelBooking.Web.Controllers
@@ -18,11 +19,12 @@ namespace HotelBooking.Web.Controllers
         private readonly IRemoveBookingService _removeBookingService;
         private readonly ICheckoutBookingsService _checkoutBookingsService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService,
              IAddToCartService addToCartService, IRemoveBookingService removeBookingService,
-             ICheckoutBookingsService checkoutBookingsService)
+             ICheckoutBookingsService checkoutBookingsService, IEmailSender emailSender)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -30,6 +32,7 @@ namespace HotelBooking.Web.Controllers
             _removeBookingService = removeBookingService;
             _checkoutBookingsService = checkoutBookingsService;
             _unitOfWork = unitOfWork;
+            _emailSender = emailSender;
         }
 
 
@@ -76,10 +79,17 @@ namespace HotelBooking.Web.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null || bookings == null || bookings.Count == 0)
+            {
+                await _emailSender.SendAsync("lyubomirgeorgiev2712@gmail.com", "CheckoutTest", null);
                 return RedirectToAction("Index", "Home");
+            }
 
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
+            
+            
+            
 
+            
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }
     }
