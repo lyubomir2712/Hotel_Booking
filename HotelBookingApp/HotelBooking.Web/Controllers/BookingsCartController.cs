@@ -91,8 +91,6 @@ namespace HotelBooking.Web.Controllers
 
             string checkoutBookingsEmailTemplatePath = _emailTemplatePathProvider.Checkout;
             
-            // string checkoutBookingsEmailTemplatePath = EmailTemplatesRouter.CheckoutBookingsEmailTemplatePath;
-
             string htmlBody = await System.IO.File.ReadAllTextAsync(checkoutBookingsEmailTemplatePath);
             
             await _emailSender.SendAsync(currentUser.ToString(), subject, htmlBody);
