@@ -89,14 +89,15 @@ namespace HotelBooking.Web.Controllers
             //    
             //     return RedirectToAction("Index", "Home");
             // }
+            string emailReceiver = currentUser.Email;
             
-            string subject = "Checkouted Bookings";
-
+            string subject = "Successfully Checkouted Bookings";
+            
             string checkoutBookingsEmailTemplatePath = _emailTemplatePathProvider.Checkout;
-
-            string htmlBody = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
             
-            await _emailSender.SendAsync(currentUser.ToString(), subject, htmlBody);
+            string checkoutedBookingsEmailHtmlBody = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
+            
+            await _emailSender.SendAsync(emailReceiver, subject, checkoutedBookingsEmailHtmlBody);
             
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
             
