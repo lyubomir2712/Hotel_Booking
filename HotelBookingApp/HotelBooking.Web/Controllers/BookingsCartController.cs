@@ -22,11 +22,13 @@ namespace HotelBooking.Web.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplatePathProvider _emailTemplatePathProvider;
+        private readonly IGetEmailTemplateFromPathService _getEmailTemplateFromPathService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
-             IEmailSender emailSender, IEmailTemplatePathProvider emailTemplatePathProvider)
+             IEmailSender emailSender, IEmailTemplatePathProvider emailTemplatePathProvider,
+             IGetEmailTemplateFromPathService getEmailTemplateFromPathService)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -36,6 +38,7 @@ namespace HotelBooking.Web.Controllers
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
             _emailTemplatePathProvider = emailTemplatePathProvider;
+            _getEmailTemplateFromPathService = getEmailTemplateFromPathService;
         }
 
 
@@ -90,8 +93,8 @@ namespace HotelBooking.Web.Controllers
             string subject = "Checkouted Bookings";
 
             string checkoutBookingsEmailTemplatePath = _emailTemplatePathProvider.Checkout;
-            
-            string htmlBody = await System.IO.File.ReadAllTextAsync(checkoutBookingsEmailTemplatePath);
+
+            string htmlBody = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
             
             await _emailSender.SendAsync(currentUser.ToString(), subject, htmlBody);
             
