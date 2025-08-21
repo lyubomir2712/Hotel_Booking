@@ -23,12 +23,14 @@ namespace HotelBooking.Web.Controllers
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplatePathProvider _emailTemplatePathProvider;
         private readonly IGetEmailTemplateFromPathService _getEmailTemplateFromPathService;
+        private readonly IGetEmailTemplateHtmlWithParametersService _getEmailTemplateHtmlWithParametersService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
              IEmailSender emailSender, IEmailTemplatePathProvider emailTemplatePathProvider,
-             IGetEmailTemplateFromPathService getEmailTemplateFromPathService)
+             IGetEmailTemplateFromPathService getEmailTemplateFromPathService,
+             IGetEmailTemplateHtmlWithParametersService getEmailTemplateHtmlWithParametersService)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -39,6 +41,7 @@ namespace HotelBooking.Web.Controllers
             _emailSender = emailSender;
             _emailTemplatePathProvider = emailTemplatePathProvider;
             _getEmailTemplateFromPathService = getEmailTemplateFromPathService;
+            _getEmailTemplateHtmlWithParametersService = getEmailTemplateHtmlWithParametersService;
         }
 
 
@@ -95,15 +98,22 @@ namespace HotelBooking.Web.Controllers
             
             string checkoutBookingsEmailTemplatePath = _emailTemplatePathProvider.Checkout;
             
-            string checkoutedBookingsEmailHtmlBody = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
+            string template = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
+
+            foreach (var booking in bookings)
+            {
+                string checkoutedBookingsEmailHtmlBody = await _getEmailTemplateHtmlWithParametersService.GetEmailTemplateHtmlWithParameters(template, currentUser, booking);
+                await _emailSender.SendAsync(emailReceiver, subject, checkoutedBookingsEmailHtmlBody);
+            }
+                 //template
+            //     .Replace("{GuestFirstName}", currentUser.FirstName);
+                // .Replace("{BookingCount}", bookings?.Count.ToString() ?? "0");
             
-            await _emailSender.SendAsync(emailReceiver, subject, checkoutedBookingsEmailHtmlBody);
+            
+            
+            
             
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
-            
-            
-            
-
             
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }
