@@ -7,11 +7,11 @@
 </head>
 <body style="margin:0; padding:0; background-color:#f5f7fb; font-family:Arial, Helvetica, sans-serif; color:#111111;">
     <!-- Wrapper -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; background-color:#f5f7fb; margin:0; padding:0;">
+    <table role="presentation" style="width:100%; background-color:#f5f7fb; margin:0 auto; padding:0; border-collapse:collapse; border-spacing:0; border:0;">
         <tr>
-            <td align="center" style="padding:24px 12px;">
+            <td align="center" style="padding:24px 12px; margin:0 auto">
                 <!-- Container -->
-                <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px; background-color:#ffffff; border-collapse:separate; border-radius:8px; overflow:hidden;">
+                <table role="presentation" style="width:600px; max-width:600px; background-color:#ffffff; border-collapse:separate; border-radius:8px; overflow:hidden; border-spacing:0; border:0;">
                     <!-- Header / Brand -->
                     <tr>
                         <td style="padding:28px 32px; text-align:center; background-color:#003b95;">
@@ -31,54 +31,54 @@
                     <!-- Intro -->
                     <tr>
                         <td style="padding:24px 32px;">
-                            <p style="margin:0 0 12px 0; font-size:16px; line-height:24px;">Hi {{GuestFirstName}},</p>
-                            <p style="margin:0; font-size:14px; line-height:22px; color:#374151;">Thanks for staying with us! Here’s your checkout summary and receipt. Keep this email for your records.</p>
+                            <p style="margin:0 0 12px 0; font-size:20px; line-height:24px; text-align: left;">Hi {{GuestFirstName}},</p>
+                            <p style="margin:0; font-size:14px; line-height:22px; color:#374151; text-align: left;">Thanks for staying with us! Here’s your checkout summary and receipt. Keep this email for your records.</p>
                         </td>
                     </tr>
 
                     <!-- Booking Summary Card -->
                     <tr>
                         <td style="padding:0 32px 24px 32px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; border:1px solid #e5e7eb; border-radius:8px;">
+                            <table role="presentation" style="width:100%; border:1px solid #e5e7eb; border-radius:8px; border-collapse:separate; border-spacing:0;">
                                 <tr>
-                                    <td style="padding:16px; background-color:#f9fafb; border-bottom:1px solid #e5e7eb;">
+                                    <td style="padding:16px; background-color:#f9fafb; border-bottom:1px solid #e5e7eb; text-align: left">
                                         <span style="font-size:14px; color:#6b7280;">Stay Details</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding:0 16px 16px 16px;">
-                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                                        <table role="presentation" style="width:100%; border-collapse:collapse; border-spacing:0; border:0;">
                                             <tr>
-                                                <td style="padding-top:16px; font-size:14px; color:#374151; width:40%;">Guest</td>
-                                                <td style="padding-top:16px; font-size:14px; color:#111827; font-weight:bold; width:60%;">{{GuestFullName}}</td>
+                                                <td style="padding-top:16px; font-size:14px; color:#374151; width:40%; text-align: left; font-weight:bold;">Guest</td>
+                                                <td style="padding-top:16px; font-size:14px; color:#111827; width:60%; text-align: left;">{{GuestFullName}}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Hotel</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827; font-weight:bold;">{{HotelName}}</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left; font-weight:bold;">Hotel</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">{{HotelName}}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Address</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827;">{{HotelAddress}}</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left;font-weight:bold;">Address</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">{{HotelAddress}}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Rooms Booked</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827;">{{RoomsNumber}}</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left; font-weight:bold;">Rooms Booked</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">{{RoomsNumber}}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Guests</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827;">{{AdultsNumber}} adults, {{ChildrenNumber}} children</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left; font-weight:bold;">Guests</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">{{AdultsNumber}} adults, {{ChildrenNumber}} children</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Check‑in</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827;">{{CheckInDate}} after {{CheckInTime}}</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left; font-weight:bold;">Check‑in</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">{{CheckInDate}} after {{CheckInTime}}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Check‑out</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827;">{{CheckOutDate}} by {{CheckOutTime}}</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left; font-weight:bold;">Check‑out</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">{{CheckOutDate}} by {{CheckOutTime}}</td>
                                             </tr>
                                             <tr>
-                                                <td style="padding-top:8px; font-size:14px; color:#374151;">Reservation</td>
-                                                <td style="padding-top:8px; font-size:14px; color:#111827;">#{{BookingId}}</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#374151; text-align: left; font-weight:bold;">Reservation</td>
+                                                <td style="padding-top:8px; font-size:14px; color:#111827; text-align: left;">#{{BookingId}}</td>
                                             </tr>
                                         </table>
                                     </td>
@@ -90,18 +90,18 @@
                     <!-- Charges -->
                     <tr>
                         <td style="padding:0 32px 24px 32px;">
-                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%; border:1px solid #e5e7eb; border-radius:8px;">
+                            <table role="presentation" style="width:100%; border:1px solid #e5e7eb; border-radius:8px; border-collapse:separate; border-spacing:0;">
                                 <tr>
-                                    <td style="padding:16px; background-color:#f9fafb; border-bottom:1px solid #e5e7eb;">
+                                    <td style="padding:16px; background-color:#f9fafb; border-bottom:1px solid #e5e7eb; text-align: left">
                                         <span style="font-size:14px; color:#6b7280;">Charges</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="padding:12px 16px;">
-                                        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+                                        <table role="presentation" style="width:100%; border-collapse:collapse; border-spacing:0; border:0;">
                                             <tr>
-                                                <td style="padding-top:10px; font-size:15px; color:#111827; font-weight:bold;">Total</td>
-                                                <td align="right" style="padding-top:10px; font-size:15px; color:#111827; font-weight:bold;">{{Price}} {{Currency}}</td>
+                                                <td style="padding-top:10px; font-size:15px; color:#111827; font-weight:bold; text-align: left">Total</td>
+                                                <td  style="padding-top:10px; font-size:15px; color:#111827; font-weight:bold; text-align:right;">{{Price}} {{Currency}}</td>
                                             </tr>
                                         </table>
                                     </td>
