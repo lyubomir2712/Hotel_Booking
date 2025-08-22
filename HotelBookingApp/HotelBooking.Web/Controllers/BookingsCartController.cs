@@ -21,14 +21,14 @@ namespace HotelBooking.Web.Controllers
         private readonly ICheckoutBookingsService _checkoutBookingsService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmailSender _emailSender;
-        private readonly IEmailTemplatePathProvider _emailTemplatePathProvider;
+        private readonly IEmailTemplatePathProviderService _emailTemplatePathProviderService;
         private readonly IGetEmailTemplateFromPathService _getEmailTemplateFromPathService;
         private readonly IGetEmailTemplateHtmlWithParametersService _getEmailTemplateHtmlWithParametersService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
-             IEmailSender emailSender, IEmailTemplatePathProvider emailTemplatePathProvider,
+             IEmailSender emailSender, IEmailTemplatePathProviderService emailTemplatePathProviderService,
              IGetEmailTemplateFromPathService getEmailTemplateFromPathService,
              IGetEmailTemplateHtmlWithParametersService getEmailTemplateHtmlWithParametersService)
         {
@@ -39,7 +39,7 @@ namespace HotelBooking.Web.Controllers
             _checkoutBookingsService = checkoutBookingsService;
             _unitOfWork = unitOfWork;
             _emailSender = emailSender;
-            _emailTemplatePathProvider = emailTemplatePathProvider;
+            _emailTemplatePathProviderService = emailTemplatePathProviderService;
             _getEmailTemplateFromPathService = getEmailTemplateFromPathService;
             _getEmailTemplateHtmlWithParametersService = getEmailTemplateHtmlWithParametersService;
         }
@@ -87,16 +87,22 @@ namespace HotelBooking.Web.Controllers
         public async Task<IActionResult> CheckoutHotels(List<BookingModel>? bookings)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-            // if (currentUser == null || bookings == null || bookings.Count == 0)
-            // {
-            //    
-            //     return RedirectToAction("Index", "Home");
-            // }
-            string emailReceiver = currentUser.Email;
+
+            if (currentUser == null|| bookings == null || bookings.Count == 0)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            
+            string? emailReceiver = currentUser.Email;
+                
+            if (string.IsNullOrWhiteSpace(emailReceiver))
+            {
+                throw new InvalidOperationException("User does not have a valid email address.");
+            }
             
             string subject = "Successfully Checkouted Bookings";
             
-            string checkoutBookingsEmailTemplatePath = _emailTemplatePathProvider.Checkout;
+            string checkoutBookingsEmailTemplatePath = _emailTemplatePathProviderService.Checkout;
             
             string template = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
 
@@ -106,7 +112,7 @@ namespace HotelBooking.Web.Controllers
                 string checkoutedBookingsEmailHtmlBody = _getEmailTemplateHtmlWithParametersService.GetEmailTemplateHtmlWithParameters(template, currentUser, booking, hotel);
                 await _emailSender.SendAsync(emailReceiver, subject, checkoutedBookingsEmailHtmlBody);
             }
-            
+
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
             
             return RedirectToAction("GetBookedHotels", "BookingsCart");

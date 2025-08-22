@@ -23,7 +23,7 @@ public class GetEmailTemplateHtmlWithParametersService : IGetEmailTemplateHtmlWi
             .Replace("{{CheckOutDate}}", booking.EndAt.Date.ToString("d",CultureInfo.CurrentUICulture))
             .Replace("{{CheckInTime}}", "12:00 PM")
             .Replace("{{CheckOutTime}}", "10:00 AM")
-            .Replace("{{GrandTotal}}", booking.Price.ToString("F2", CultureInfo.InvariantCulture))
+            .Replace("{{Price}}", booking.Price.ToString("F2", CultureInfo.InvariantCulture))
             .Replace("{{Currency}}", "BGN")
             .Replace("{{Year}}", DateTime.Now.Year.ToString());
     }
