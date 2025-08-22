@@ -83,6 +83,7 @@ builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
 builder.Services.AddSingleton<IEmailTemplatePathProviderService, EmailTemplatePathProviderService>();
 builder.Services.AddSingleton<IGetEmailTemplateFromPathService, GetEmailTemplateFromPathService>();
 builder.Services.AddSingleton<IGetEmailTemplateHtmlWithParametersService, GetEmailTemplateHtmlWithParametersService>();
+builder.Services.AddScoped<ICheckoutEmailService, CheckoutEmailService>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();

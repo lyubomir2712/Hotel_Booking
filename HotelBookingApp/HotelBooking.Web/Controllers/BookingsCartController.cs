@@ -9,7 +9,6 @@ using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using HotelBooking.Services.EmailServices;
-using System.Text;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -21,17 +20,12 @@ namespace HotelBooking.Web.Controllers
         private readonly IRemoveBookingService _removeBookingService;
         private readonly ICheckoutBookingsService _checkoutBookingsService;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IEmailSender _emailSender;
-        private readonly IEmailTemplatePathProviderService _emailTemplatePathProviderService;
-        private readonly IGetEmailTemplateFromPathService _getEmailTemplateFromPathService;
-        private readonly IGetEmailTemplateHtmlWithParametersService _getEmailTemplateHtmlWithParametersService;
+        private readonly ICheckoutEmailService _checkoutEmailService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
-             IEmailSender emailSender, IEmailTemplatePathProviderService emailTemplatePathProviderService,
-             IGetEmailTemplateFromPathService getEmailTemplateFromPathService,
-             IGetEmailTemplateHtmlWithParametersService getEmailTemplateHtmlWithParametersService)
+             ICheckoutEmailService checkoutEmailService)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -39,10 +33,7 @@ namespace HotelBooking.Web.Controllers
             _removeBookingService = removeBookingService;
             _checkoutBookingsService = checkoutBookingsService;
             _unitOfWork = unitOfWork;
-            _emailSender = emailSender;
-            _emailTemplatePathProviderService = emailTemplatePathProviderService;
-            _getEmailTemplateFromPathService = getEmailTemplateFromPathService;
-            _getEmailTemplateHtmlWithParametersService = getEmailTemplateHtmlWithParametersService;
+            _checkoutEmailService = checkoutEmailService;
         }
 
 
@@ -94,45 +85,7 @@ namespace HotelBooking.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
             
-            string? emailReceiver = currentUser.Email;
-                
-            if (string.IsNullOrWhiteSpace(emailReceiver))
-            {
-                throw new InvalidOperationException("User does not have a valid email address.");
-            }
-            
-            string subject = "Successfully Checked Out Bookings";
-            
-            string checkoutBookingsEmailTemplatePath = _emailTemplatePathProviderService.CheckoutBookingsEmailTemplatePath;
-            
-            string template = await _getEmailTemplateFromPathService.GetEmailTemplateFromPath(checkoutBookingsEmailTemplatePath);
-
-            var sb = new StringBuilder();
-            sb.AppendLine("<div style=\"font-family:Arial, sans-serif;\">");
-            sb.AppendLine("  <h2>Booking summary</h2>");
-            sb.AppendLine("  <div>");
-
-            foreach (var booking in bookings)
-            {
-                var hotel = await _unitOfWork.Repository<HotelModel>()
-                    .FirstOrDefaultAsync(hotel => hotel.Id == booking.HotelModelId);
-
-                var snippet = _getEmailTemplateHtmlWithParametersService
-                    .GetEmailTemplateHtmlWithParameters(template, currentUser, booking, hotel);
-
-                // Append each booking's rendered template
-                sb.AppendLine(snippet);
-                sb.AppendLine("<hr style=\"margin:16px 0; border:none; border-top:1px solid #ddd;\">");
-            }
-
-            sb.AppendLine("  </div>");
-            sb.AppendLine("  <p style=\"font-size:12px;color:#666;\">This is a consolidated email for your recent checkout.</p>");
-            sb.AppendLine("</div>");
-
-            var combinedBody = sb.ToString();
-
-            // Send a single email containing all bookings
-            await _emailSender.SendAsync(emailReceiver, subject, combinedBody);
+            await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
 
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
             
