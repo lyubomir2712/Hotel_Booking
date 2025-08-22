@@ -102,16 +102,10 @@ namespace HotelBooking.Web.Controllers
 
             foreach (var booking in bookings)
             {
-                string checkoutedBookingsEmailHtmlBody = await _getEmailTemplateHtmlWithParametersService.GetEmailTemplateHtmlWithParameters(template, currentUser, booking);
+                var hotel = await _unitOfWork.Repository<HotelModel>().FirstOrDefaultAsync(hotel => hotel.Id == booking.HotelModelId);
+                string checkoutedBookingsEmailHtmlBody = _getEmailTemplateHtmlWithParametersService.GetEmailTemplateHtmlWithParameters(template, currentUser, booking, hotel);
                 await _emailSender.SendAsync(emailReceiver, subject, checkoutedBookingsEmailHtmlBody);
             }
-                 //template
-            //     .Replace("{GuestFirstName}", currentUser.FirstName);
-                // .Replace("{BookingCount}", bookings?.Count.ToString() ?? "0");
-            
-            
-            
-            
             
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
             
