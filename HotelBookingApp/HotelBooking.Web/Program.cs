@@ -41,6 +41,8 @@ builder.Services.AddDefaultIdentity<UserModel>(options =>
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
         options.Password.RequiredUniqueChars = 0;
+        options.SignIn.RequireConfirmedAccount = true; 
+
     }).AddRoles<UserRole>()
       .AddEntityFrameworkStores<BookingDbContext>()
       .AddSignInManager<SignInManager<UserModel>>();
@@ -84,6 +86,7 @@ builder.Services.AddSingleton<IEmailTemplatePathProviderService, EmailTemplatePa
 builder.Services.AddSingleton<IGetEmailTemplateFromPathService, GetEmailTemplateFromPathService>();
 builder.Services.AddSingleton<IGetEmailTemplateHtmlWithParametersService, GetEmailTemplateHtmlWithParametersService>();
 builder.Services.AddScoped<ICheckoutEmailService, CheckoutEmailService>();
+builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, IdentityEmailSenderAdapter>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
