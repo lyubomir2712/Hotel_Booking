@@ -41,7 +41,6 @@ builder.Services.AddDefaultIdentity<UserModel>(options =>
         options.Password.RequireLowercase = false;
         options.Password.RequireUppercase = false;
         options.Password.RequiredUniqueChars = 0;
-        options.SignIn.RequireConfirmedAccount = true; 
 
     }).AddRoles<UserRole>()
       .AddEntityFrameworkStores<BookingDbContext>()
