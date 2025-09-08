@@ -30,16 +30,15 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
         private readonly RoleManager<UserRole> roleManager;
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        //private readonly Microsoft.AspNetCore.Identity.IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
             IUserStore<UserModel> userStore,
             RoleManager<UserRole> roleManager,
             SignInManager<UserModel> signInManager,
-            ILogger<RegisterModel> logger
-            // ,
-            // IEmailSender emailSender
+            ILogger<RegisterModel> logger,
+            IEmailSender emailSender
             )
         {
             _userManager = userManager;
@@ -48,7 +47,7 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            // _emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -138,6 +137,20 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
+                    // Generate email confirmation link and send email
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var encodedCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(
+                        Input.Email,
+                        "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
                     var role = await roleManager.FindByNameAsync("Regular");
                     if (role != null)
                     {
@@ -163,6 +176,7 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+        
 
         private UserModel CreateUser()
         {
