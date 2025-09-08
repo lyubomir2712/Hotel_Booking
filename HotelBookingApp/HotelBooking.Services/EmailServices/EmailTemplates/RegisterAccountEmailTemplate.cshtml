@@ -1,3 +1,4 @@
+@using System.Text.Encodings.Web
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,5 +7,104 @@
 </head>
 <body>
     <p>Test Lyubomir</p>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyBook – Verify Your Email</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f5f7fb; font-family:Arial, Helvetica, sans-serif; color:#111111;">
+    <!-- Wrapper -->
+    <table role="presentation" style="width:100%; background-color:#f5f7fb; margin:0 auto; padding:0; border-collapse:collapse; border-spacing:0; border:0;">
+        <tr>
+            <td align="center" style="padding:24px 12px; margin:0 auto">
+                <!-- Container -->
+                <table role="presentation" style="width:600px; max-width:600px; background-color:#ffffff; border-collapse:separate; border-radius:8px; overflow:hidden; border-spacing:0; border:0;">
+                    <!-- Header / Brand -->
+                    <tr>
+                        <td style="padding:28px 32px; text-align:center; background-color:#003b95;">
+                            <a href="{{AppBaseUrl}}" style="text-decoration:none; display:inline-block;">
+                                <span style="font-size:20px; line-height:24px; color:#ffffff; font-weight:bold; letter-spacing:0.5px;">EasyBook</span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <!-- Title Bar -->
+                    <tr>
+                        <td style="padding:16px 32px; background-color:#E1E4FDFF; color:black; text-align:center;">
+                            <span style="font-size:18px; font-weight:bold;">Verify your email</span>
+                        </td>
+                    </tr>
+
+                    <!-- Intro -->
+                    <tr>
+                        <td style="padding:24px 32px;">
+                            <p style="margin:0 0 12px 0; font-size:20px; line-height:24px; text-align:left;">Hi {{UserFirstName}},</p>
+                            <p style="margin:0; font-size:14px; line-height:22px; color:#374151; text-align:left;">Welcome to EasyBook! Please confirm your email address to activate your account and start booking your perfect stay.</p>
+                        </td>
+                    </tr>
+
+                    <!-- CTA Card -->
+                    <tr>
+                        <td style="padding:0 32px 24px 32px;">
+                            <table role="presentation" style="width:100%; border:1px solid #e5e7eb; border-radius:8px; border-collapse:separate; border-spacing:0;">
+                                <tr>
+                                    <td style="padding:16px; background-color:#f9fafb; border-bottom:1px solid #e5e7eb; text-align:left;">
+                                        <span style="font-size:14px; color:#6b7280;">Action required</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:20px 16px 16px 16px; text-align:center;">
+                                        <!-- Button -->
+                                        <a href='@{HtmlEncoder.Default.Encode(callbackUrl)}' style="font-size:14px; font-weight:bold; text-decoration:none; display:inline-block; padding:12px 18px; border-radius:6px; background-color:#003b95; color:#ffffff;">Verify email</a>
+
+                                        <!-- Code (optional) -->
+                                        <div style="margin-top:16px; font-size:12px; color:#6b7280;">Or enter this code in the app:</div>
+                                        <div style="margin-top:6px; font-family:Consolas, 'Courier New', monospace; font-size:22px; letter-spacing:3px; font-weight:bold; color:#111827;">{{VerificationCode}}</div>
+
+                                        <div style="margin-top:10px; font-size:12px; color:#6b7280;">This link/code expires in {{CodeExpiry}}.</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Help & Security Tips -->
+                    <tr>
+                        <td style="padding:0 32px 24px 32px;">
+                            <table role="presentation" style="width:100%; border:1px solid #e5e7eb; border-radius:8px; border-collapse:separate; border-spacing:0;">
+                                <tr>
+                                    <td style="padding:16px; background-color:#f9fafb; border-bottom:1px solid #e5e7eb; text-align:left;">
+                                        <span style="font-size:14px; color:#6b7280;">Having trouble?</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:16px; font-size:14px; line-height:22px; color:#374151; text-align:left;">
+                                        <p style="margin:0 0 8px 0;">If the button doesn't work, copy and paste this URL into your browser:</p>
+                                        <p style="margin:0 0 12px 0; word-break:break-all;"><a href="{{VerificationUrl}}" style="color:#003b95; text-decoration:underline;">{{VerificationUrl}}</a></p>
+                                        <p style="margin:0;">Didn't create an EasyBook account? You can safely ignore this email or <a href="{{SupportUrl}}" style="color:#003b95; text-decoration:underline;">contact support</a>.</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding:24px 32px 32px 32px; text-align:center; color:#6b7280; font-size:12px;">
+                            <div style="margin-bottom:6px;">You received this email because you signed up for an EasyBook account.</div>
+                            <div style="margin-bottom:6px;"><a href="{{PreferencesUrl}}" style="color:#6b7280; text-decoration:underline;">Manage email preferences</a> • <a href="{{SupportUrl}}" style="color:#6b7280; text-decoration:underline;">Support</a></div>
+                            <div style="color:#9ca3af;">© {{Year}} EasyBook. All rights reserved.</div>
+                        </td>
+                    </tr>
+                </table>
+                <!-- /Container -->
+            </td>
+        </tr>
+    </table>
+    <!-- /Wrapper -->
 </body>
 </html>

@@ -12,18 +12,18 @@ namespace HotelBooking.Services.EmailServices
         private readonly IEmailSender _emailSender;
         private readonly IEmailTemplatePathProviderService _emailTemplatePathProviderService;
         private readonly IGetEmailTemplateFromPathService _getEmailTemplateFromPathService;
-        private readonly IGetEmailTemplateHtmlWithParametersService _getEmailTemplateHtmlWithParametersService;
+        private readonly IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService _getCheckoutedBookingsEmailTemplateHtmlWithParametersService;
 
         public CheckoutEmailService(
             IEmailSender emailSender,
             IEmailTemplatePathProviderService emailTemplatePathProviderService,
             IGetEmailTemplateFromPathService getEmailTemplateFromPathService,
-            IGetEmailTemplateHtmlWithParametersService getEmailTemplateHtmlWithParametersService)
+            IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService getCheckoutedBookingsEmailTemplateHtmlWithParametersService)
         {
             _emailSender = emailSender;
             _emailTemplatePathProviderService = emailTemplatePathProviderService;
             _getEmailTemplateFromPathService = getEmailTemplateFromPathService;
-            _getEmailTemplateHtmlWithParametersService = getEmailTemplateHtmlWithParametersService;
+            _getCheckoutedBookingsEmailTemplateHtmlWithParametersService = getCheckoutedBookingsEmailTemplateHtmlWithParametersService;
         }
 
         public async Task SendCheckoutSummaryAsync(IUnitOfWork unitOfWork, UserModel currentUser, List<BookingModel> bookings)
@@ -49,7 +49,7 @@ namespace HotelBooking.Services.EmailServices
                 var hotel = await unitOfWork.Repository<HotelModel>()
                     .FirstOrDefaultAsync(h => h.Id == booking.HotelModelId);
 
-                var renderedEmailBookingHtml = _getEmailTemplateHtmlWithParametersService
+                var renderedEmailBookingHtml = _getCheckoutedBookingsEmailTemplateHtmlWithParametersService
                     .GetEmailTemplateHtmlWithParameters(template, currentUser, booking, hotel);
 
                 stringBuilder.AppendLine(renderedEmailBookingHtml);

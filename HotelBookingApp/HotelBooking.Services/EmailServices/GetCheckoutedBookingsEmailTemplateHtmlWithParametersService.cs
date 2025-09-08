@@ -5,7 +5,7 @@ using HotelBooking.Services.Contracts.EmailServicesContracts;
 
 namespace HotelBooking.Services.EmailServices;
 
-public class GetEmailTemplateHtmlWithParametersService : IGetEmailTemplateHtmlWithParametersService
+public class GetCheckoutedBookingsEmailTemplateHtmlWithParametersService : IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService
 {
     public string GetEmailTemplateHtmlWithParameters(string template,UserModel receiver, BookingModel booking, HotelModel hotel)
     {

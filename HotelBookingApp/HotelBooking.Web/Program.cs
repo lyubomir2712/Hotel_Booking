@@ -82,9 +82,11 @@ builder.Services.Configure<SmtpOptions>(builder.Configuration.GetSection("Smtp")
 builder.Services.AddTransient<IEmailSender, MailKitEmailSender>();
 builder.Services.AddSingleton<IEmailTemplatePathProviderService, EmailTemplatePathProviderService>();
 builder.Services.AddSingleton<IGetEmailTemplateFromPathService, GetEmailTemplateFromPathService>();
-builder.Services.AddSingleton<IGetEmailTemplateHtmlWithParametersService, GetEmailTemplateHtmlWithParametersService>();
+builder.Services.AddSingleton<IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService, GetCheckoutedBookingsEmailTemplateHtmlWithParametersService>();
 builder.Services.AddScoped<ICheckoutEmailService, CheckoutEmailService>();
-builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, IdentityEmailSenderAdapter>();
+builder.Services
+    .AddSingleton<IGetRegisteredAccountEmailTemplateHtmlWithParametersService,
+        GetRegisteredAccountEmailTemplateHtmlWithParametersService>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();

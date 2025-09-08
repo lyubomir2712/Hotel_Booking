@@ -3,7 +3,7 @@ using HotelBooking.Models.Identity;
 
 namespace HotelBooking.Services.Contracts.EmailServicesContracts;
 
-public interface IGetEmailTemplateHtmlWithParametersService
+public interface IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService
 {
     public string GetEmailTemplateHtmlWithParameters(string template, UserModel receiver, BookingModel booking, HotelModel hotel);
 }
