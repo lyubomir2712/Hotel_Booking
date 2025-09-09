@@ -31,7 +31,6 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
         private readonly RoleManager<UserRole> roleManager;
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
-        // private readonly IEmailSender _emailSender;
         private readonly IRegisterAccountEmailService _registerAccountEmailService;
 
         public RegisterModel(
@@ -40,7 +39,6 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             RoleManager<UserRole> roleManager,
             SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger,
-            // IEmailSender emailSender,
             IRegisterAccountEmailService registerAccountEmailService
             )
         {
@@ -50,7 +48,6 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             _emailStore = GetEmailStore();
             _signInManager = signInManager;
             _logger = logger;
-            // _emailSender = emailSender;
             _registerAccountEmailService = registerAccountEmailService;
         }
 
@@ -152,11 +149,6 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
 
                     await _registerAccountEmailService.SendRegisteredAccountService(user, callbackUrl);
                     
-                    // await _emailSender.SendEmailAsync(
-                    //     Input.Email,
-                    //     "Confirm your email",
-                    //     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
                     var role = await roleManager.FindByNameAsync("Regular");
                     if (role != null)
                     {
