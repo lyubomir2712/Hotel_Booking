@@ -57,7 +57,7 @@
                             <span class="review-count">@hotel.ReviewsCount reviews</span>
                         </div>
                     </div>
-                    <p class="card-text" style="color:black; font-weight:600; font-size:1rem; position:absolute; bottom:10px; right:10px; margin:0;">BGN @String.Format("{0:0.00}", booking.Price) </p>
+                    <p class="card-text" style="color:black; font-weight:600; font-size:1rem; position:absolute; bottom:10px; right:10px; margin:0;">BGN @booking.Price.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</p>
 
                     <br><br>
 
