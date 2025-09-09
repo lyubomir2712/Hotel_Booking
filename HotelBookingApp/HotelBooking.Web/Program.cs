@@ -87,6 +87,7 @@ builder.Services.AddScoped<ICheckoutEmailService, CheckoutEmailService>();
 builder.Services
     .AddSingleton<IGetRegisteredAccountEmailTemplateHtmlWithParametersService,
         GetRegisteredAccountEmailTemplateHtmlWithParametersService>();
+builder.Services.AddScoped<IRegisterAccountEmailService, RegisterAccountEmailService>();
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();

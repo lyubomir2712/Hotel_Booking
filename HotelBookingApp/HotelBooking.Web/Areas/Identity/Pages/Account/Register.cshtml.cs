@@ -11,14 +11,15 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using HotelBooking.Models.Identity;
+using HotelBooking.Services.Contracts.EmailServicesContracts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using IEmailSender = Microsoft.AspNetCore.Identity.UI.Services.IEmailSender;
 
 namespace HotelBooking.Web.Areas.Identity.Pages.Account
 {
@@ -31,6 +32,7 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<UserModel> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IRegisterAccountEmailService _registerAccountEmailService;
 
         public RegisterModel(
             UserManager<UserModel> userManager,
@@ -38,7 +40,8 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             RoleManager<UserRole> roleManager,
             SignInManager<UserModel> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+            IRegisterAccountEmailService registerAccountEmailService
             )
         {
             _userManager = userManager;
@@ -48,6 +51,7 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _registerAccountEmailService = registerAccountEmailService;
         }
 
         /// <summary>
@@ -146,6 +150,8 @@ namespace HotelBooking.Web.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = encodedCode, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
+                    await _registerAccountEmailService.SendRegisteredAccountService(user, callbackUrl);
+                    
                     await _emailSender.SendEmailAsync(
                         Input.Email,
                         "Confirm your email",
