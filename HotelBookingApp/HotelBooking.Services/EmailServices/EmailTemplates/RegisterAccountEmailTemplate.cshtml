@@ -59,13 +59,7 @@
                                 <tr>
                                     <td style="padding:20px 16px 16px 16px; text-align:center;">
                                         <!-- Button -->
-                                        <a href='@{HtmlEncoder.Default.Encode("{{callbackUrl}}")}' style="font-size:14px; font-weight:bold; text-decoration:none; display:inline-block; padding:12px 18px; border-radius:6px; background-color:#003b95; color:#ffffff;">Verify email</a>
-
-                                        <!-- Code (optional) -->
-                                        <div style="margin-top:16px; font-size:12px; color:#6b7280;">Or enter this code in the app:</div>
-                                        <div style="margin-top:6px; font-family:Consolas, 'Courier New', monospace; font-size:22px; letter-spacing:3px; font-weight:bold; color:#111827;">{{VerificationCode}}</div>
-
-                                        <div style="margin-top:10px; font-size:12px; color:#6b7280;">This link/code expires in {{CodeExpiry}}.</div>
+                                        <a href="{{CallbackUrl}}" style="font-size:14px; font-weight:bold; text-decoration:none; display:inline-block; padding:12px 18px; border-radius:6px; background-color:#003b95; color:#ffffff;">Verify email</a>
                                     </td>
                                 </tr>
                             </table>

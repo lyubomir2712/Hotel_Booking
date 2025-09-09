@@ -1,3 +1,4 @@
+using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
 
 namespace HotelBooking.Services.EmailServices;

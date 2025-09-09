@@ -7,6 +7,11 @@ public class GetRegisteredAccountEmailTemplateHtmlWithParametersService : IGetRe
 {
     public string GetEmailTemplateHtmlWithParameters(string template, UserModel receiver, string callbackUrl)
     {
-        return template.Replace("{{callbackUrl}}", callbackUrl);
+        var safeUrl = System.Text.Encodings.Web.HtmlEncoder.Default.Encode(callbackUrl);
+        return 
+            template.Replace("{{CallbackUrl}}", safeUrl)
+                .Replace("{{UserFirstName}}", receiver.FirstName)
+                .Replace("{{VerificationUrl}}", safeUrl)
+                .Replace("{{Year}}", DateTime.Now.Year.ToString());
     }
 }
