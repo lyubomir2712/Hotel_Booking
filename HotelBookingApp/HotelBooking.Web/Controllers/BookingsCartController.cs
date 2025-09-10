@@ -9,6 +9,8 @@ using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using HotelBooking.Services.EmailServices;
+using Microsoft.AspNetCore.SignalR;
+using HotelBooking.Web.Hubs;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -21,11 +23,12 @@ namespace HotelBooking.Web.Controllers
         private readonly ICheckoutBookingsService _checkoutBookingsService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICheckoutEmailService _checkoutEmailService;
+        private readonly IHubContext<AdminNotificationsHub> _adminNotificationsHubContext;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
-             ICheckoutEmailService checkoutEmailService)
+             ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -34,6 +37,7 @@ namespace HotelBooking.Web.Controllers
             _checkoutBookingsService = checkoutBookingsService;
             _unitOfWork = unitOfWork;
             _checkoutEmailService = checkoutEmailService;
+            _adminNotificationsHubContext = adminNotificationsHubContext;
         }
 
 
@@ -88,6 +92,10 @@ namespace HotelBooking.Web.Controllers
             await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
 
             await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
+
+            await _adminNotificationsHubContext.Clients
+                .Group("Admins")
+                .SendAsync($"A customer has made {bookings.Count} new {(bookings.Count > 1 ? "bookings" : "booking")}");
             
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }

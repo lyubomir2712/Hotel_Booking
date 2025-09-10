@@ -24,9 +24,4 @@ public class AdminNotificationsHub : Hub
         }
         await base.OnDisconnectedAsync(exception);
     }
-
-    public async Task NotifyAdminForNewBookings(object? payload = null)
-    {
-        await Clients.Group(AdminGroup).SendAsync("A Customer has made new bookings", payload);
-    }
 }
