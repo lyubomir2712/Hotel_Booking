@@ -16,6 +16,7 @@ using DotNetEnv;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
 using HotelBooking.Services.EmailServices;
+using HotelBooking.Web.Hubs;
 
 Env.Load();
 
@@ -97,10 +98,16 @@ builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBook
 builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "qwen2.5:7b-instruct"));
 builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
 
+//SignalR
+builder.Services.AddSignalR();
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+app.MapHub<AdminNotificationsHub>("adminNotificationsHub");
 
 if (app.Environment.IsDevelopment())
 {
