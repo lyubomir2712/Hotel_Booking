@@ -95,7 +95,7 @@ namespace HotelBooking.Web.Controllers
 
             await _adminNotificationsHubContext.Clients
                 .Group("Admins")
-                .SendAsync($"A customer has made {bookings.Count} new {(bookings.Count > 1 ? "bookings" : "booking")}");
+                .SendAsync("sendAdminNotificationForCheckout",$"A customer has made {bookings.Count} new {(bookings.Count > 1 ? "bookings" : "booking")}");
             
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }

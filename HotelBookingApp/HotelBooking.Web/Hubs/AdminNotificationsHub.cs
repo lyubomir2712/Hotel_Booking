@@ -3,25 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace HotelBooking.Web.Hubs;
 
+[Authorize(Roles = "Admin")]
 public class AdminNotificationsHub : Hub
 {
-    private const string AdminGroup = "Admins";
-
-    public override async Task OnConnectedAsync()
-    {
-        if (Context?.User?.IsInRole("Admin") == true)
-        {
-            await Groups.AddToGroupAsync(Context.ConnectionId, AdminGroup);
-        }
-        await base.OnConnectedAsync();
-    }
-
-    public override async Task OnDisconnectedAsync(Exception? exception)
-    {
-        if (Context?.User?.IsInRole("Admin") == true)
-        {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, AdminGroup);
-        }
-        await base.OnDisconnectedAsync(exception);
-    }
 }

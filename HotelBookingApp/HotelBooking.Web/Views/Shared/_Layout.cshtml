@@ -182,10 +182,27 @@
       <span class="ai-icon">AI</span>
       <span class="close-icon" aria-hidden="true">&times;</span>
     </div>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
   <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="~/lib/signalr/signalr.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@if (User.IsInRole("Admin"))
+{
+    <script>
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("/adminNotificationsHub")
+            .build();
+
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        // Example: listening to server event
+        connection.on("sendAdminNotificationForCheckout", function (message) {
+            alert("Admin notification: " + message);
+        });
+    </script>
+}
 <script>
       (function () {
         function appendUserMessage(text) {

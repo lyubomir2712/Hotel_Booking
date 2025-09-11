@@ -107,7 +107,7 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-app.MapHub<AdminNotificationsHub>("adminNotificationsHub");
+app.MapHub<AdminNotificationsHub>("/adminNotificationsHub");
 
 if (app.Environment.IsDevelopment())
 {
