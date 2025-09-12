@@ -104,6 +104,57 @@
           padding-right: 0 !important;
           max-width: 100% !important;
       }
+      /* Admin toast notifications */
+      #admin-toast-container {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+        z-index: 2000; /* above navbar and chat FAB (1051) */
+        pointer-events: none; /* allow clicks through gaps */
+      }
+      .admin-toast {
+        pointer-events: auto; /* clickable */
+        min-width: 280px;
+        max-width: 360px;
+        background: #e6f4ea; /* light green */
+        border: 1px solid #b7e0c2;
+        color: #0f5132;
+        border-left: 4px solid #27ae60;
+        box-shadow: 0 8px 24px rgba(0,0,0,.15);
+        border-radius: 8px;
+        padding: .75rem .75rem .75rem .875rem;
+        display: flex;
+        align-items: flex-start;
+        gap: .75rem;
+        opacity: 0;
+        transform: translateY(-6px);
+        transition: opacity .25s ease, transform .25s ease;
+      }
+      .admin-toast.show { opacity: 1; transform: translateY(0); }
+      .admin-toast.hide { opacity: 0; transform: translateY(-6px); }
+      .admin-toast .toast-icon {
+        flex: 0 0 20px;
+        width: 20px; height: 20px; border-radius: 50%;
+        background: #27ae60; color: #fff; font-weight: 700; font-size: 12px;
+        display: inline-flex; align-items: center; justify-content: center;
+        line-height: 1;
+        user-select: none;
+      }
+      .admin-toast .toast-body {
+        flex: 1 1 auto;
+        line-height: 1.2;
+        word-wrap: break-word; word-break: break-word; white-space: normal;
+      }
+      .admin-toast .toast-close {
+        background: transparent; border: 0; cursor: pointer;
+        color: #0f5132; font-size: 18px; line-height: 1;
+        padding: 0 .25rem; margin-left: .25rem;
+        opacity: .7;
+      }
+      .admin-toast .toast-close:hover { opacity: 1; }
     </style>
 </head>
 <body>
@@ -128,6 +179,7 @@
             </div>
         </nav>
     </header>
+    <div id="admin-toast-container" aria-live="polite" aria-atomic="false"></div>
     <div class="container flex-grow-1">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -191,16 +243,74 @@
     <script>
         var connection = new signalR.HubConnectionBuilder()
             .withUrl("/adminNotificationsHub")
+            .withAutomaticReconnect()
+            .configureLogging(signalR.LogLevel.Trace)
             .build();
+        
+        // Toast creation helper
+        function createAdminToast(message) {
+            var container = document.getElementById('admin-toast-container');
+            if (!container) return;
+
+            var toast = document.createElement('div');
+            toast.className = 'admin-toast';
+            toast.setAttribute('role', 'status');
+
+            var icon = document.createElement('div');
+            icon.className = 'toast-icon';
+            icon.textContent = '✓';
+
+            var body = document.createElement('div');
+            body.className = 'toast-body';
+            body.textContent = message || 'Ново известие';
+
+            var close = document.createElement('button');
+            close.className = 'toast-close';
+            close.setAttribute('aria-label', 'Close notification');
+            close.type = 'button';
+            close.innerHTML = '&times;';
+
+            close.addEventListener('click', function () {
+                dismiss(true);
+            });
+
+            toast.appendChild(icon);
+            toast.appendChild(body);
+            toast.appendChild(close);
+            container.appendChild(toast);
+
+            // small async to allow transition
+            requestAnimationFrame(function () {
+                toast.classList.add('show');
+            });
+
+            // auto-dismiss after 10s with fade
+            var hideTimer = setTimeout(function () {
+                dismiss(false);
+            }, 10000);
+
+            function dismiss(isManual) {
+                clearTimeout(hideTimer);
+                toast.classList.add('hide');
+                toast.classList.remove('show');
+                // remove after transition
+                setTimeout(function () {
+                    if (toast && toast.parentNode) toast.parentNode.removeChild(toast);
+                }, 300);
+            }
+        }
+
+        connection.on('sendAdminNotificationForCheckout', function (message) {
+            console.log('Admin notification received:', message);
+            createAdminToast(message);
+        });
 
         connection.start().catch(function (err) {
             return console.error(err.toString());
         });
 
         // Example: listening to server event
-        connection.on("sendAdminNotificationForCheckout", function (message) {
-            alert("Admin notification: " + message);
-        });
+        
     </script>
 }
 <script>

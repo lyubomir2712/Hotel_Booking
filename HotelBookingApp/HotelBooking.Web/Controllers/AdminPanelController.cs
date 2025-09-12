@@ -33,4 +33,6 @@ public class AdminPanelController : Controller
         await _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_unitOfWork, bookingId);
         return RedirectToAction("GetCheckoutedHotels");
     }
+    
+    
 }

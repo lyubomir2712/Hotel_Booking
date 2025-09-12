@@ -18,7 +18,7 @@ public class HotelsController : Controller
     
     public async Task<IActionResult> HotelsSearch(ApiDataViewModel apiDataViewModel)
     {
-         var oldResponse = await _apiService.GetHotelsByLocation(_httpClient, apiDataViewModel);
+         //var oldResponse = await _apiService.GetHotelsByLocation(_httpClient, apiDataViewModel);
         var response = new List<BookingViewModel>
         {
             new BookingViewModel
@@ -76,6 +76,6 @@ public class HotelsController : Controller
                 RoomsNumber = 2,
             }
         };
-        return View(oldResponse);
+        return View(response);
     }
 }
