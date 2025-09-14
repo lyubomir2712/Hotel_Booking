@@ -216,6 +216,25 @@
         width: 100%;
         height: 100%;
         object-fit: cover;   /* fill cell while preserving aspect */
+        transition: transform .3s ease;
+      }
+      .popular-destinations-section .destinations-container > div:hover img {
+        transform: scale(1.05);
+      }
+      /* Top gradient overlay for destination cells */
+      .popular-destinations-section .destinations-container > div::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom,
+          rgba(0,0,0,.75) 0%,
+          rgba(0,0,0,.62) 22%,
+          rgba(0,0,0,.38) 44%,
+          rgba(0,0,0,0) 64% /* a little above the middle */
+        );
+        border-radius: inherit;        /* match rounded corners */
+        pointer-events: none;          /* keep cell interactions intact */
+        z-index: 1;                    /* sit below the label but above the image */
       }
       /* Top-left label for destination cells */
       .popular-destinations-section .destination-label {
@@ -226,12 +245,16 @@
         align-items: center;
         gap: .5rem;
         padding: .25rem .5rem;
-        background: rgba(0,0,0,.55);
         color: #fff;
         border-radius: .5rem;
         font-weight: 600;
         z-index: 2;
-        backdrop-filter: blur(2px);
+        font-size: 1.5rem;
+      }
+      @@media (min-width: 992px) {
+        .popular-destinations-section .destination-label {
+          font-size: 1.75rem;
+        }
       }
       .popular-destinations-section .destination-label .flag { line-height: 1; }
     </style>
