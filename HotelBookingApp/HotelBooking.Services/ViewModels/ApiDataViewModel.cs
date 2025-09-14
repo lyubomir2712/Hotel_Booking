@@ -18,9 +18,5 @@ namespace HotelBooking.Services.ViewModels
         public int ChildrenNumber { get; set; }
         
         public int RoomsNumber { get; set; }
-        public double MinPrice { get; set; } = 0;
-        public double MaxPrice { get; set; } = 800;
-
-        
     }
 }

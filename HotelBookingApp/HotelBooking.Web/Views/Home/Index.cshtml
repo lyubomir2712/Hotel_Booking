@@ -93,30 +93,6 @@
       .seg-control .seg-btn:active { transform: translateY(0.5px); }
       .seg-control .seg-btn[disabled] { opacity: .5; cursor: not-allowed; }
 
-      .currency-input { position: relative; }
-      .currency-input > input.form-control { padding-right: 3.25rem; }
-      .currency-input::after {
-        content: 'BGN';
-        position: absolute;
-        right: 2.25rem;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #000; 
-        pointer-events: none;
-      }
-
-      #price-max::-webkit-outer-spin-button,
-      #price-max::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-      #price-max[type=number] { -moz-appearance: textfield; }
-
-      #price-min::-webkit-outer-spin-button,
-      #price-min::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-      #price-min[type=number] { -moz-appearance: textfield; }
-
-      .currency-input.no-spin > input.form-control { padding-right: 2.75rem; }
-      .currency-input.no-spin::after { right: .5rem; }
-
-      #price-min { width: 130px; }
 
       .form-control::placeholder,
       input::placeholder,
@@ -194,16 +170,6 @@
               </div>
             </div>
             <div class="col-auto">
-                        <div class="d-flex align-items-center gap-1 flex-wrap">
-                            <div class="currency-input no-spin">
-                                <input type="number" class="form-control equal-h" id="price-min" name="MinPrice" min="0" max="2000" inputmode="numeric" aria-label="Minimum price" placeholder="From">
-                            </div>
-                            <div class="currency-input no-spin">
-                                <input type="number" class="form-control equal-h" id="price-max" asp-for="MaxPrice" min="0" max="2000" inputmode="numeric" aria-label="Maximum price" placeholder="To">
-                            </div>
-                        </div>
-                    </div>
-            <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Search</button>
                 </div>
         </div>
@@ -256,33 +222,6 @@
         })();
 
 
-        const minPriceInput = document.getElementById('price-min');
-        const maxPriceInput = document.getElementById('price-max');
-
-        function validatePrices() {
-          const min = minPriceInput.value === '' ? null : parseFloat(minPriceInput.value);
-          const max = maxPriceInput.value === '' ? null : parseFloat(maxPriceInput.value);
-          if (min != null && max != null && max < min) {
-            maxPriceInput.setCustomValidity('Max price must be greater than or equal to Min price.');
-          } else {
-            maxPriceInput.setCustomValidity('');
-          }
-        }
-
-        [minPriceInput, maxPriceInput].forEach(el => {
-          el.addEventListener('input', validatePrices);
-          el.addEventListener('blur', validatePrices);
-        });
-
-        document.getElementById('reservationForm').addEventListener('submit', (e) => {
-          validatePrices();
-          if (!maxPriceInput.checkValidity()) {
-            e.preventDefault();
-            maxPriceInput.reportValidity();
-          }
-        });
-
-        maxPriceInput.setCustomValidity('');
 
         const cityInput = document.getElementById('city');
         const citySuggestions = document.getElementById('citySuggestions');

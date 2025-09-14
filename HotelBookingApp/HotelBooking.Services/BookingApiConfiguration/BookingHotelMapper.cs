@@ -7,8 +7,6 @@ internal static class BookingHotelMapper
 {
     internal static IEnumerable<BookingViewModel> MapHotels(this 
         IEnumerable<BookingHotelJsonDto>? items,
-        double minPrice,
-        double maxPrice,
         string startDate,
         string endDate,
         int adultsNumber,
@@ -27,8 +25,7 @@ internal static class BookingHotelMapper
             if (!price.HasValue) continue;
 
             var p = price.Value;
-            if (!(p > minPrice && p <= maxPrice)) continue;
-
+            
             yield return new BookingViewModel
             {
                 HotelId = h.HotelId,
