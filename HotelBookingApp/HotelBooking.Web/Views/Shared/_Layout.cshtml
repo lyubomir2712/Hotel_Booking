@@ -155,13 +155,36 @@
         opacity: .7;
       }
       .admin-toast .toast-close:hover { opacity: 1; }
+      
+      #navbar .nav-link {
+                white-space: nowrap;
+            }
+      .navbar-light .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+      }
+  
+      .navbar-toggler:focus {
+          box-shadow: 0 0 0 .25rem rgba(255,255,255,.5) !important;
+      }
+
+      @@media (max-width: 576px) {
+        #navbar .navbar-collapse { align-items: flex-start !important; }
+        #navbar .nav-link, #navbar .dropdown-item { text-align: left !important; }
+      }
+      
+      @@media(max-width: 575px){
+        .admin-panel-button{
+         padding: 0;
+        }
+      }
+
     </style>
 </head>
 <body>
     <header>
         <nav id = "navbar" class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-transparent box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color: white; font-weight: bold; margin-left: 14rem;">EasyBook</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color: white; font-weight: bold;">EasyBook</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -170,7 +193,7 @@
                   
                     @if (User.IsInRole("Admin"))
                     {
-                    <a class="nav-link" style="color: white; " asp-controller="AdminPanel" asp-action="GetCheckoutedHotels">Admin panel</a>
+                    <a class="nav-link admin-panel-button" style="color: white; " asp-controller="AdminPanel" asp-action="GetCheckoutedHotels">Admin panel</a>
                     }
 
                    
