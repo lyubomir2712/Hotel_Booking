@@ -183,70 +183,146 @@
           margin-inline: auto;
         }
       }
+
+      /* Popular destinations grid */
+      .popular-destinations-section .destinations-container {
+        width: 100%;
+        height: 30rem;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .popular-destinations-section .destinations-cell-one { grid-column: 1 / span 2; background-color: red; }
+      .popular-destinations-section .destinations-cell-two { grid-column: 3; background-color: blue; }
+      .popular-destinations-section .destinations-cell-three { grid-column: 1; background-color: green; }
+      .popular-destinations-section .destinations-cell-four { grid-column: 2; background-color: yellow; }
+      .popular-destinations-section .destinations-cell-five { grid-column: 3; background-color: purple; }
+
+      /* Rounded corners for popular destination cells */
+      .popular-destinations-section .destinations-container > div {
+        border-radius: 12px; /* adjust as desired */
+      }
+      .popular-destinations-section .destinations-container img {
+        border-radius: inherit; /* match the parent radius */
+      }
+      /* Ensure destination images fit their cells without overflow */
+      .popular-destinations-section .destinations-container > div {
+        position: relative;
+        overflow: hidden; /* clip any overflow */
+      }
+      .popular-destinations-section .destinations-container img {
+        display: block;      /* remove inline-gap */
+        width: 100%;
+        height: 100%;
+        object-fit: cover;   /* fill cell while preserving aspect */
+      }
+      /* Top-left label for destination cells */
+      .popular-destinations-section .destination-label {
+        position: absolute;
+        top: .75rem;
+        left: .75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+        padding: .25rem .5rem;
+        background: rgba(0,0,0,.55);
+        color: #fff;
+        border-radius: .5rem;
+        font-weight: 600;
+        z-index: 2;
+        backdrop-filter: blur(2px);
+      }
+      .popular-destinations-section .destination-label .flag { line-height: 1; }
     </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
-        <div class="form-container grid-container flex-nowrap gap-1 px-1">
-            <div class="col-auto position-relative">
-                <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="Where are you going?" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
-                <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path fill="currentColor" d="M2.75 12h18.5c.69 0 1.25.56 1.25 1.25V18l.75-.75H.75l.75.75v-4.75c0-.69.56-1.25 1.25-1.25m0-1.5A2.75 2.75 0 0 0 0 13.25V18c0 .414.336.75.75.75h22.5A.75.75 0 0 0 24 18v-4.75a2.75 2.75 0 0 0-2.75-2.75zM0 18v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 0 18m22.5 0v3a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-1.5 0m-.75-6.75V4.5a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 2.25 4.5v6.75a.75.75 0 0 0 1.5 0V4.5a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 0 1.5 0m-13.25-3h7a.25.25 0 0 1 .25.25v2.75l.75-.75h-9l.75.75V8.5a.25.25 0 0 1 .25-.25m0-1.5A1.75 1.75 0 0 0 6.75 8.5v2.75c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75V8.5a1.75 1.75 0 0 0-1.75-1.75z"></path>
-                </svg>
-                <div id="citySuggestions" class="city-suggestions" role="listbox" aria-label="City suggestions" aria-live="polite"></div>
-            </div>
-            <div class="col-auto position-relative">
-                <input type="text" class="form-control equal-h js-date" id="dateRange" placeholder="Check-in — Check-out" required autocomplete="off" inputmode="none" aria-label="Date range">
-                <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                  <path fill="currentColor" d="M22.5 13.5v8.25a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1-.75-.75V5.25a.75.75 0 0 1 .75-.75h19.5a.75.75 0 0 1 .75.75zm1.5 0V5.25A2.25 2.25 0 0 0 21.75 3H2.25A2.25 2.25 0 0 0 0 5.25v16.5A2.25 2.25 0 0 0 2.25 24h19.5A2.25 2.25 0 0 0 24 21.75zm-23.25-3h22.5a.75.75 0 0 0 0-1.5H.75a.75.75 0 0 0 0 1.5M7.5 6V.75a.75.75 0 0 0-1.5 0V6a.75.75 0 0 0 1.5 0M18 6V.75a.75.75 0 0 0-1.5 0V6A.75.75 0 0 0 18 6M5.095 14.03a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28A1.125 1.125 0 1 0 12 15a1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06M12 18a1.125 1.125 0 1 0 0 2.25A1.125 1.125 0 0 0 12 18a.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"/>
-                </svg>
-                <input type="hidden" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate">
-                <input type="hidden" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate">
-            </div>
-            <div class="col-auto position-relative">
-              <input type="text" class="form-control equal-h" id="guestsSummary" placeholder="2 adults - 0 children - 1 room" readonly autocomplete="off" aria-haspopup="dialog" aria-expanded="false">
-              <svg class="input-left-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50px" aria-hidden="true" focusable="false">
-                <path fill="currentColor" d="M16.5 6a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0M18 6A6 6 0 1 0 6 6a6 6 0 0 0 12 0M3 23.25a9 9 0 1 1 18 0 .75.75 0 0 0 1.5 0c0-5.799-4.701-10.5-10.5-10.5S1.5 17.451 1.5 23.25a.75.75 0 0 0 1.5 0"></path>
-              </svg>
+      <div class="form-container grid-container flex-nowrap gap-1 px-1">
+        <div class="col-auto position-relative">
+          <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="Where are you going?" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
+          <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M2.75 12h18.5c.69 0 1.25.56 1.25 1.25V18l.75-.75H.75l.75.75v-4.75c0-.69.56-1.25 1.25-1.25m0-1.5A2.75 2.75 0 0 0 0 13.25V18c0 .414.336.75.75.75h22.5A.75.75 0 0 0 24 18v-4.75a2.75 2.75 0 0 0-2.75-2.75zM0 18v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 0 18m22.5 0v3a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-1.5 0m-.75-6.75V4.5a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 2.25 4.5v6.75a.75.75 0 0 0 1.5 0V4.5a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 0 1.5 0m-13.25-3h7a.25.25 0 0 1 .25.25v2.75l.75-.75h-9l.75.75V8.5a.25.25 0 0 1 .25-.25m0-1.5A1.75 1.75 0 0 0 6.75 8.5v2.75c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75V8.5a1.75 1.75 0 0 0-1.75-1.75z"></path>
+          </svg>
+          <div id="citySuggestions" class="city-suggestions" role="listbox" aria-label="City suggestions" aria-live="polite"></div>
+        </div>
+        <div class="col-auto position-relative">
+          <input type="text" class="form-control equal-h js-date" id="dateRange" placeholder="Check-in — Check-out" required autocomplete="off" inputmode="none" aria-label="Date range">
+          <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M22.5 13.5v8.25a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1-.75-.75V5.25a.75.75 0 0 1 .75-.75h19.5a.75.75 0 0 1 .75.75zm1.5 0V5.25A2.25 2.25 0 0 0 21.75 3H2.25A2.25 2.25 0 0 0 0 5.25v16.5A2.25 2.25 0 0 0 2.25 24h19.5A2.25 2.25 0 0 0 24 21.75zm-23.25-3h22.5a.75.75 0 0 0 0-1.5H.75a.75.75 0 0 0 0 1.5M7.5 6V.75a.75.75 0 0 0-1.5 0V6a.75.75 0 0 0 1.5 0M18 6V.75a.75.75 0 0 0-1.5 0V6A.75.75 0 0 0 18 6M5.095 14.03a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28A1.125 1.125 0 1 0 12 15a1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06M12 18a1.125 1.125 0 1 0 0 2.25A1.125 1.125 0 0 0 12 18a.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"/>
+          </svg>
+          <input type="hidden" id="checkinDate" name="CheckinDate" asp-for="@Model.CheckinDate">
+          <input type="hidden" id="checkoutDate" name="CheckoutDate" asp-for="@Model.CheckoutDate">
+        </div>
+        <div class="col-auto position-relative">
+          <input type="text" class="form-control equal-h" id="guestsSummary" placeholder="2 adults - 0 children - 1 room" readonly autocomplete="off" aria-haspopup="dialog" aria-expanded="false">
+          <svg class="input-left-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="50px" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M16.5 6a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0M18 6A6 6 0 1 0 6 6a6 6 0 0 0 12 0M3 23.25a9 9 0 1 1 18 0 .75.75 0 0 0 1.5 0c0-5.799-4.701-10.5-10.5-10.5S1.5 17.451 1.5 23.25a.75.75 0 0 0 1.5 0"></path>
+          </svg>
 
-              <input type="hidden" id="adultsNumber" name="AdultsNumber" asp-for="@Model.AdultsNumber" value="2">
-              <input type="hidden" id="childrenNumber" name="ChildrenNumber" asp-for="@Model.ChildrenNumber" value="0">
-              <input type="hidden" id="roomNumber" name="RoomsNumber" asp-for="@Model.RoomsNumber" value="1">
+          <input type="hidden" id="adultsNumber" name="AdultsNumber" asp-for="@Model.AdultsNumber" value="2">
+          <input type="hidden" id="childrenNumber" name="ChildrenNumber" asp-for="@Model.ChildrenNumber" value="0">
+          <input type="hidden" id="roomNumber" name="RoomsNumber" asp-for="@Model.RoomsNumber" value="1">
 
-              <!-- Popup for selecting counts -->
-              <div id="guestsPopup" class="city-suggestions" role="dialog" aria-label="Select guests and rooms" aria-live="polite">
-                <div class="px-3 py-2 d-flex justify-content-between align-items-center">
-                  <div>Adults</div>
-                  <div class="seg-control" role="group" aria-label="Adults">
-                    <button type="button" class="seg-btn" data-target="adults" data-op="dec" aria-label="Decrease adults">−</button>
-                    <div class="seg-value" id="adultsCount" aria-live="polite">2</div>
-                    <button type="button" class="seg-btn" data-target="adults" data-op="inc" aria-label="Increase adults">+</button>
-                  </div>
-                </div>
-                <div class="px-3 py-2 d-flex justify-content-between align-items-center">
-                  <div>Children</div>
-                  <div class="seg-control" role="group" aria-label="Children">
-                    <button type="button" class="seg-btn" data-target="children" data-op="dec" aria-label="Decrease children">−</button>
-                    <div class="seg-value" id="childrenCount" aria-live="polite">0</div>
-                    <button type="button" class="seg-btn" data-target="children" data-op="inc" aria-label="Increase children">+</button>
-                  </div>
-                </div>
-                <div class="px-3 py-2 d-flex justify-content-between align-items-center">
-                  <div>Rooms</div>
-                  <div class="seg-control" role="group" aria-label="Rooms">
-                    <button type="button" class="seg-btn" data-target="rooms" data-op="dec" aria-label="Decrease rooms">−</button>
-                    <div class="seg-value" id="roomsCount" aria-live="polite">1</div>
-                    <button type="button" class="seg-btn" data-target="rooms" data-op="inc" aria-label="Increase rooms">+</button>
-                  </div>
-                </div>
-                <div class="px-3 pb-2">
-                  <button type="button" class="btn btn-outline-primary btn-sm w-100 bg-white" id="guestsDone">Done</button>
-                </div>
+          <!-- Popup for selecting counts -->
+          <div id="guestsPopup" class="city-suggestions" role="dialog" aria-label="Select guests and rooms" aria-live="polite">
+            <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+              <div>Adults</div>
+              <div class="seg-control" role="group" aria-label="Adults">
+                <button type="button" class="seg-btn" data-target="adults" data-op="dec" aria-label="Decrease adults">−</button>
+                <div class="seg-value" id="adultsCount" aria-live="polite">2</div>
+                <button type="button" class="seg-btn" data-target="adults" data-op="inc" aria-label="Increase adults">+</button>
               </div>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Search</button>
-                </div>
+            <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+              <div>Children</div>
+              <div class="seg-control" role="group" aria-label="Children">
+                <button type="button" class="seg-btn" data-target="children" data-op="dec" aria-label="Decrease children">−</button>
+                <div class="seg-value" id="childrenCount" aria-live="polite">0</div>
+                <button type="button" class="seg-btn" data-target="children" data-op="inc" aria-label="Increase children">+</button>
+              </div>
+            </div>
+            <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+              <div>Rooms</div>
+              <div class="seg-control" role="group" aria-label="Rooms">
+                <button type="button" class="seg-btn" data-target="rooms" data-op="dec" aria-label="Decrease rooms">−</button>
+                <div class="seg-value" id="roomsCount" aria-live="polite">1</div>
+                <button type="button" class="seg-btn" data-target="rooms" data-op="inc" aria-label="Increase rooms">+</button>
+              </div>
+            </div>
+            <div class="px-3 pb-2">
+              <button type="button" class="btn btn-outline-primary btn-sm w-100 bg-white" id="guestsDone">Done</button>
+            </div>
+          </div>
         </div>
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </div>
     </form>
+    <section class="popular-destinations-section">
+      <h2 class="mt-5">Popular destinations</h2>
+      <div class="destinations-container">
+        <div class="destinations-cell-one">
+          <div class="destination-label"><span>Sofia</span><span class="flag" aria-hidden="true">🇧🇬</span><span class="visually-hidden">Bulgaria flag</span></div>
+          <img src="img/Sofia.webp" alt="Sofia"/>
+        </div>
+        <div class="destinations-cell-two">
+          <div class="destination-label"><span>Santorini</span><span class="flag" aria-hidden="true">🇬🇷</span><span class="visually-hidden">Greece flag</span></div>
+          <img src="img/Santorini.jpeg" alt="Santorini"/>
+        </div>
+        <div class="destinations-cell-three">
+          <div class="destination-label"><span>Milano</span><span class="flag" aria-hidden="true">🇮🇹</span><span class="visually-hidden">Italy flag</span></div>
+          <img src="img/Milano.jpg" alt="Milano"/>
+        </div>
+        <div class="destinations-cell-four">
+          <div class="destination-label"><span>Vienna</span><span class="flag" aria-hidden="true">🇦🇹</span><span class="visually-hidden">Austria flag</span></div>
+          <img src="img/Vienna.webp" alt="Vienna"/>
+        </div>
+        <div class="destinations-cell-five">
+          <div class="destination-label"><span>Dubrovnik</span><span class="flag" aria-hidden="true">🇭🇷</span><span class="visually-hidden">Croatia flag</span></div>
+          <img src="img/Dubrovnik.webp" alt="Dubrovnik"/>
+        </div>
+      </div>
+    </section>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
@@ -294,8 +370,6 @@
             }
           });
         })();
-
-
 
         const cityInput = document.getElementById('city');
         const citySuggestions = document.getElementById('citySuggestions');
