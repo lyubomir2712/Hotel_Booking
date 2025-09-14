@@ -268,4 +268,29 @@
         border-left: 2px solid #d3d3d3;
         padding-left: 0.5rem;
     }
+    
+    @@media (max-width: 767.98px) {
+        .review-absolute {
+            top: 1rem;
+            right: 1.2rem; /* keep the whole block inside the card's right padding */
+        }
+        .review-top {
+            display: flex;
+            flex-direction: column; /* stack vertically: badge on top, text below */
+            align-items: flex-end;   /* right align both elements */
+            gap: 0.25rem;            /* tighter spacing on mobile */
+        }
+        .review-score-badge {
+            width: 37px;  /* ensure consistent badge size */
+            height: 37px;
+        }
+        .review-label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;   /* right-align text under the badge */
+            text-align: right;
+            max-width: 160px;        /* prevent text from extending past card edge */
+            word-break: break-word;  /* wrap long words if needed */
+        }
+    }
 </style>
