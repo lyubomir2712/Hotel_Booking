@@ -36,8 +36,7 @@ h1,h6 {
     align-items: center !important;
     justify-content: center !important;
     border-radius: 5px;
-    width: fit-content;
-    max-width: 100%;
+    width: 83.8%;
     height: 3.1rem;
     margin: 0 auto;
 }

@@ -6,10 +6,20 @@
 }
 
 <div class="container mt-5 mb-5">
+    <div class="hero-box">
     <h1>Find your next stay</h1>
     <h4 class="mb-5">Search low prices on hotels, homes and much more...</h4>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
+      .hero-box { 
+        max-width: 720px; 
+        margin-inline: auto; 
+      }
+      @@media (min-width: 992px) {
+        .hero-box { max-width: 960px; }
+      }
+      .form-container .form-control.equal-h,
+      .form-container button.btn { width: 100%; }
       .equal-h { height: 42px; }
       .city-suggestions {
         position: absolute;
@@ -109,6 +119,70 @@
       textarea::-ms-input-placeholder { color: #000 !important; }
 
       input[readonly]::placeholder { color: #000 !important; opacity: 1; }
+
+      @@media (min-width: 901px) and (max-width: 991.98px) {
+        .container {
+          max-width: 960px;
+        }
+      }
+
+      @@media(min-width: 768px) and (max-width: 900px) {
+        .form-container {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          gap: .5rem;
+          margin-top: 7rem;
+          height: 11.5rem;
+        }
+        .form-container > .col-auto { width: 100%; }
+        .form-container input {
+          width: 100% !important;
+        }
+        #guestsSummary {
+          width: 100% !important; /* override fixed 260px on mobile */
+        }
+        .form-container button.btn {
+          width: 100%;
+        }
+        .flatpickr-wrapper{
+          width: 100%;
+        }
+      }
+      
+       @@media(max-width: 767px) {
+              .form-container {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: .5rem;
+                margin-top: 7rem;
+                height: 12.6rem;
+              }
+              .form-container > .col-auto { width: 100%; }
+              .form-container input {
+                width: 100% !important;
+              }
+              #guestsSummary {
+                width: 100% !important; /* override fixed 260px on mobile */
+              }
+              .form-container button.btn {
+                width: 100%;
+              }
+              .flatpickr-wrapper{
+                        width: 100%;
+              }
+            }
+      @@media (min-width: 992px) and (max-width: 1199.98px) {
+        .form-container { width: 88%; margin-inline: auto; }
+      }
+      
+      @@media (min-width: 900px) and (max-width: 991px){
+        .form-container{
+          width: 111.5%;
+          margin-inline: auto;
+        }
+      }
     </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
         <div class="form-container grid-container flex-nowrap gap-1 px-1">
@@ -133,7 +207,6 @@
                 <path fill="currentColor" d="M16.5 6a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0M18 6A6 6 0 1 0 6 6a6 6 0 0 0 12 0M3 23.25a9 9 0 1 1 18 0 .75.75 0 0 0 1.5 0c0-5.799-4.701-10.5-10.5-10.5S1.5 17.451 1.5 23.25a.75.75 0 0 0 1.5 0"></path>
               </svg>
 
-              <!-- Hidden fields to submit with the form -->
               <input type="hidden" id="adultsNumber" name="AdultsNumber" asp-for="@Model.AdultsNumber" value="2">
               <input type="hidden" id="childrenNumber" name="ChildrenNumber" asp-for="@Model.ChildrenNumber" value="0">
               <input type="hidden" id="roomNumber" name="RoomsNumber" asp-for="@Model.RoomsNumber" value="1">
@@ -174,6 +247,7 @@
                 </div>
         </div>
     </form>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
