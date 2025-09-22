@@ -1,3 +1,4 @@
+using System;
 using HotelBooking.Models.BaseModels;
 using Microsoft.EntityFrameworkCore;
 
