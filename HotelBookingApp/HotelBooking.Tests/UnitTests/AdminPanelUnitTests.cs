@@ -5,6 +5,10 @@ using HotelBooking.Services.AdminPanelServices;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
+using System.Collections;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace HotelBooking.Tests.UnitTests;
 
@@ -13,11 +17,98 @@ public class AdminPanelUnitTests
     private class TestDbContext : DbContext
     {
         public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
-        public DbSet<AdminPanelBooking> AdminPanelBookings => Set<AdminPanelBooking>();
-        public DbSet<HotelModel> Hotels => Set<HotelModel>();
+        public DbSet<AdminPanelBooking> AdminPanelBookings { get; set; }
+        public DbSet<HotelModel> Hotels { get; set; }
     }
     
-    private static (Mock<IUnitOfWork> uowMock, TestDbContext ctx) CreateUnitOfWorkBackedByInMemoryDb(string dbName)
+    private sealed class FakeRepository<T> : IRepository<T>, IQueryable<T> where T : class
+    {
+        private readonly List<T> _data = new();
+
+        public Type ElementType => _data.AsQueryable().ElementType;
+        public Expression Expression => _data.AsQueryable().Expression;
+        public IQueryProvider Provider => _data.AsQueryable().Provider;
+
+        public IEnumerator<T> GetEnumerator() => _data.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+        public IQueryable<T> Query() => _data.AsQueryable();
+
+        public IQueryable<T> Include(params Expression<Func<T, object>>[] includes) => _data.AsQueryable();
+
+        public Task<T?> GetByIdAsync(object id, CancellationToken ct = default)
+            => Task.FromResult(_data.FirstOrDefault());
+
+        public Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
+            => Task.FromResult(_data.AsQueryable().FirstOrDefault(predicate));
+
+        public Task<T?> FindAsync(int id, CancellationToken ct = default)
+            => Task.FromResult(_data.FirstOrDefault());
+
+        public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
+            => _data.AsQueryable().Where(predicate);
+
+        public Task<List<T>> ListAsync(Expression<Func<T, bool>>? predicate = null, CancellationToken ct = default)
+            => Task.FromResult(predicate is null ? _data.ToList() : _data.AsQueryable().Where(predicate).ToList());
+
+        public Task<bool> AnyAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default)
+            => Task.FromResult(_data.AsQueryable().Any(predicate));
+
+        public Task AddAsync(T entity, CancellationToken ct = default)
+        {
+            _data.Add(entity);
+            return Task.CompletedTask;
+        }
+
+        public Task AddRangeAsync(IEnumerable<T> entities, CancellationToken ct = default)
+        {
+            _data.AddRange(entities);
+            return Task.CompletedTask;
+        }
+
+        public void Update(T entity)
+        {
+            if (entity == null) return;
+
+            var idProp = typeof(T).GetProperty("Id");
+            if (idProp != null)
+            {
+                var idValue = idProp.GetValue(entity);
+                var indexById = _data.FindIndex(e =>
+                {
+                    var otherId = idProp.GetValue(e);
+                    return Equals(otherId, idValue);
+                });
+
+                if (indexById >= 0)
+                {
+                    _data[indexById] = entity; 
+                    return;
+                }
+            }
+
+            var existingIndex = _data.FindIndex(e => ReferenceEquals(e, entity) || Equals(e, entity));
+            if (existingIndex >= 0)
+            {
+                _data[existingIndex] = entity;
+            }
+        }
+
+        public void Remove(T entity) => _data.Remove(entity);
+
+        public Task RemoveAsync(T entity, CancellationToken ct = default)
+        {
+            _data.Remove(entity);
+            return Task.CompletedTask;
+        }
+
+        public void RemoveRange(IEnumerable<T> entities)
+        {
+            foreach (var e in entities) _data.Remove(e);
+        }
+    }
+    
+    private static (Mock<IUnitOfWork> uowMock, TestDbContext testDbContext) CreateUnitOfWorkBackedByInMemoryDb(string dbName)
     {
         var options = new DbContextOptionsBuilder<TestDbContext>()
             .UseInMemoryDatabase(databaseName: dbName)
@@ -25,43 +116,40 @@ public class AdminPanelUnitTests
 
         var testDbContext = new TestDbContext(options);
         
-        
         var uowMock = new Mock<IUnitOfWork>();
-
-        var backingQueryable = testDbContext.Set<AdminPanelBooking>().AsQueryable();
         
         var mockedAdminPanelBookingRepo = new Mock<IRepository<AdminPanelBooking>>();
+ 
+        mockedAdminPanelBookingRepo
+            .Setup(r => r.Query())
+            .Returns(seed.AsQueryable());
 
-        mockedAdminPanelBookingRepo.As<IQueryable<AdminPanelBooking>>()
-            .Setup(m => m.Provider)
-            .Returns(backingQueryable.Provider);
-        mockedAdminPanelBookingRepo.As<IQueryable<AdminPanelBooking>>()
-            .Setup(m => m.Expression)
-            .Returns(backingQueryable.Expression);
-        mockedAdminPanelBookingRepo.As<IQueryable<AdminPanelBooking>>()
-            .Setup(m => m.ElementType)
-            .Returns(backingQueryable.ElementType);
-        mockedAdminPanelBookingRepo.As<IQueryable<AdminPanelBooking>>()
-            .Setup(m => m.GetEnumerator())
-            .Returns(() => backingQueryable.GetEnumerator());
+        mockedAdminPanelBookingRepo
+            .Setup(r => r.Include(It.IsAny<Expression<Func<AdminPanelBooking, object>>[]>()))
+            .Returns(seed.AsQueryable());
 
+        mockedAdminPanelBookingRepo
+            .Setup(r => r.ListAsync(It.IsAny<Expression<Func<AdminPanelBooking, bool>>?>(), It.IsAny<CancellationToken>()))
+            .Returns<Expression<Func<AdminPanelBooking, bool>>?, CancellationToken>((pred, _) =>
+                Task.FromResult((pred == null ? seed : seed.AsQueryable().Where(pred)).ToList())
+            );
+        
+        var repo = new FakeRepository<AdminPanelBooking>();
         uowMock
             .Setup(u => u.Repository<AdminPanelBooking>())
-            .Returns(mockedAdminPanelBookingRepo.Object);
+            .Returns(repo);
 
         return (uowMock, testDbContext);
     }
 
     [Fact]
-    public void GetCheckoutedHotels_Returns_All_Bookings_With_Hotel_Navigation()
+    public async Task GetCheckoutedHotelsReturnsAllBookingsWithHotelJoin()
     {
         // Arrange
-        var (uowMock, ctx) = CreateUnitOfWorkBackedByInMemoryDb(nameof(GetCheckoutedHotels_Returns_All_Bookings_With_Hotel_Navigation));
+        var (uowMock, ctx) = CreateUnitOfWorkBackedByInMemoryDb(nameof(GetCheckoutedHotelsReturnsAllBookingsWithHotelJoin));
 
         var hotelA = new HotelModel { Id = 1, HotelName = "Hotel A", Address = "123 A St", City = "A City", Country = "A Country" };
         var hotelB = new HotelModel { Id = 2, HotelName = "Hotel B", Address = "456 B Ave", City = "B City", Country = "B Country" };
-        ctx.Add(hotelA);
-        ctx.Add(hotelB);
 
         var seed = new List<AdminPanelBooking>
         {
@@ -69,13 +157,13 @@ public class AdminPanelUnitTests
             new AdminPanelBooking { Id = 20, HotelModel = hotelB, ClientEmail = "bob@example.com", ClientFirstName = "Bob", ClientLastName = "Brown", },
             new AdminPanelBooking { Id = 30, HotelModel = hotelA, ClientEmail = "carol@example.com", ClientFirstName = "Carol", ClientLastName = "Clark",  }
         };
-        ctx.AddRange(seed);
-        ctx.SaveChanges();
+        var repo = uowMock.Object.Repository<AdminPanelBooking>();
+        await repo.AddRangeAsync(seed);
 
-        var sut = new GetCheckoutedHotelsService();
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService();
 
         // Act
-        var result = sut.GetCheckoutedHotels(uowMock.Object);
+        var result = getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
 
         // Assert
         result.Should().NotBeNull();
@@ -85,14 +173,14 @@ public class AdminPanelUnitTests
     }
 
     [Fact]
-    public void GetCheckoutedHotels_When_No_Data_Returns_Empty_List()
+    public void GetCheckoutedHotelsWhenNoDataReturnsEmptyList()
     {
         // Arrange
-        var (uowMock, _) = CreateUnitOfWorkBackedByInMemoryDb(nameof(GetCheckoutedHotels_When_No_Data_Returns_Empty_List));
-        var sut = new GetCheckoutedHotelsService();
+        var (uowMock, _) = CreateUnitOfWorkBackedByInMemoryDb(nameof(GetCheckoutedHotelsWhenNoDataReturnsEmptyList));
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService();
 
         // Act
-        var result = sut.GetCheckoutedHotels(uowMock.Object);
+        var result = getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
 
         // Assert
         result.Should().NotBeNull();
@@ -100,22 +188,27 @@ public class AdminPanelUnitTests
     }
 
     [Fact]
-    public void GetCheckoutedHotels_Uses_Repository_Once()
+    public async Task GetCheckoutedHotelsUsesRepository_Once()
     {
         // Arrange
-        var (uowMock, ctx) = CreateUnitOfWorkBackedByInMemoryDb(nameof(GetCheckoutedHotels_Uses_Repository_Once));
-        ctx.Add(new AdminPanelBooking {
+        var (uowMock, ctx) = CreateUnitOfWorkBackedByInMemoryDb(nameof(GetCheckoutedHotelsUsesRepository_Once));
+        
+        var repo = uowMock.Object.Repository<AdminPanelBooking>();
+        
+        await repo.AddAsync(new AdminPanelBooking {
             Id = 1,
             ClientEmail = "test.user@example.com",
             ClientFirstName = "Test",
             ClientLastName = "User",
             HotelModel = new HotelModel { Id = 1, HotelName = "H", Address = "1 Test St", City = "Test City", Country = "Testland" }
         });
-        ctx.SaveChanges();
-        var sut = new GetCheckoutedHotelsService();
+        
+        uowMock.Invocations.Clear();
+        
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService();
 
         // Act
-        var _ = sut.GetCheckoutedHotels(uowMock.Object);
+        getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
 
         // Assert
         uowMock.Verify(u => u.Repository<AdminPanelBooking>(), Times.Once);
