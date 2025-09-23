@@ -14,6 +14,7 @@ using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using Microsoft.Extensions.Options;
 using DotNetEnv;
 using HotelBooking.Data.SeedWork;
+using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
 using HotelBooking.Services.EmailServices;
 using HotelBooking.Web.Hubs;

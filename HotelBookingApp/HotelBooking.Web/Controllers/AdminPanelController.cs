@@ -1,5 +1,6 @@
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
+using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

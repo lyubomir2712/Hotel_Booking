@@ -1,7 +1,6 @@
-using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 
-namespace HotelBooking.Services.Contracts.AdminPanelContracts;
+namespace HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 
 public interface IAdminPanelDeleteBookingService
 {

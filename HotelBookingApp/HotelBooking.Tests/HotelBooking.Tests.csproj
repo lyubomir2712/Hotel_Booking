@@ -26,8 +26,4 @@
     <ProjectReference Include="..\HotelBooking.Services\HotelBooking.Services.csproj" />
     <ProjectReference Include="..\HotelBooking.Web\HotelBooking.Web.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="IntegrationTests\" />
-  </ItemGroup>
 </Project>

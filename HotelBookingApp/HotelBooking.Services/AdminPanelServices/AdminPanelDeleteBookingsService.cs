@@ -2,6 +2,7 @@ using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
+using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 
 namespace HotelBooking.Services.AdminPanelServices;
 
