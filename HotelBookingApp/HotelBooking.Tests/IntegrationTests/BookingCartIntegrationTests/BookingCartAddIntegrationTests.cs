@@ -1,6 +1,4 @@
 using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 using HotelBooking.Models.Identity;
