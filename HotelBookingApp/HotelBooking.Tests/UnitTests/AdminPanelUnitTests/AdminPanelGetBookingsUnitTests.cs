@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Threading;
+using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 
 namespace HotelBooking.Tests.UnitTests;
 

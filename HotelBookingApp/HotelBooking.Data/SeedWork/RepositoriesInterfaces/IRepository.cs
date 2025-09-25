@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
+using HotelBooking.Models.AppModels;
 
-namespace HotelBooking.Data.SeedWork;
+namespace HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 public interface IRepository<TEntity> where TEntity : class
 {
     IQueryable<TEntity> Query();
@@ -9,7 +10,8 @@ public interface IRepository<TEntity> where TEntity : class
 
     Task<TEntity?> GetByIdAsync(object id, CancellationToken ct = default);
 
-    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);
+    Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken ct = default);
 
     Task<TEntity?> FindAsync(int id, CancellationToken ct = default);
     

@@ -1,4 +1,5 @@
 using HotelBooking.Data.SeedWork.Repositories;
+using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Data.SeedWork;

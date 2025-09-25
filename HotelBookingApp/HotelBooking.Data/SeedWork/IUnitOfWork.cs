@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 using Microsoft.EntityFrameworkCore;
 namespace HotelBooking.Data.SeedWork;
 public interface IUnitOfWork

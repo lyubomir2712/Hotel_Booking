@@ -1,4 +1,6 @@
 using System.Linq.Expressions;
+using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
+using HotelBooking.Models.AppModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Data.SeedWork.Repositories;
@@ -28,7 +30,13 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public async Task<TEntity?> GetByIdAsync(object id, CancellationToken ct = default)
         => await _set.FindAsync(new object?[] { id }, ct).AsTask();
 
-    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default)
+    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<HotelModel, object>>[] ct = default)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
+        CancellationToken ct = default)
         => _set.FirstOrDefaultAsync(predicate, ct);
 
     public Task<TEntity?> FindAsync(int id, CancellationToken ct = default)
