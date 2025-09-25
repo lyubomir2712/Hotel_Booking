@@ -20,12 +20,13 @@ It integrates with external services such as the **Booking.com API** and provide
   <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/.NET_Core_Logo.svg" alt="ASP.NET Core" width="60" height="60"/>
   <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png" alt="C#" width="60" height="60"/>
   <img src="https://www.svgrepo.com/show/303229/microsoft-sql-server-logo.svg" alt="SQL Server" width="60" height="60"/>
-  <img src="https://learn.microsoft.com/en-us/aspnet/core/signalr/_static/signalr-logo.png" alt="SignalR" width="60" height="60"/>
-  <img src="https://avatars.githubusercontent.com/u/9141961?s=200&v=4" alt="MailKit" width="60" height="60"/>
-  <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/Apache_kafka-icon.svg" alt="Kafka" width="60" height="60"/>
-  <img src="https://www.docker.com/wp-content/uploads/2023/08/logo-docker.svg" alt="Docker" width="80" height="60"/>
-  <img src="https://avatars.githubusercontent.com/u/626833?s=200&v=4" alt="xUnit" width="60" height="60"/>
-  <img src="https://avatars.githubusercontent.com/u/4236292?s=200&v=4" alt="Moq" width="60" height="60"/>
+  <img src="https://icon.icepanel.io/Technology/svg/Apache-Kafka.svg" alt="Kafka" width="60" height="60"/>
+  <img src="https://github.com/user-attachments/assets/c0672c53-68e7-4bb0-bb9f-41fadd727a4d" alt="SignalR" height="60" width="60">&nbsp;
+  <img src="https://github.com/user-attachments/assets/a5ba288a-2e2a-4e58-bd39-0e57de4fe4da" alt="XUnit" height="60" width="60">
+  <img src="https://api.nuget.org/v3-flatcontainer/moq/4.20.72/icon" alt="Moq" width="60" height="60"/>
+  <img alt="HTML" height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" /> 
+  <img alt="CSS" height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" /> 
+  <img alt="JavaScript" height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" /> 
 </p>  
 
 ## EasyBook — Local AI Setup
