@@ -24,7 +24,9 @@ It integrates with external services such as the **Booking.com API** and provide
   <img src="https://icon.icepanel.io/Technology/svg/Apache-Kafka.svg" alt="Kafka" width="60" height="60"/>
   <img src="https://github.com/user-attachments/assets/c0672c53-68e7-4bb0-bb9f-41fadd727a4d" alt="SignalR" height="60" width="60">
   <img src="https://github.com/user-attachments/assets/a5ba288a-2e2a-4e58-bd39-0e57de4fe4da" alt="XUnit" height="60" width="60">
+  <img src="https://img.favpng.com/5/21/1/docker-logo-kubernetes-microservices-cloud-computing-png-favpng-qZv8eQ1wcWx99NuZ6NB8HHHmk.jpg" alt="XUnit" height="60" width="60">
   <img src="https://api.nuget.org/v3-flatcontainer/moq/4.20.72/icon" alt="Moq" width="60" height="60"/>
+  <img src="https://ih1.redbubble.net/image.5611428487.0532/st,small,507x507-pad,600x600,f8f8f8.jpg" alt="Ollama" width="60" height="60"/>
   <img src="https://github.com/user-attachments/assets/63aa2ba4-cde5-4914-9dff-e1f36fbce961" alt="MailKit" width="60" height="60">
   <img alt="HTML" height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" /> 
   <img alt="CSS" height="60" width="60" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" /> 
