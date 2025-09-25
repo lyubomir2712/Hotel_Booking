@@ -125,13 +125,14 @@ public class BookingCartAddUnitTests
         uow.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
     
+    
+    
     [Fact]
-    public async Task AddToCartAsync_CreatesHotelThenBookingAndUserBooking_WhenHotelDoesNotExist()
+    public async Task AddToCartAsyncCreatesHotelThenBookingAndUserBookingWhenHotelDoesNotExist()
     {
         // Arrange
         var (uow, hotelRepo, bookingRepo, userBookingRepo) = CreateUowWithRepos();
 
-        // No existing hotel
         hotelRepo
             .Setup(r => r.FirstOrDefaultAsync(
                 It.IsAny<System.Linq.Expressions.Expression<Func<HotelModel, bool>>>(),
@@ -144,7 +145,6 @@ public class BookingCartAddUnitTests
             .Setup(r => r.AddAsync(It.IsAny<HotelModel>(), It.IsAny<CancellationToken>()))
             .Callback<HotelModel, CancellationToken>((h, _) =>
             {
-                // Simulate identity setting by DB
                 h.Id = 100;
                 createdHotel = h;
             })
