@@ -16,7 +16,9 @@ using DotNetEnv;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Services.Contracts.EmailServicesContracts;
+using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 using HotelBooking.Services.EmailServices;
+using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using HotelBooking.Web.Hubs;
 
 Env.Load();
@@ -101,6 +103,8 @@ builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
 
 //SignalR
 builder.Services.AddSignalR();
+
+builder.Services.AddSingleton<IOperationsLogger, KafkaOperationsLogger>();
 
 
 builder.Services.AddControllersWithViews();

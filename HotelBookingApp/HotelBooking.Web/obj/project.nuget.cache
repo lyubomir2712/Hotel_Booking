@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "QA8MyDzSzYA=",
+  "dgSpecHash": "XDpJ3TLHkDc=",
   "success": true,
   "projectFilePath": "/Users/lyubomirgeorgiev/RiderProjects/Hotel_Booking/HotelBookingApp/HotelBooking.Web/HotelBooking.Web.csproj",
   "expectedPackageFiles": [
     "/Users/lyubomirgeorgiev/.nuget/packages/azure.core/1.25.0/azure.core.1.25.0.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/azure.identity/1.7.0/azure.identity.1.7.0.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/bouncycastle.cryptography/2.5.1/bouncycastle.cryptography.2.5.1.nupkg.sha512",
+    "/Users/lyubomirgeorgiev/.nuget/packages/confluent.kafka/2.11.1/confluent.kafka.2.11.1.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/dotnetenv/3.1.1/dotnetenv.3.1.1.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
@@ -58,6 +59,7 @@
     "/Users/lyubomirgeorgiev/.nuget/packages/humanizer.core.zh-cn/2.14.1/humanizer.core.zh-cn.2.14.1.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/humanizer.core.zh-hans/2.14.1/humanizer.core.zh-hans.2.14.1.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/humanizer.core.zh-hant/2.14.1/humanizer.core.zh-hant.2.14.1.nupkg.sha512",
+    "/Users/lyubomirgeorgiev/.nuget/packages/librdkafka.redist/2.11.1/librdkafka.redist.2.11.1.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/mailkit/4.13.0/mailkit.4.13.0.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/microsoft.aspnetcore.authentication.abstractions/2.3.0/microsoft.aspnetcore.authentication.abstractions.2.3.0.nupkg.sha512",
     "/Users/lyubomirgeorgiev/.nuget/packages/microsoft.aspnetcore.authorization/2.3.0/microsoft.aspnetcore.authorization.2.3.0.nupkg.sha512",
