@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Hosting;
 using System.Text.Json;
 using Confluent.Kafka;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Hosting;
 
 namespace OperationsLoggerApi.KafkaOperationsLoggerConsumer;
 
@@ -16,6 +16,16 @@ public sealed class OpsLogConsumer : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        // Wait until the web host has fully started (Swagger ready) before initializing Kafka
+        if (!_lifetime.ApplicationStarted.IsCancellationRequested)
+        {
+            _log.LogInformation("OpsLogConsumer waiting for ApplicationStarted...");
+            var tcs = new TaskCompletionSource();
+            using var reg1 = _lifetime.ApplicationStarted.Register(() => tcs.TrySetResult());
+            using var reg2 = stoppingToken.Register(() => tcs.TrySetCanceled(stoppingToken));
+            await tcs.Task;
+        }
+
         var conf = new ConsumerConfig
         {
             BootstrapServers = _opt.BootstrapServers,
@@ -28,15 +38,6 @@ public sealed class OpsLogConsumer : BackgroundService
         consumer.Subscribe(_opt.Topic);
 
         _log.LogInformation("OpsLogConsumer started. Topic={Topic}, Group={Group}", _opt.Topic, _opt.GroupId);
-
-        // Ensure the web host finishes binding before we enter the consume loop
-        if (!_lifetime.ApplicationStarted.IsCancellationRequested)
-        {
-            var tcs = new TaskCompletionSource();
-            using var reg1 = _lifetime.ApplicationStarted.Register(() => tcs.TrySetResult());
-            using var reg2 = stoppingToken.Register(() => tcs.TrySetCanceled(stoppingToken));
-            await tcs.Task;
-        }
 
         try
         {

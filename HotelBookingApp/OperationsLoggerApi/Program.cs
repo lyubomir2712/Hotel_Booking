@@ -7,7 +7,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
-builder.WebHost.UseKestrel().UseUrls("http://localhost:5088");
 
 builder.Services.AddHostedService<OpsLogConsumer>();
 builder.Logging.ClearProviders();
@@ -29,5 +28,3 @@ app.MapGet("/health", () => Results.Ok(new { status = "ok" }))
    .WithOpenApi();
 
 app.Run();
-app.Lifetime.ApplicationStarted.Register(() =>
-    Console.WriteLine("Now listening on: " + string.Join(", ", app.Urls)));
