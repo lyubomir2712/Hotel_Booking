@@ -57,6 +57,48 @@ docker exec -it ollama ollama pull qwen2.5:7b-instruct
 # docker exec -it ollama ollama run qwen2.5:7b-instruct
 ```
 
+## 🛠️ EasyBook - Kafka Setup
+
+```bash
+# 1) Creating the Kafka Cluster on Docker container
+docker volume create kafka_data
+
+docker run -d \
+  --name kafka \
+  --hostname kafka \
+  -p 9092:9092 \
+  -e KAFKA_ENABLE_KRAFT=yes \
+  -e KAFKA_CFG_NODE_ID=1 \
+  -e KAFKA_CFG_PROCESS_ROLES=broker,controller \
+  -e KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+  -e KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka:9093 \
+  -e KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093 \
+  -e KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 \
+  -e KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT \
+  -e KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT \
+  -e KAFKA_CFG_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
+  -e KAFKA_CFG_TRANSACTION_STATE_LOG_REPLICATION_FACTOR=1 \
+  -e KAFKA_CFG_TRANSACTION_STATE_LOG_MIN_ISR=1 \
+  -e KAFKA_CFG_GROUP_INITIAL_REBALANCE_DELAY_MS=0 \
+  -e KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data \
+  -e ALLOW_PLAINTEXT_LISTENER=yes \
+  -e BITNAMI_DEBUG=true \
+  --health-cmd="bash -c 'kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1'" \
+  --health-interval=10s \
+  --health-timeout=5s \
+  --health-retries=12 \
+  -v kafka_data:/bitnami/kafka \
+  --restart unless-stopped \
+  bitnami/kafka:latest
+
+# 2) Creating the topic for the operations logger
+docker exec -it kafka kafka-topics.sh \
+  --create \
+  --topic ops-log \
+  --bootstrap-server localhost:9092 \
+  --partitions 12 \
+  --replication-factor 1
+```
 
 ## 📸 Screenshots  
 
