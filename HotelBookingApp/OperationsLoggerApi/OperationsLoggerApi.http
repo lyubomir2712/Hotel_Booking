@@ -1,0 +1,7 @@
+@OperationsLoggerApi_HostAddress = http://localhost:5236
+@OperationsLoggerApi_HostAddress_Https = https://localhost:7222
+
+
+###
+GET {{OperationsLoggerApi_HostAddress_Https}}/weatherforecast
+Accept: application/json
