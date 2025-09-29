@@ -106,8 +106,11 @@ builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
 //SignalR
 builder.Services.AddSignalR();
 
-builder.Services.AddSingleton<IOperationsLogger, KafkaOperationsLogger>();
-
+//Kafka
+builder.Services.AddSingleton<IOperationsLoggerProducer, KafkaOperationsLoggerProducer>();
+builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
+builder.Services.AddSingleton(sp => 
+    sp.GetRequiredService<IOptions<KafkaOptions>>().Value);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

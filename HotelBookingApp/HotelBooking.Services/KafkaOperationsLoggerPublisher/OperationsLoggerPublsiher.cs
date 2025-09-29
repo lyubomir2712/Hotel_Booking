@@ -4,19 +4,19 @@ using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 
 namespace HotelBooking.Services.KafkaOperationsLoggerPublisher;
 
-public sealed class KafkaOperationsLogger : IOperationsLogger, IDisposable
+public sealed class KafkaOperationsLoggerProducer : IOperationsLoggerProducer, IDisposable
 {
     private readonly IProducer<string, string> _producer;
     private readonly string _topic;
 
-    public KafkaOperationsLogger(string bootstrapServers="localhost:9092", string topic="ops-log")
+    public KafkaOperationsLoggerProducer(KafkaOptions options)
     {
-        _topic = topic;
+        _topic = options.Topic;
         var cfg = new ProducerConfig {
-            BootstrapServers = bootstrapServers,
+            BootstrapServers = options.BootstrapServers,
             Acks = Acks.All,
             EnableIdempotence = true,
-            LingerMs = 5
+            LingerMs = options.LingerMs
         };
         _producer = new ProducerBuilder<string,string>(cfg).Build();
     }

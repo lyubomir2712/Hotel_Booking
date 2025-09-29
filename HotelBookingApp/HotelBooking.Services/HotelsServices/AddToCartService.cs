@@ -4,11 +4,18 @@ using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using HotelBooking.Services.ViewModels;
+using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 
 namespace HotelBooking.Services.HotelsServices;
 
 public class AddToCartService : IAddToCartService
 {
+    private readonly IOperationsLoggerProducer _operationsLoggerProducer;
+
+    public AddToCartService(IOperationsLoggerProducer operationsLoggerProducer)
+    {
+        _operationsLoggerProducer = operationsLoggerProducer;
+    }
     public async Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser)
     {
         
@@ -59,5 +66,21 @@ public class AddToCartService : IAddToCartService
             await unitOfWork.Repository<UserBookingModel>().AddAsync(newUserBookingModel);
 
         await unitOfWork.SaveChangesAsync();
+        
+        await _operationsLoggerProducer.LogAsync(
+            entityType: "Booking", 
+            entityId: newBookingModel.Id.ToString(), 
+            operation: "AddToCart", 
+            changes: new
+            {
+                Hotel = newHotel.HotelName,
+                Star = newBookingModel.StartAt,
+                EndAt = newBookingModel.EndAt,
+                Adults = newBookingModel.AdultsNumber,
+                Children = newBookingModel.ChildrenNumber,
+                Rooms = newBookingModel.RoomsNumber
+            },
+                actorId: currentUser.Id.ToString()
+            );
     }
 }

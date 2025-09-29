@@ -1,6 +1,6 @@
 namespace HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 
-public interface IOperationsLogger
+public interface IOperationsLoggerProducer
 {
     Task LogAsync(string entityType, string entityId, string operation, object? changes = null,
         string? tenantId = null, string? actorId = null, string? source = null,
