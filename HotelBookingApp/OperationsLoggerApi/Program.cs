@@ -32,6 +32,9 @@ builder.Services.AddHostedService<OpsLogConsumer>();
 builder.Services.AddScoped<IAddOperationLogToDbService, AddOperationLogToDbService>();
 
 
+// AutoMapper
+builder.Services.AddAutoMapper(cfg => { }, typeof(Program).Assembly);
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
