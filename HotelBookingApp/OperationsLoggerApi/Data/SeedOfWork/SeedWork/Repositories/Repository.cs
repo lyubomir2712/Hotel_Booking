@@ -30,9 +30,21 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     public async Task<TEntity?> GetByIdAsync(object id, CancellationToken ct = default)
         => await _set.FindAsync(new object?[] { id }, ct).AsTask();
 
-    public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate, Expression<Func<OpsLogEntryModel, object>>[] ct = default)
+    public Task<TEntity?> FirstOrDefaultAsync(
+        Expression<Func<TEntity, bool>> predicate,
+        Expression<Func<TEntity, object>>[]? includes = default)
     {
-        throw new NotImplementedException();
+        IQueryable<TEntity> query = _set;
+
+        if (includes is not null)
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
+        return query.FirstOrDefaultAsync(predicate);
     }
 
     public Task<TEntity?> FirstOrDefaultAsync(Expression<Func<TEntity, bool>> predicate,
