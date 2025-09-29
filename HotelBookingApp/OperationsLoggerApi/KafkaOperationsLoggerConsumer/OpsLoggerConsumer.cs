@@ -43,35 +43,36 @@ public sealed class OpsLogConsumer : BackgroundService
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                // Timed poll so the loop stays responsive and the program continues while listening
                 var cr = consumer.Consume(TimeSpan.FromMilliseconds(250));
                 if (cr is null) continue;
 
                 try
                 {
-                    // Parse payload (adjust to your contract if needed)
                     using var doc = JsonDocument.Parse(cr.Message.Value);
                     var entityType = doc.RootElement.GetProperty("EntityType").GetString();
-                    var entityId   = doc.RootElement.GetProperty("EntityId").GetString();
-                    var operation  = doc.RootElement.GetProperty("Operation").GetString();
+                    var entityId = doc.RootElement.GetProperty("EntityId").GetString();
+                    var operation = doc.RootElement.GetProperty("Operation").GetString();
 
                     // TODO: persist to DB or call your handler
                     _log.LogInformation("Consumed {TPO} | {Key} -> {EntityType}/{EntityId} {Operation}",
                         cr.TopicPartitionOffset, cr.Message.Key, entityType, entityId, operation);
 
-                    consumer.Commit(cr); // commit after successful processing
+                    consumer.Commit(cr);
                 }
                 catch (Exception exProcess)
                 {
-                    _log.LogError(exProcess, "Failed processing message at {TPO}. Skipping (no commit).", cr.TopicPartitionOffset);
-                    // Optionally: DLQ logic here
+                    _log.LogError(exProcess, "Failed processing message at {TPO}. Skipping (no commit).",
+                        cr.TopicPartitionOffset);
                 }
             }
         }
-        catch (OperationCanceledException) { /* graceful shutdown */ }
+        catch (OperationCanceledException ex)
+        {
+            _log.LogInformation(ex, "Kafka consumer stopped due to cancellation.");
+        }
         finally
         {
-            consumer.Close(); // commits last processed offsets on close if needed
+            consumer.Close(); 
             _log.LogInformation("OpsLogConsumer stopped.");
         }
 

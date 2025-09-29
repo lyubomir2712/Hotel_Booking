@@ -1,6 +1,9 @@
+using DotNetEnv;
+using Microsoft.EntityFrameworkCore;
+using OperationsLoggerApi.Data;
 using OperationsLoggerApi.KafkaOperationsLoggerConsumer;
 
-// Build
+Env.Load();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
@@ -8,9 +11,10 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
 
+builder.Services.AddDbContext<OpsLogDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddHostedService<OpsLogConsumer>();
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
