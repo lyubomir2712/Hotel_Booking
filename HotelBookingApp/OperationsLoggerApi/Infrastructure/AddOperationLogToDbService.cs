@@ -1,14 +1,11 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using OperationsLoggerApi.Data;
 using OperationsLoggerApi.Data.Models;
+using OperationsLoggerApi.Interfaces;
 
-namespace OperationsLoggerApi.KafkaOperationsLoggerConsumer
+namespace OperationsLoggerApi.Infrastructure
 {
-    public class AddOperationLogToDbService
+    public class AddOperationLogToDbService : IAddOperationLogToDbService
     {
         private readonly OpsLogDbContext _db;
         private readonly ILogger<AddOperationLogToDbService> _logger;
