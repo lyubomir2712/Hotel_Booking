@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OperationsLoggerApi.Data;
 using OperationsLoggerApi.Data.SeedOfWork.SeedWork;
 using OperationsLoggerApi.Infrastructure;
+using OperationsLoggerApi.Infrastructure.KafkaOperationsLoggerConsumer;
 using OperationsLoggerApi.Interfaces;
 using OperationsLoggerApi.KafkaOperationsLoggerConsumer;
 

@@ -1,32 +1,35 @@
 using Microsoft.EntityFrameworkCore;
-using OperationsLoggerApi.Data;
 using OperationsLoggerApi.Data.Models;
+using OperationsLoggerApi.Data.SeedOfWork.SeedWork;
+using OperationsLoggerApi.Infrastructure.AutoMapper.DTOs;
 using OperationsLoggerApi.Interfaces;
+using AutoMapper;
 
 namespace OperationsLoggerApi.Infrastructure
 {
     public class AddOperationLogToDbService : IAddOperationLogToDbService
     {
-        private readonly OpsLogDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<AddOperationLogToDbService> _logger;
+        private readonly IMapper _mapper;
 
-        public AddOperationLogToDbService(OpsLogDbContext db, ILogger<AddOperationLogToDbService> logger)
+        public AddOperationLogToDbService(IUnitOfWork unitOfWork, ILogger<AddOperationLogToDbService> logger, IMapper mapper)
         {
-            _db = db ?? throw new ArgumentNullException(nameof(db));
+            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
         
-        public async Task<int> AddOperationLogToDbAsync(OpsLogEntryModel entry, CancellationToken ct = default)
+        public async Task<int> AddOperationLogToDbAsync(OpsLogEntryDto entry, CancellationToken ct = default)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
-
-            entry.OccurredAt = entry.OccurredAt.ToUniversalTime();
-
-            _db.OpsLogs.Add(entry);
+            
+            var entity = _mapper.Map<OpsLogEntryModel>(entry);
+            await _unitOfWork.Repository<OpsLogEntryModel>().AddAsync(entity, ct);
 
             try
             {
-                await _db.SaveChangesAsync(ct);
+                await _unitOfWork.SaveChangesAsync(ct);
                 _logger.LogInformation(
                     "Saved OpsLogEntry {EventId} for {EntityType}:{EntityId}",
                     entry.EventId,

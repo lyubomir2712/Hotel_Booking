@@ -1,22 +1,31 @@
 using System.Text.Json;
 using Confluent.Kafka;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Hosting;
+using OperationsLoggerApi.Interfaces;
+using OperationsLoggerApi.KafkaOperationsLoggerConsumer;
+using Microsoft.Extensions.DependencyInjection;
+using OperationsLoggerApi.Infrastructure.AutoMapper.DTOs;
 
-namespace OperationsLoggerApi.KafkaOperationsLoggerConsumer;
+namespace OperationsLoggerApi.Infrastructure.KafkaOperationsLoggerConsumer;
 
 public sealed class OpsLogConsumer : BackgroundService
 {
     private readonly ILogger<OpsLogConsumer> _log;
     private readonly KafkaOptions _opt;
     private readonly IHostApplicationLifetime _lifetime;
-
-    public OpsLogConsumer(ILogger<OpsLogConsumer> log, IOptions<KafkaOptions> opt, IHostApplicationLifetime lifetime)
-        => (_log, _opt, _lifetime) = (log, opt.Value, lifetime);
+    private readonly IServiceScopeFactory _scopeFactory;
+    
+    public OpsLogConsumer(ILogger<OpsLogConsumer> log, IOptions<KafkaOptions> opt,
+        IHostApplicationLifetime lifetime, IServiceScopeFactory scopeFactory)
+    {
+        _log = log;
+        _opt = opt.Value;
+        _lifetime = lifetime;
+        _scopeFactory = scopeFactory;
+    }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        // Wait until the web host has fully started (Swagger ready) before initializing Kafka
         if (!_lifetime.ApplicationStarted.IsCancellationRequested)
         {
             _log.LogInformation("OpsLogConsumer waiting for ApplicationStarted...");
@@ -49,13 +58,29 @@ public sealed class OpsLogConsumer : BackgroundService
                 try
                 {
                     using var doc = JsonDocument.Parse(cr.Message.Value);
-                    var entityType = doc.RootElement.GetProperty("EntityType").GetString();
-                    var entityId = doc.RootElement.GetProperty("EntityId").GetString();
-                    var operation = doc.RootElement.GetProperty("Operation").GetString();
+                    
+                    var dto = new OpsLogEntryDto
+                    {
+                        EventId = doc.RootElement.GetProperty("EventId").GetString(),
+                        OccurredAt = doc.RootElement.GetProperty("OccurredAt").GetDateTimeOffset(),
+                        TenantId = doc.RootElement.GetProperty("TenantId").GetString(),
+                        ActorId = doc.RootElement.GetProperty("ActorId").GetString(),
+                        ActorType = doc.RootElement.GetProperty("ActorType").GetString(),
+                        Source = doc.RootElement.GetProperty("Source").GetString(),
+                        EntityType = doc.RootElement.GetProperty("EntityType").GetString(),
+                        EntityId = doc.RootElement.GetProperty("EntityId").GetString(),
+                        Operation = doc.RootElement.GetProperty("Operation").GetString(),
+                        Changes = doc.RootElement.GetProperty("Changes").GetRawText()
+                    };
+                    
+                    using (var scope = _scopeFactory.CreateScope())
+                    {
+                        var addSvc = scope.ServiceProvider.GetRequiredService<IAddOperationLogToDbService>();
+                        await addSvc.AddOperationLogToDbAsync(dto, stoppingToken);
+                    }
 
-                    // TODO: persist to DB or call your handler
                     _log.LogInformation("Consumed {TPO} | {Key} -> {EntityType}/{EntityId} {Operation}",
-                        cr.TopicPartitionOffset, cr.Message.Key, entityType, entityId, operation);
+                        cr.TopicPartitionOffset, cr.Message.Key, dto.EntityType, dto.EntityId, dto.Operation);
 
                     consumer.Commit(cr);
                 }
