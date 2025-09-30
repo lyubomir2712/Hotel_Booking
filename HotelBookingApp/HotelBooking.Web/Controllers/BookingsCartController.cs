@@ -11,6 +11,7 @@ using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using HotelBooking.Services.EmailServices;
 using Microsoft.AspNetCore.SignalR;
 using HotelBooking.Web.Hubs;
+using System.Threading.Tasks;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -60,13 +61,13 @@ namespace HotelBooking.Web.Controllers
         }
         
         [HttpGet]
-        public IActionResult GetBookedHotels()
+        public async Task<IActionResult> GetBookedHotels()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId != null)
             {
-                var bookings = _getBookingsService.GetBookings(_unitOfWork, userId);
+                var bookings = await _getBookingsService.GetBookings(_unitOfWork, userId);
 
                 var userBookedHotels = new UserBookedHotels
                 {

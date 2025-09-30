@@ -58,7 +58,6 @@ public class CheckoutBookingsService : ICheckoutBookingsService
                 operation: nameof(CheckoutBookingsAsync),
                 changes: new
                 {
-                    booking.Id,
                     booking.StartAt,
                     booking.EndAt,
                     booking.Price,

@@ -83,7 +83,6 @@ public class AddToCartService : IAddToCartService
             operation: nameof(AddToCartAsync),
             changes: new
             {
-                Id = newBookingModel.Id,
                 Hotel = newHotel.HotelName,
                 HotelModelId = newBookingModel.HotelModelId,
                 StartAt = newBookingModel.StartAt,
