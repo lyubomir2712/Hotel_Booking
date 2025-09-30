@@ -31,11 +31,25 @@ public class AdminPanelDeleteBookingsService : IAdminPanelDeleteBookingService
             var roles = await _userManager.GetRolesAsync(currentUser);
             var actorRole = roles.FirstOrDefault() ?? "Unknown";
 
-            _ = _opsLogger.LogAsync(
+            await _opsLogger.LogAsync(
                 entityType: nameof(AdminPanelBooking),
                 entityId: bookingId.ToString(),
                 operation: nameof(AdminPanelDeleteBooking),
-                changes: new { Deleted = true, OccurredAt = DateTimeOffset.UtcNow },
+                changes: new
+            {
+                HotelId = adminPanelBooking.HotelModelId,
+                ClientId = adminPanelBooking.ClientId,
+                ClientFirstName = adminPanelBooking.ClientFirstName,
+                ClientLastName = adminPanelBooking.ClientLastName,
+                ClientEmail = adminPanelBooking.ClientEmail,
+                CheckInDate = adminPanelBooking.StartAt,
+                CheckOutDate = adminPanelBooking.EndAt,
+                Price = adminPanelBooking.Price,
+                AdultsNumber = adminPanelBooking.AdultsNumber,
+                ChildrenNumber = adminPanelBooking.ChildrenNumber,
+                RoomsNumber = adminPanelBooking.RoomsNumber,
+                DeletedAt = DateTimeOffset.UtcNow
+            },
                 actorId: currentUser.Id.ToString(),
                 actorType: actorRole,
                 source: nameof(AdminPanelDeleteBookingsService)

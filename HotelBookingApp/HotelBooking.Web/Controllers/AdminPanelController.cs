@@ -3,8 +3,7 @@ using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using HotelBooking.Models.AppModels;
+
 using HotelBooking.Models.Identity;
 
 namespace HotelBooking.Web.Controllers;

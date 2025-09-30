@@ -1,11 +1,7 @@
-using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 
@@ -30,11 +26,21 @@ public class GetCheckoutedHotelsService : IGetCheckoutedHotelsService
         var roles = await _userManager.GetRolesAsync(currentUser);
         var actorRole = roles.FirstOrDefault() ?? "Unknown";
 
-        _ = _opsLogger.LogAsync(
+        await _opsLogger.LogAsync(
             entityType: nameof(AdminPanelBooking),
-            entityId: "list",
+            entityId: "Multiple",
             operation: nameof(GetCheckoutedHotels),
-            changes: new { Count = bookings.Count, OccurredAt = DateTimeOffset.UtcNow },
+            changes: bookings.Select(booking => new
+            {
+                Hotel = booking.HotelModel.HotelName,
+                HotelModelId = booking.HotelModelId,
+                StartAt = booking.StartAt,
+                EndAt = booking.EndAt,
+                Price = booking.Price,
+                AdultsNumber = booking.AdultsNumber,
+                ChildrenNumber = booking.ChildrenNumber,
+                RoomsNumber = booking.RoomsNumber
+            }).ToList(),
             actorId: currentUser.Id.ToString(),
             actorType: actorRole,
             source: nameof(GetCheckoutedHotelsService)
