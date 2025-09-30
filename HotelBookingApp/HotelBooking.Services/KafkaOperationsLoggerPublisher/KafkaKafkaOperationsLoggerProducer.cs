@@ -21,16 +21,21 @@ public sealed class KafkaKafkaOperationsLoggerProducer : IKafkaOperationsLoggerP
         _producer = new ProducerBuilder<string,string>(cfg).Build();
     }
 
-    public async Task LogAsync(string entityType, string entityId, string operation, object? changes = null,
-        string? tenantId = null, string? actorId = null, string? source = null,
+    public async Task LogAsync(
+        string entityType,
+        string entityId,
+        string operation,
+        object? changes = null,
+        string? actorId = null,
+        string? actorType = null,
+        string? source = null,
         CancellationToken ct = default)
     {
         var evt = new {
             EventId = Guid.NewGuid().ToString("N"),
             OccurredAt = DateTimeOffset.UtcNow,
-            TenantId = tenantId ?? "default",
             ActorId = actorId ?? "system",
-            ActorType = "System",
+            ActorType = actorType ?? "System",
             Source = source ?? "App",
             EntityType = entityType,
             EntityId = entityId,

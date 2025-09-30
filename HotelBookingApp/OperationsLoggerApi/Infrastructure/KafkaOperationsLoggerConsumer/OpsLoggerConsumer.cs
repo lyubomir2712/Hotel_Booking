@@ -63,7 +63,6 @@ public sealed class OpsLogConsumer : BackgroundService
                     {
                         EventId = doc.RootElement.GetProperty("EventId").GetString(),
                         OccurredAt = doc.RootElement.GetProperty("OccurredAt").GetDateTimeOffset(),
-                        TenantId = doc.RootElement.GetProperty("TenantId").GetString(),
                         ActorId = doc.RootElement.GetProperty("ActorId").GetString(),
                         ActorType = doc.RootElement.GetProperty("ActorType").GetString(),
                         Source = doc.RootElement.GetProperty("Source").GetString(),

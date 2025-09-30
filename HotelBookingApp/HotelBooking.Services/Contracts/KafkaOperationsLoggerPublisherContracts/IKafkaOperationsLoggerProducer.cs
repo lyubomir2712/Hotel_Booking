@@ -2,7 +2,13 @@ namespace HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContract
 
 public interface IKafkaOperationsLoggerProducer
 {
-    Task LogAsync(string entityType, string entityId, string operation, object? changes = null,
-        string? tenantId = null, string? actorId = null, string? source = null,
+    public Task LogAsync(
+        string entityType,
+        string entityId,
+        string operation,
+        object? changes = null,
+        string? actorId = null,
+        string? actorType = null,
+        string? source = null,
         CancellationToken ct = default);
 }

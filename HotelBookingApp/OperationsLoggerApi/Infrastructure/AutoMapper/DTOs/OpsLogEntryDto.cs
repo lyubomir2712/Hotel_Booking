@@ -6,7 +6,6 @@ public class OpsLogEntryDto
     public int Id { get; set; }
     public string? EventId { get; set; }
     public DateTimeOffset OccurredAt { get; set; }
-    public string? TenantId { get; set; }
     public string? ActorId { get; set; }
     public string? ActorType { get; set; }
     public string? Source { get; set; }
@@ -17,14 +16,13 @@ public class OpsLogEntryDto
 
     public OpsLogEntryDto() { }
 
-    public OpsLogEntryDto(int id, string? eventId, DateTimeOffset occurredAt, string? tenantId,
+    public OpsLogEntryDto(int id, string? eventId, DateTimeOffset occurredAt,
                           string? actorId, string? actorType, string? source, string? entityType,
                           string? entityId, string? operation, string changes)
     {
         Id = id;
         EventId = eventId;
         OccurredAt = occurredAt;
-        TenantId = tenantId;
         ActorId = actorId;
         ActorType = actorType;
         Source = source;

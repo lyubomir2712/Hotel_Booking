@@ -7,7 +7,6 @@ public class OpsLogEntryModel : BaseModel
     
     public string EventId { get; set; } = string.Empty; // Unique ID of this specific event (GUID) 
     public DateTimeOffset OccurredAt { get; set; } // Timestamp of when the event actually happened (UTC) 
-    public string TenantId { get; set; } = string.Empty; // Tenant the event belongs to (for multi-tenant systems) 
     public string ActorId { get; set; } = string.Empty; // Who triggered the action (user/service/system) 
     public string ActorType { get; set; } = string.Empty; // Type of actor (e.g. User, Admin, System) 
     public string Source { get; set; } = string.Empty; // Where the event originated from (subsystem or app) 

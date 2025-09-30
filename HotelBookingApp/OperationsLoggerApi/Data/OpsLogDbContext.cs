@@ -22,7 +22,6 @@ public class OpsLogDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.EventId).IsRequired().HasMaxLength(64);
             entity.Property(e => e.OccurredAt).IsRequired();
-            entity.Property(e => e.TenantId).IsRequired().HasMaxLength(100);
             entity.Property(e => e.ActorId).IsRequired().HasMaxLength(100);
             entity.Property(e => e.ActorType).IsRequired().HasMaxLength(50);
             entity.Property(e => e.Source).IsRequired().HasMaxLength(100);

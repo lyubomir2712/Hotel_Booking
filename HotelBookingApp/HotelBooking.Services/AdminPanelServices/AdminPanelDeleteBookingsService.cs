@@ -29,7 +29,6 @@ public class AdminPanelDeleteBookingsService : IAdminPanelDeleteBookingService
                 entityId: bookingId.ToString(),
                 operation: "Delete",
                 changes: new { Deleted = true, OccurredAt = DateTimeOffset.UtcNow },
-                tenantId: null,
                 actorId: null,
                 source: "AdminPanelDeleteBookingsService"
             );

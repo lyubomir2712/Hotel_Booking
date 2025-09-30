@@ -6,15 +6,22 @@ using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using HotelBooking.Services.ViewModels;
 using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 
+using Microsoft.AspNetCore.Identity;
+
+using System.Linq;
+
 namespace HotelBooking.Services.HotelsServices;
 
 public class AddToCartService : IAddToCartService
 {
     private readonly IKafkaOperationsLoggerProducer _kafkaOperationsLoggerProducer;
 
-    public AddToCartService(IKafkaOperationsLoggerProducer kafkaOperationsLoggerProducer)
+    private readonly UserManager<UserModel> _userManager;
+
+    public AddToCartService(IKafkaOperationsLoggerProducer kafkaOperationsLoggerProducer, UserManager<UserModel> userManager)
     {
         _kafkaOperationsLoggerProducer = kafkaOperationsLoggerProducer;
+        _userManager = userManager;
     }
     public async Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser)
     {
@@ -67,20 +74,28 @@ public class AddToCartService : IAddToCartService
 
         await unitOfWork.SaveChangesAsync();
         
+        var roles = await _userManager.GetRolesAsync(currentUser);
+        var actorRole = roles.FirstOrDefault() ?? "Unknown";
+
         await _kafkaOperationsLoggerProducer.LogAsync(
-            entityType: "Booking", 
-            entityId: newBookingModel.Id.ToString(), 
-            operation: "AddToCart", 
+            entityType: nameof(BookingModel),
+            entityId: newBookingModel.Id.ToString(),
+            operation: nameof(AddToCartAsync),
             changes: new
             {
+                Id = newBookingModel.Id,
                 Hotel = newHotel.HotelName,
-                Star = newBookingModel.StartAt,
+                HotelModelId = newBookingModel.HotelModelId,
+                StartAt = newBookingModel.StartAt,
                 EndAt = newBookingModel.EndAt,
-                Adults = newBookingModel.AdultsNumber,
-                Children = newBookingModel.ChildrenNumber,
-                Rooms = newBookingModel.RoomsNumber
+                Price = newBookingModel.Price,
+                AdultsNumber = newBookingModel.AdultsNumber,
+                ChildrenNumber = newBookingModel.ChildrenNumber,
+                RoomsNumber = newBookingModel.RoomsNumber
             },
-                actorId: currentUser.Id.ToString()
-            );
+            actorId: currentUser.Id.ToString(),
+            actorType: actorRole,
+            source: nameof(AddToCartService)
+        );
     }
 }

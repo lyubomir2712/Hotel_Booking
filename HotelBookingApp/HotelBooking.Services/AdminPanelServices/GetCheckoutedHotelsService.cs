@@ -26,7 +26,6 @@ public class GetCheckoutedHotelsService : IGetCheckoutedHotelsService
             entityId: "list",
             operation: "GetCheckoutedHotels",
             changes: new { Count = bookings.Count, OccurredAt = DateTimeOffset.UtcNow },
-            tenantId: null,
             actorId: null,
             source: "GetCheckoutedHotelsService"
         );

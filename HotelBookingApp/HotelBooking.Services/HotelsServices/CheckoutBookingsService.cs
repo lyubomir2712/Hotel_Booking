@@ -5,15 +5,20 @@ using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
+using Microsoft.AspNetCore.Identity;
 namespace HotelBooking.Services.HotelsServices;
 
 public class CheckoutBookingsService : ICheckoutBookingsService
 {
     private readonly IKafkaOperationsLoggerProducer _logger;
+    private readonly UserManager<UserModel> _userManager;
 
-    public CheckoutBookingsService(IKafkaOperationsLoggerProducer logger)
+    public CheckoutBookingsService(
+        IKafkaOperationsLoggerProducer logger,
+        UserManager<UserModel> userManager)
     {
         _logger = logger;
+        _userManager = userManager;
     }
 
     public async Task CheckoutBookingsAsync(IUnitOfWork unitOfWork, UserModel currentUser, List<BookingModel>? bookings)
@@ -42,23 +47,31 @@ public class CheckoutBookingsService : ICheckoutBookingsService
 
         await unitOfWork.SaveChangesAsync();
 
+        var roles = await _userManager.GetRolesAsync(currentUser);
+        var actorRole = roles.FirstOrDefault() ?? "Unknown";
+
         foreach (var booking in adminPanelBookings)
         {
             await _logger.LogAsync(
                 entityType: nameof(AdminPanelBooking),
                 entityId: booking.Id.ToString(),
-                operation: "Checkout",
+                operation: nameof(CheckoutBookingsAsync),
                 changes: new
                 {
+                    booking.Id,
                     booking.StartAt,
                     booking.EndAt,
                     booking.Price,
                     booking.AdultsNumber,
                     booking.ChildrenNumber,
                     booking.RoomsNumber,
-                    booking.HotelModelId
+                    booking.HotelModelId,
+                    booking.ClientEmail,
+                    booking.ClientFirstName,
+                    booking.ClientLastName
                 },
                 actorId: currentUser.Id.ToString(),
+                actorType: actorRole,
                 source: nameof(CheckoutBookingsService)
             );
         }
