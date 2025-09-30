@@ -8,6 +8,7 @@ using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using HotelBooking.Services.ViewModels;
 using Moq;
 using Xunit;
+using Microsoft.AspNetCore.Identity;
 
 namespace HotelBooking.Tests.UnitTests.BookingCartUnitTests;
 
@@ -92,7 +93,14 @@ public class BookingCartAddUnitTests
             .Callback<UserBookingModel, CancellationToken>((ub, _) => capturedUserBooking = ub)
             .Returns(Task.CompletedTask);
 
-        var addToCartService = new AddToCartService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+        userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+            .ReturnsAsync(new List<string> { "User" });
+
+        var addToCartService = new AddToCartService(
+            new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+            userManagerMock.Object);
         var input = MakeInput(hotelName, hotelImg);
         var user = new UserModel { Id = 1 };
 
@@ -163,7 +171,14 @@ public class BookingCartAddUnitTests
             .Callback<UserBookingModel, CancellationToken>((ub, _) => createdUserBooking = ub)
             .Returns(Task.CompletedTask);
 
-        var svc = new AddToCartService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+        userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+            .ReturnsAsync(new List<string> { "User" });
+
+        var svc = new AddToCartService(
+            new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+            userManagerMock.Object);
         var input = MakeInput(hotelName: "Brand New", hotelImg: "new.jpg");
         var user = new UserModel { Id = 2 };
 

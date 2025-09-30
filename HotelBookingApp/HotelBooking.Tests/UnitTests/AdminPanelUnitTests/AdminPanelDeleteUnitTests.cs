@@ -1,14 +1,17 @@
 using System.Reflection;
-using System.Threading.Tasks;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using HotelBooking.Data.SeedWork;
+using HotelBooking.Models.Identity;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Web.Controllers;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-namespace HotelBooking.Tests.UnitTests;
+namespace HotelBooking.Tests.UnitTests.AdminPanelUnitTests;
 
 public class AdminPanelDeleteUnitTests
 {
@@ -23,21 +26,39 @@ public class AdminPanelDeleteUnitTests
         var adminPanelDeleteBookingServiceMock = new Mock<IAdminPanelDeleteBookingService>(MockBehavior.Strict);
 
         adminPanelDeleteBookingServiceMock
-            .Setup(s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId))
+            .Setup(s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId, It.IsAny<UserModel>()))
             .Returns(Task.CompletedTask)
             .Verifiable();
+
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+
+        var user = new UserModel { UserName = "admin@test.com" };
+        userManagerMock
+            .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            .ReturnsAsync(user);
+
+        var adminPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
+            new[] { new Claim(ClaimTypes.Role, "Admin") }, "TestAuth"));
 
         var controller = new AdminPanelController(
             unitOfWorkMock.Object,
             getCheckoutedHotelsServiceMock.Object,
-            adminPanelDeleteBookingServiceMock.Object);
+            adminPanelDeleteBookingServiceMock.Object,
+            userManagerMock.Object)
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = adminPrincipal }
+            }
+        };
 
         // Act
         var result = await controller.AdminPanelDeleteBooking(bookingId);
 
         // Assert
         adminPanelDeleteBookingServiceMock.Verify(
-            s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId),
+            s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId, It.IsAny<UserModel>()),
             Times.Once);
 
         Assert.IsType<RedirectToActionResult>(result);
@@ -52,13 +73,31 @@ public class AdminPanelDeleteUnitTests
         var adminPanelDeleteBookingServiceMock = new Mock<IAdminPanelDeleteBookingService>();
 
         adminPanelDeleteBookingServiceMock
-            .Setup(s => s.AdminPanelDeleteBooking(It.IsAny<IUnitOfWork>(), It.IsAny<int>()))
+            .Setup(s => s.AdminPanelDeleteBooking(It.IsAny<IUnitOfWork>(), It.IsAny<int>(), It.IsAny<UserModel>()))
             .Returns(Task.CompletedTask);
+
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+
+        var user = new UserModel { UserName = "admin@test.com" };
+        userManagerMock
+            .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+            .ReturnsAsync(user);
+
+        var adminPrincipal = new ClaimsPrincipal(new ClaimsIdentity(
+            new[] { new Claim(ClaimTypes.Role, "Admin") }, "TestAuth"));
 
         var controller = new AdminPanelController(
             unitOfWorkMock.Object,
             getCheckoutedHotelsServiceMock.Object,
-            adminPanelDeleteBookingServiceMock.Object);
+            adminPanelDeleteBookingServiceMock.Object,
+            userManagerMock.Object)
+        {
+            ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext { User = adminPrincipal }
+            }
+        };
 
         // Act
         var result = await controller.AdminPanelDeleteBooking(42);

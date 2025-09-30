@@ -7,6 +7,11 @@ using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using HotelBooking.Web.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
+using Microsoft.AspNetCore.Identity;
+using HotelBooking.Models.Identity;
+using Moq;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests;
 
@@ -60,14 +65,41 @@ public class AdminPanelDeleteBookingIntegrationTests
             await context.SaveChangesAsync();
             
             var unitOfWork = new UnitOfWork(context);
-            IGetCheckoutedHotelsService getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
-            IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+            // Mock UserManager<UserModel>
+            var userManagerMock = new Mock<UserManager<UserModel>>(
+                Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+            userManagerMock
+                .Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+                .ReturnsAsync(new List<string> { "Admin" });
+            userManagerMock
+                .Setup(um => um.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new UserModel { Id = 1 });
+
+            IGetCheckoutedHotelsService getCheckoutedHotelsService = new GetCheckoutedHotelsService(
+                new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+                userManagerMock.Object);
+            IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingsService(
+                new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+                userManagerMock.Object);
 
             var controller = new AdminPanelController(
                 unitOfWork,
                 getCheckoutedHotelsService,
-                deleteBookingService
+                deleteBookingService,
+                userManagerMock.Object
             );
+            // Set up fake authenticated user for controller context
+            controller.ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext
+            {
+                HttpContext = new DefaultHttpContext
+                {
+                    User = new ClaimsPrincipal(new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, "1"),
+                        new Claim(ClaimTypes.Name, "test.user@example.com")
+                    }, "TestAuth"))
+                }
+            };
 
             var actionResult = await controller.AdminPanelDeleteBooking(1);
 

@@ -4,6 +4,10 @@ using HotelBooking.Models.AppModels;
 using HotelBooking.Services.AdminPanelServices;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Services.KafkaOperationsLoggerPublisher;
+using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
+using Microsoft.AspNetCore.Identity;
+using HotelBooking.Models.Identity;
+using Moq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -94,19 +98,31 @@ namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests
             await context.SaveChangesAsync();
 
             IUnitOfWork uow = new UnitOfWork(context);
-            IGetCheckoutedHotelsService service = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+
+            // Mock UserManager<UserModel>
+            var userManagerMock = new Mock<UserManager<UserModel>>(
+                Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+            userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+                .ReturnsAsync(new List<string> { "Admin" });
+
+            // Test user
+            var currentUser = new UserModel { Id = 1 };
+
+            // Use a mocked Kafka logger to avoid external effects
+            var kafkaMock = new Mock<IKafkaOperationsLoggerProducer>();
+            IGetCheckoutedHotelsService service = new GetCheckoutedHotelsService(kafkaMock.Object, userManagerMock.Object);
             
             // Act
-            var result = service.GetCheckoutedHotels(uow);
+            var result = await service.GetCheckoutedHotels(uow, currentUser);
 
             // Assert
             Assert.NotNull(result);
             var list = result.ToList();
             Assert.Equal(3, list.Count);
-            Assert.Contains(list, b => b.Id == 0);
             Assert.Contains(list, b => b.Id == 1);
             Assert.Contains(list, b => b.Id == 2);
-            Assert.DoesNotContain(list, b => b.Id == 3);
+            Assert.Contains(list, b => b.Id == 3);
+            Assert.DoesNotContain(list, b => b.Id == 0);
         }
     }
 }

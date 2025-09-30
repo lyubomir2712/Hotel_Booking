@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using HotelBooking.Models.Identity;
+using System.Threading.Tasks;
 using System.Linq.Expressions;
 using FluentAssertions;
 using HotelBooking.Data.SeedWork;
@@ -42,7 +45,7 @@ public class AdminPanelGetBookingsUnitTests
     }
 
     [Fact]
-    public void GetCheckoutedHotelsReturnsAllBookingsWithHotelJoin()
+    public async Task GetCheckoutedHotelsReturnsAllBookingsWithHotelJoin()
     {
         // Arrange
         var hotelA = new HotelModel { Id = 1, HotelName = "Hotel A", Address = "123 A St", City = "A City", Country = "A Country" };
@@ -56,10 +59,18 @@ public class AdminPanelGetBookingsUnitTests
         };
         var uowMock = CreateUnitOfWorkBackedByInMemoryDb(seed);
 
-        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+        var currentUser = new UserModel { Id = 1 };
+        userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+            .ReturnsAsync(new List<string> { "Admin" });
+
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(
+            new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+            userManagerMock.Object);
 
         // Act
-        var result = getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
+        var result = await getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object, currentUser);
 
         // Assert
         result.Should().NotBeNull();
@@ -69,14 +80,21 @@ public class AdminPanelGetBookingsUnitTests
     }
 
     [Fact]
-    public void GetCheckoutedHotelsWhenNoDataReturnsEmptyList()
+    public async Task GetCheckoutedHotelsWhenNoDataReturnsEmptyList()
     {
         // Arrange
         var uowMock = CreateUnitOfWorkBackedByInMemoryDb(new List<AdminPanelBooking>());
-        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+        var currentUser = new UserModel { Id = 1 };
+        userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+            .ReturnsAsync(new List<string> { "Admin" });
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(
+            new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+            userManagerMock.Object);
 
         // Act
-        var result = getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
+        var result = await getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object, currentUser);
 
         // Assert
         result.Should().NotBeNull();
@@ -84,7 +102,7 @@ public class AdminPanelGetBookingsUnitTests
     }
 
     [Fact]
-    public void GetCheckoutedHotelsUsesRepositoryOnce()
+    public async Task GetCheckoutedHotelsUsesRepositoryOnce()
     {
         // Arrange
         var uowMock = CreateUnitOfWorkBackedByInMemoryDb(new List<AdminPanelBooking>
@@ -99,11 +117,19 @@ public class AdminPanelGetBookingsUnitTests
         });
         
         uowMock.Invocations.Clear();
-        
-        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+
+        var userManagerMock = new Mock<UserManager<UserModel>>(
+            Mock.Of<IUserStore<UserModel>>(), null, null, null, null, null, null, null, null);
+        var currentUser = new UserModel { Id = 1 };
+        userManagerMock.Setup(um => um.GetRolesAsync(It.IsAny<UserModel>()))
+            .ReturnsAsync(new List<string> { "Admin" });
+
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(
+            new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
+            userManagerMock.Object);
 
         // Act
-        getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
+        await getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object, currentUser);
 
         // Assert
         uowMock.Verify(u => u.Repository<AdminPanelBooking>(), Times.Once);
