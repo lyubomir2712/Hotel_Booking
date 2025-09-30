@@ -1,10 +1,10 @@
-using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
+using HotelBooking.Models.Identity;
 
-namespace HotelBooking.Services.Contracts.AdminPanelContracts;
+namespace HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 
 public interface IGetCheckoutedHotelsService
 {
-    public List<AdminPanelBooking> GetCheckoutedHotels(IUnitOfWork unitOfWork);
+    public Task<List<AdminPanelBooking>> GetCheckoutedHotels(IUnitOfWork unitOfWork, UserModel currentUser);
 }

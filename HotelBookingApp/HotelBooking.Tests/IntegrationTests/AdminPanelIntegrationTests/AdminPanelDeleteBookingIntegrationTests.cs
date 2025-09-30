@@ -2,7 +2,6 @@ using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Services.AdminPanelServices;
-using HotelBooking.Services.Contracts.AdminPanelContracts;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using HotelBooking.Web.Controllers;

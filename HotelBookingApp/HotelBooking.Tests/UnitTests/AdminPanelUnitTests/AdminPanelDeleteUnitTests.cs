@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using HotelBooking.Data.SeedWork;
-using HotelBooking.Services.Contracts.AdminPanelContracts;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Web.Controllers;
 using Microsoft.AspNetCore.Authorization;

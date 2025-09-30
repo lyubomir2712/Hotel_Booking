@@ -1,7 +1,6 @@
 using HotelBooking.Data;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.AdminPanelServices;
-using HotelBooking.Services.Contracts.AdminPanelContracts;
 using HotelBooking.Services.Contracts.HotelsServicesContracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
