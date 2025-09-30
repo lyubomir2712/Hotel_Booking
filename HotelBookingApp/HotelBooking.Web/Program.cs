@@ -107,7 +107,7 @@ builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
 builder.Services.AddSignalR();
 
 //Kafka
-builder.Services.AddSingleton<IOperationsLoggerProducer, KafkaOperationsLoggerProducer>();
+builder.Services.AddSingleton<IKafkaOperationsLoggerProducer, KafkaKafkaOperationsLoggerProducer>();
 builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("Kafka"));
 builder.Services.AddSingleton(sp => 
     sp.GetRequiredService<IOptions<KafkaOptions>>().Value);

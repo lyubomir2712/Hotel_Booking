@@ -25,5 +25,6 @@
   <ItemGroup>
     <ProjectReference Include="..\HotelBooking.Services\HotelBooking.Services.csproj" />
     <ProjectReference Include="..\HotelBooking.Web\HotelBooking.Web.csproj" />
+    <ProjectReference Include="..\OperationsLoggerApi\OperationsLoggerApi.csproj" />
   </ItemGroup>
 </Project>

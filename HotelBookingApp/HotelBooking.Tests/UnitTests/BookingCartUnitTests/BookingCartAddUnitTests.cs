@@ -4,6 +4,7 @@ using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Models.Identity;
 using HotelBooking.Services.HotelsServices;
+using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using HotelBooking.Services.ViewModels;
 using Moq;
 using Xunit;
@@ -91,7 +92,7 @@ public class BookingCartAddUnitTests
             .Callback<UserBookingModel, CancellationToken>((ub, _) => capturedUserBooking = ub)
             .Returns(Task.CompletedTask);
 
-        var addToCartService = new AddToCartService();
+        var addToCartService = new AddToCartService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
         var input = MakeInput(hotelName, hotelImg);
         var user = new UserModel { Id = 1 };
 
@@ -162,7 +163,7 @@ public class BookingCartAddUnitTests
             .Callback<UserBookingModel, CancellationToken>((ub, _) => createdUserBooking = ub)
             .Returns(Task.CompletedTask);
 
-        var svc = new AddToCartService();
+        var svc = new AddToCartService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
         var input = MakeInput(hotelName: "Brand New", hotelImg: "new.jpg");
         var user = new UserModel { Id = 2 };
 

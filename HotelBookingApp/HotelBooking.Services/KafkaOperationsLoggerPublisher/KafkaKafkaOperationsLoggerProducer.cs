@@ -4,12 +4,12 @@ using HotelBooking.Services.Contracts.KafkaOperationsLoggerPublisherContracts;
 
 namespace HotelBooking.Services.KafkaOperationsLoggerPublisher;
 
-public sealed class KafkaOperationsLoggerProducer : IOperationsLoggerProducer, IDisposable
+public sealed class KafkaKafkaOperationsLoggerProducer : IKafkaOperationsLoggerProducer, IDisposable
 {
     private readonly IProducer<string, string> _producer;
     private readonly string _topic;
 
-    public KafkaOperationsLoggerProducer(KafkaOptions options)
+    public KafkaKafkaOperationsLoggerProducer(KafkaOptions options)
     {
         _topic = options.Topic;
         var cfg = new ProducerConfig {

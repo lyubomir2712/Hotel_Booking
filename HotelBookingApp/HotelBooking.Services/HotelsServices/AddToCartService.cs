@@ -10,11 +10,11 @@ namespace HotelBooking.Services.HotelsServices;
 
 public class AddToCartService : IAddToCartService
 {
-    private readonly IOperationsLoggerProducer _operationsLoggerProducer;
+    private readonly IKafkaOperationsLoggerProducer _kafkaOperationsLoggerProducer;
 
-    public AddToCartService(IOperationsLoggerProducer operationsLoggerProducer)
+    public AddToCartService(IKafkaOperationsLoggerProducer kafkaOperationsLoggerProducer)
     {
-        _operationsLoggerProducer = operationsLoggerProducer;
+        _kafkaOperationsLoggerProducer = kafkaOperationsLoggerProducer;
     }
     public async Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser)
     {
@@ -67,7 +67,7 @@ public class AddToCartService : IAddToCartService
 
         await unitOfWork.SaveChangesAsync();
         
-        await _operationsLoggerProducer.LogAsync(
+        await _kafkaOperationsLoggerProducer.LogAsync(
             entityType: "Booking", 
             entityId: newBookingModel.Id.ToString(), 
             operation: "AddToCart", 
