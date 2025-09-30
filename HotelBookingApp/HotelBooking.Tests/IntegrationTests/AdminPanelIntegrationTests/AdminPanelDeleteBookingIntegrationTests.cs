@@ -1,19 +1,15 @@
+using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
-using System.Threading;
-using HotelBooking.Data.SeedWork.Repositories;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Services.AdminPanelServices;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
+using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using HotelBooking.Web.Controllers;
-
-namespace HotelBooking.Tests.IntegrationTests;
-
-using System.Threading.Tasks;
-using Xunit;
 using Microsoft.EntityFrameworkCore;
-using HotelBooking.Data;
-using HotelBooking.Models;
+using Xunit;
+
+namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests;
 
 public class AdminPanelDeleteBookingIntegrationTests
 {
@@ -65,8 +61,8 @@ public class AdminPanelDeleteBookingIntegrationTests
             await context.SaveChangesAsync();
             
             var unitOfWork = new UnitOfWork(context);
-            IGetCheckoutedHotelsService getCheckoutedHotelsService = new GetCheckoutedHotelsService();
-            IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingsService();
+            IGetCheckoutedHotelsService getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
+            IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
 
             var controller = new AdminPanelController(
                 unitOfWork,

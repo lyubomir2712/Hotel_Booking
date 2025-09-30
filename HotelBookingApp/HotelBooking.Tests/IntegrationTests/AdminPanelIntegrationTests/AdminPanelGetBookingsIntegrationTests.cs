@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using HotelBooking.Data;
 using HotelBooking.Data.SeedWork;
 using HotelBooking.Models.AppModels;
-using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using HotelBooking.Services.AdminPanelServices;
 using HotelBooking.Services.Contracts.AdminPanelContracts;
+using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
-namespace HotelBooking.Tests.IntegrationTests
+namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests
 {
     public class AdminPanelGetBookingsIntegrationTests
     {
@@ -98,7 +94,7 @@ namespace HotelBooking.Tests.IntegrationTests
             await context.SaveChangesAsync();
 
             IUnitOfWork uow = new UnitOfWork(context);
-            IGetCheckoutedHotelsService service = new GetCheckoutedHotelsService();
+            IGetCheckoutedHotelsService service = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
             
             // Act
             var result = service.GetCheckoutedHotels(uow);

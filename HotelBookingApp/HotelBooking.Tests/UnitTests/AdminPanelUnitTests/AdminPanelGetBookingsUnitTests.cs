@@ -1,19 +1,14 @@
+using System.Linq.Expressions;
 using FluentAssertions;
 using HotelBooking.Data.SeedWork;
+using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Services.AdminPanelServices;
-using Microsoft.EntityFrameworkCore;
+using HotelBooking.Services.KafkaOperationsLoggerPublisher;
 using Moq;
 using Xunit;
-using System.Collections;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
-using HotelBooking.Data.SeedWork.RepositoriesInterfaces;
 
-namespace HotelBooking.Tests.UnitTests;
+namespace HotelBooking.Tests.UnitTests.AdminPanelUnitTests;
 
 public class AdminPanelGetBookingsUnitTests
 {
@@ -61,7 +56,7 @@ public class AdminPanelGetBookingsUnitTests
         };
         var uowMock = CreateUnitOfWorkBackedByInMemoryDb(seed);
 
-        var getCheckoutedHotelsService = new GetCheckoutedHotelsService();
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
 
         // Act
         var result = getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
@@ -78,7 +73,7 @@ public class AdminPanelGetBookingsUnitTests
     {
         // Arrange
         var uowMock = CreateUnitOfWorkBackedByInMemoryDb(new List<AdminPanelBooking>());
-        var getCheckoutedHotelsService = new GetCheckoutedHotelsService();
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
 
         // Act
         var result = getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
@@ -105,7 +100,7 @@ public class AdminPanelGetBookingsUnitTests
         
         uowMock.Invocations.Clear();
         
-        var getCheckoutedHotelsService = new GetCheckoutedHotelsService();
+        var getCheckoutedHotelsService = new GetCheckoutedHotelsService(new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()));
 
         // Act
         getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object);
