@@ -56,7 +56,9 @@ namespace HotelBooking.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> RemoveHotel(int bookingId)
         {
-            await _removeBookingService.RemoveHotelAsync(_unitOfWork, bookingId);
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser is null) return Challenge();
+            await _removeBookingService.RemoveHotelAsync(_unitOfWork, bookingId, currentUser);
             return RedirectToAction(nameof(GetBookedHotels));
         }
         
