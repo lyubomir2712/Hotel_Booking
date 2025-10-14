@@ -21,7 +21,7 @@
         width: 64px;
         height: 64px;
         border-radius: 50%;
-        background: #0d6efd;
+        background: #53B249;
         color: #fff;
         display: flex;
         align-items: center;
@@ -53,7 +53,7 @@
       #ai-chat-widget.open { display: block; }
       
       #ai-chat-widget .ai-header {
-        background: #0d6efd;
+        background: #53B249;
         color: #fff;
         font-weight: 700;
         padding: .5rem .75rem;
@@ -80,12 +80,12 @@
         white-space: pre-wrap;
       }
       #ai-chat-widget .message.ai .bubble { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; }
-      #ai-chat-widget .message.user .bubble { background: #0d6efd; border: 1px solid #0d6efd; color: #fff; }
+      #ai-chat-widget .message.user .bubble { background: #53B249; border: 1px solid #0d6efd; color: #fff; }
       #ai-chat-widget .ai-avatar {
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        background: #0d6efd;
+        background: #53B249;
         color: #fff !important;
         display: flex;
         align-items: center;
@@ -165,6 +165,10 @@
   
       .navbar-toggler:focus {
           box-shadow: 0 0 0 .25rem rgba(255,255,255,.5) !important;
+      }
+      
+      #aiChatSend{
+        background-color: #52ae30;
       }
 
       @@media (max-width: 576px) {
@@ -250,7 +254,7 @@
         <div id="aiMessages" class="chat-messages mb-2" role="log" aria-live="polite" aria-relevant="additions"></div>
         <div class="input-group">
             <input id="aiChatInput" class="form-control" type="text" placeholder="Ask EasyBook AI anything" />
-            <button id="aiChatSend" class="btn btn-primary" type="button">Изпрати</button>
+            <button id="aiChatSend" class="btn" type="button">Изпрати</button>
         </div>
     </div>
     <div id="ai-fab" role="button" aria-label="Open AI chat" aria-expanded="false">

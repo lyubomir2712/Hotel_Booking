@@ -14,14 +14,14 @@ html {
 }
 
 body {
-    background-color: white;
+    background-color: #eff2f9;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
 header{
-    background-color: #003b95;
+    background-color: #53B249;
 }
 
 h1,h6 {
@@ -30,7 +30,7 @@ h1,h6 {
 }
 
 .form-container {
-    background-color: #ffb700;
+    /*background-color: #ffb700;*/
     display: inline-flex;
     flex-direction: row; 
     align-items: center !important;

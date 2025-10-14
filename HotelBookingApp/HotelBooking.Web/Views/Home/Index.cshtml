@@ -7,8 +7,8 @@
 
 <div class="container mt-5 mb-5">
     <div class="hero-box">
-    <h1>Find your next stay</h1>
-    <h4 class="mb-5">Search low prices on hotels, homes and much more...</h4>
+    <h1>Plan your next adventure</h1>
+    <h4 class="mb-5">Discover deals for every kind of traveler</h4>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
       .hero-box { 
@@ -140,7 +140,7 @@
           width: 100% !important;
         }
         #guestsSummary {
-          width: 100% !important; /* override fixed 260px on mobile */
+          width: 100% !important; 
         }
         .form-container button.btn {
           width: 100%;
@@ -164,7 +164,7 @@
                 width: 100% !important;
               }
               #guestsSummary {
-                width: 100% !important; /* override fixed 260px on mobile */
+                width: 100% !important; 
               }
               .form-container button.btn {
                 width: 100%;
@@ -184,7 +184,6 @@
         }
       }
 
-      /* Popular destinations grid */
       .popular-destinations-section .destinations-container {
         width: 100%;
         height: 30rem;
@@ -199,29 +198,27 @@
       .popular-destinations-section .destinations-cell-four { grid-column: 2; background-color: yellow; }
       .popular-destinations-section .destinations-cell-five { grid-column: 3; background-color: purple; }
 
-      /* Rounded corners for popular destination cells */
       .popular-destinations-section .destinations-container > div {
-        border-radius: 12px; /* adjust as desired */
+        border-radius: 12px; 
       }
       .popular-destinations-section .destinations-container img {
-        border-radius: inherit; /* match the parent radius */
+        border-radius: inherit; 
       }
-      /* Ensure destination images fit their cells without overflow */
       .popular-destinations-section .destinations-container > div {
         position: relative;
-        overflow: hidden; /* clip any overflow */
+        overflow: hidden; 
       }
       .popular-destinations-section .destinations-container img {
-        display: block;      /* remove inline-gap */
+        display: block;      
         width: 100%;
         height: 100%;
-        object-fit: cover;   /* fill cell while preserving aspect */
+        object-fit: cover;   
         transition: transform .3s ease;
       }
       .popular-destinations-section .destinations-container > div:hover img {
         transform: scale(1.05);
       }
-      /* Top gradient overlay for destination cells */
+
       .popular-destinations-section .destinations-container > div::before {
         content: "";
         position: absolute;
@@ -230,13 +227,13 @@
           rgba(0,0,0,.75) 0%,
           rgba(0,0,0,.62) 22%,
           rgba(0,0,0,.38) 44%,
-          rgba(0,0,0,0) 64% /* a little above the middle */
+          rgba(0,0,0,0) 64% 
         );
-        border-radius: inherit;        /* match rounded corners */
-        pointer-events: none;          /* keep cell interactions intact */
-        z-index: 1;                    /* sit below the label but above the image */
+        border-radius: inherit;        
+        pointer-events: none;          
+        z-index: 1;                   
       }
-      /* Top-left label for destination cells */
+
       .popular-destinations-section .destination-label {
         position: absolute;
         top: .75rem;
@@ -251,6 +248,28 @@
         z-index: 2;
         font-size: 1.5rem;
       }
+      
+      .search-button {
+        background-color: #53B249;
+        color: #fff;
+        border-color: #53B249;
+        transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+      }
+
+      .search-button:hover,
+      .search-button:focus {
+        background-color: #3e8f3f; /* slightly darker on hover */
+        color: #fff;
+        border-color: #3e8f3f;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(62,143,63,0.12);
+      }
+
+      .search-button:active {
+        background-color: #326f31; 
+        border-color: #326f31;
+        box-shadow: none;
+      }
       @@media (min-width: 992px) {
         .popular-destinations-section .destination-label {
           font-size: 1.75rem;
@@ -261,14 +280,14 @@
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
       <div class="form-container grid-container flex-nowrap gap-1 px-1">
         <div class="col-auto position-relative">
-          <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="Where are you going?" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
+          <input type="text" class="form-control equal-h" id="city" name="City" asp-for="@Model.City" placeholder="Enter destination" required autocomplete="off" aria-haspopup="listbox" aria-expanded="false">
           <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="currentColor" d="M2.75 12h18.5c.69 0 1.25.56 1.25 1.25V18l.75-.75H.75l.75.75v-4.75c0-.69.56-1.25 1.25-1.25m0-1.5A2.75 2.75 0 0 0 0 13.25V18c0 .414.336.75.75.75h22.5A.75.75 0 0 0 24 18v-4.75a2.75 2.75 0 0 0-2.75-2.75zM0 18v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 0 18m22.5 0v3a.75.75 0 0 0 1.5 0v-3a.75.75 0 0 0-1.5 0m-.75-6.75V4.5a2.25 2.25 0 0 0-2.25-2.25h-15A2.25 2.25 0 0 0 2.25 4.5v6.75a.75.75 0 0 0 1.5 0V4.5a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 .75.75v6.75a.75.75 0 0 0 1.5 0m-13.25-3h7a.25.25 0 0 1 .25.25v2.75l.75-.75h-9l.75.75V8.5a.25.25 0 0 1 .25-.25m0-1.5A1.75 1.75 0 0 0 6.75 8.5v2.75c0 .414.336.75.75.75h9a.75.75 0 0 0 .75-.75V8.5a1.75 1.75 0 0 0-1.75-1.75z"></path>
           </svg>
           <div id="citySuggestions" class="city-suggestions" role="listbox" aria-label="City suggestions" aria-live="polite"></div>
         </div>
         <div class="col-auto position-relative">
-          <input type="text" class="form-control equal-h js-date" id="dateRange" placeholder="Check-in — Check-out" required autocomplete="off" inputmode="none" aria-label="Date range">
+          <input type="text" class="form-control equal-h js-date" id="dateRange" placeholder="Choose your stay dates" required autocomplete="off" inputmode="none" aria-label="Date range">
           <svg class="input-left-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path fill="currentColor" d="M22.5 13.5v8.25a.75.75 0 0 1-.75.75H2.25a.75.75 0 0 1-.75-.75V5.25a.75.75 0 0 1 .75-.75h19.5a.75.75 0 0 1 .75.75zm1.5 0V5.25A2.25 2.25 0 0 0 21.75 3H2.25A2.25 2.25 0 0 0 0 5.25v16.5A2.25 2.25 0 0 0 2.25 24h19.5A2.25 2.25 0 0 0 24 21.75zm-23.25-3h22.5a.75.75 0 0 0 0-1.5H.75a.75.75 0 0 0 0 1.5M7.5 6V.75a.75.75 0 0 0-1.5 0V6a.75.75 0 0 0 1.5 0M18 6V.75a.75.75 0 0 0-1.5 0V6A.75.75 0 0 0 18 6M5.095 14.03a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28A1.125 1.125 0 1 0 12 15a1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m-.53 6.53a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06M12 18a1.125 1.125 0 1 0 0 2.25A1.125 1.125 0 0 0 12 18a.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5m5.845-3.97a.75.75 0 1 0 1.06-1.06.75.75 0 0 0-1.06 1.06m.53-1.28a1.125 1.125 0 1 0 0 2.25 1.125 1.125 0 0 0 0-2.25.75.75 0 0 0 0 1.5.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"/>
           </svg>
@@ -317,7 +336,7 @@
           </div>
         </div>
         <div class="col-auto">
-          <button type="submit" class="btn btn-primary">Search</button>
+          <button type="submit" class="btn search-button">Search</button>
         </div>
       </div>
     </form>
