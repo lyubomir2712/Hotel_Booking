@@ -93,10 +93,7 @@
                                                     <input type="hidden" name="RoomsNumber" value="@hotel.RoomsNumber"/>
                                                     <input type="hidden" name="AdultsNumber" value="@hotel.AdultsNumber"/>
                                                     <input type="hidden" name="ChildrenNumber" value="@hotel.ChildrenNumber"/>
-                                                    <button type="submit" class="btn btn-primary book-btn"
-                                                            style="background-color:#0d6efd; border-color:#0d6efd;"
-                                                            onmouseover="this.style.backgroundColor='#0b5ed7';"
-                                                            onmouseout="this.style.backgroundColor='#0d6efd';">Book</button>
+                                                    <button type="submit" class="btn btn-primary book-btn">Book</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -179,7 +176,7 @@
         line-height: 1;
     }
     .review-score-badge {
-        background-color: #003b95;
+        background-color: #53B249;
         color: #fff;
         font-weight: 600;
         width: 37px;
@@ -187,15 +184,19 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border-top-left-radius: 0.35rem;
-        border-top-right-radius: 0.35rem;
-        border-bottom-right-radius: 0.35rem;
+        border-radius: 50%;
     }
 
     .book-btn {
         position: absolute;
         bottom: 1rem;
         right: 1.1rem;
+        background-color: #53B249;
+        border-color: #53B249;
+    }
+    .book-btn:hover {
+        background-color: #3E8B37;
+        border-color: #3E8B37;
     }
     .price-absolute {
         position: absolute;
@@ -209,14 +210,14 @@
     }
 
     .hotel-name {
-        color: #0d6efd !important;
+        color: #53B249 !important;
         font-weight: 700;
         position: absolute;
         top: 1.2rem;
         left: 17.80rem;
     }
     .hotel-name:hover {
-        color: black !important;
+        color: #3E8B37 !important;
     }
     .accommodation-type {
         font-size: 0.75rem;
