@@ -48,7 +48,7 @@
                                                 <div class="w-100"></div>
                                                 <div class="map-info">
                                                     <a target="_blank"
-                                                       href="https://www.google.com/maps/search/?api=1&query=@hotel.Latitude,@hotel.Longitude">
+                                                       href="https://www.google.com/maps/search/?api=1&query=@(hotel.Latitude?.ToString(System.Globalization.CultureInfo.InvariantCulture)),@(hotel.Longitude?.ToString(System.Globalization.CultureInfo.InvariantCulture))">
                                                         View on Map
                                                     </a>
                                                     @if (hotel.DistanceToCenter != null)
