@@ -99,7 +99,8 @@ builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsServi
 builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
 
 //AI Services
-builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "qwen2.5:7b-instruct"));
+// Use the lighter Qwen model (0.5B). Change the model id here if you pull a different size.
+builder.Services.AddChatClient(new OllamaChatClient(new Uri("http://localhost:11434"), "qwen2.5:0.5b"));
 builder.Services.AddScoped<IAskAppAiService, AskAppAiService>();
 
 //SignalR

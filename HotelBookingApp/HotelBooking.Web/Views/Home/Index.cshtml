@@ -15,9 +15,7 @@
         max-width: 720px; 
         margin-inline: auto; 
       }
-      @@media (min-width: 992px) {
-        .hero-box { max-width: 960px; }
-      }
+      
       .form-container .form-control.equal-h,
       .form-container button.btn { width: 100%; }
       .equal-h { height: 42px; }
@@ -77,22 +75,22 @@
       #guestsPopup #guestsDone {
         display: block;
         width: 100%;
-        background-color: #fff !important;
-        color: #0d6efd !important;
-        border: 1px solid #0d6efd !important;
+        background-color: #52ae30 !important;
+        color: #52ae30 !important;
+        border: 1px solid #52ae30 !important;
         transition: background-color .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
       }
       #guestsPopup #guestsDone:hover,
       #guestsPopup #guestsDone:focus {
         background-color: rgba(13,110,253,.08) !important; 
-        color: #0a58ca !important;
-        border-color: #0a58ca !important;
+        color: #52ae30 !important;
+        border-color: #52ae30 !important;
         box-shadow: none !important; 
       }
       #guestsPopup #guestsDone:active {
         background-color: rgba(13,110,253,.16) !important; 
-        color: #0a58ca !important;
-        border-color: #0a58ca !important;
+        color: #52ae30 !important;
+        border-color: #52ae30 !important;
         box-shadow: none !important;
       }
 
@@ -119,70 +117,9 @@
       textarea::-ms-input-placeholder { color: #000 !important; }
 
       input[readonly]::placeholder { color: #000 !important; opacity: 1; }
-
-      @@media (min-width: 901px) and (max-width: 991.98px) {
-        .container {
-          max-width: 960px;
-        }
-      }
-
-      @@media(min-width: 768px) and (max-width: 900px) {
-        .form-container {
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-          gap: .5rem;
-          margin-top: 7rem;
-          height: 11.5rem;
-        }
-        .form-container > .col-auto { width: 100%; }
-        .form-container input {
-          width: 100% !important;
-        }
-        #guestsSummary {
-          width: 100% !important; 
-        }
-        .form-container button.btn {
-          width: 100%;
-        }
-        .flatpickr-wrapper{
-          width: 100%;
-        }
-      }
       
-       @@media(max-width: 767px) {
-              .form-container {
-                display: flex;
-                flex-direction: column;
-                align-items: stretch;
-                gap: .5rem;
-                margin-top: 7rem;
-                height: 12.6rem;
-              }
-              .form-container > .col-auto { width: 100%; }
-              .form-container input {
-                width: 100% !important;
-              }
-              #guestsSummary {
-                width: 100% !important; 
-              }
-              .form-container button.btn {
-                width: 100%;
-              }
-              .flatpickr-wrapper{
-                        width: 100%;
-              }
-            }
-      @@media (min-width: 992px) and (max-width: 1199.98px) {
-        .form-container { width: 88%; margin-inline: auto; }
-      }
       
-      @@media (min-width: 900px) and (max-width: 991px){
-        .form-container{
-          width: 111.5%;
-          margin-inline: auto;
-        }
-      }
+      
 
       .popular-destinations-section .destinations-container {
         width: 100%;
@@ -191,11 +128,12 @@
         margin-top: 4rem;
       }
 
-      .popular-destinations-section .destinations-cell-one { position: absolute; top: 8%; left: 10%; width: 200px; height: 200px; transform: scale(1.5); }
-      .popular-destinations-section .destinations-cell-two { position: absolute; top: 5%; right:  40%; width: 200px; height: 200px; transform: scale(1.1); }
-      .popular-destinations-section .destinations-cell-three { position: absolute; top: 15%; right: 5%; width: 220px; height: 220px; transform: scale(0.7); }
-      .popular-destinations-section .destinations-cell-four { position: absolute; bottom: 15%; left: 20%; width: 180px; height: 180px; transform: scale(1.2); }
-      .popular-destinations-section .destinations-cell-five { position: absolute; top: 220px; right: 15%; width: 400px; height: 400px; transform: scale(0.9); }
+      .popular-destinations-section .destinations-cell-one { position: absolute; top: 5%; left: 5%; width: 200px; height: 200px; transform: scale(1.5); }
+      .popular-destinations-section .destinations-cell-two { position: absolute; top: 5%; right: 35%; width: 200px; height: 200px; transform: scale(1.1); }
+      .popular-destinations-section .destinations-cell-three { position: absolute; top: 18%; right: 0; width: 220px; height: 220px; transform: scale(0.7); }
+      .popular-destinations-section .destinations-cell-four { position: absolute; bottom: 10%; left: 18%; width: 180px; height: 180px; transform: scale(1.2); }
+      .popular-destinations-section .destinations-cell-five { position: absolute; top: 240px; right: 10%; width: 400px; height: 400px; transform: scale(0.9); }
+    
 
       .popular-destinations-section .destinations-container > div {
         position: absolute;
@@ -266,7 +204,7 @@
 
       .search-button:hover,
       .search-button:focus {
-        background-color: #3e8f3f; /* slightly darker on hover */
+        background-color: #3e8f3f; 
         color: #fff;
         border-color: #3e8f3f;
         text-decoration: none;
@@ -278,12 +216,112 @@
         border-color: #326f31;
         box-shadow: none;
       }
-      @@media (min-width: 992px) {
-        .popular-destinations-section .destination-label {
-          font-size: 1.1rem;
-        }
-      }
       .popular-destinations-section .destination-label .flag { line-height: 1; }
+      
+            @@media (min-width: 992px) and (max-width: 1199.98px) {
+                    .form-container { width: 88%; margin-inline: auto; }
+                    
+                    .popular-destinations-section .destinations-cell-one { transform: scale(1.3); }
+                            .popular-destinations-section .destinations-cell-two { transform: scale(1.0); }
+                            .popular-destinations-section .destinations-cell-three { transform: scale(0.65); }
+                            .popular-destinations-section .destinations-cell-four { transform: scale(1.0); }
+                            .popular-destinations-section .destinations-cell-five { transform: scale(0.8); }
+            }
+            
+             @@media (min-width: 992px) {
+                .hero-box { max-width: 960px; }
+             }
+                
+                @@media (max-width: 992px) {
+                        .popular-destinations-section .destination-label {
+                          font-size: 1.1rem;
+                        }
+                }
+                  
+                  @@media (max-width: 991px) {
+                    .popular-destinations-section .destinations-cell-one { transform: scale(1.1); !important;}
+                    .popular-destinations-section .destinations-cell-two { transform: scale(0.85);  !important;}
+                    .popular-destinations-section .destinations-cell-three { transform: scale(0.55);  !important;}
+                    .popular-destinations-section .destinations-cell-four { transform: scale(0.85); !important;}
+                    .popular-destinations-section .destinations-cell-five { transform: scale(0.65); !important;}
+                  }
+            
+                  
+      
+            @@media (min-width: 901px) and (max-width: 991.98px) {
+              .container {
+                max-width: 960px;
+              }
+              
+              .form-container{
+                        width: 111.5%;
+                        margin-inline: auto;
+              }
+            }
+            
+            @@media (max-width: 900px) {
+                          .popular-destinations-section .destinations-cell-one { top: 5%; left: 3%; width: 160px; height: 160px; transform: scale(1.6); }
+                          .popular-destinations-section .destinations-cell-two { top: 5%; right: 30%; width: 160px; height: 160px; transform: scale(1); }
+                          .popular-deståinations-section .destinations-cell-three { top: 20%; right: 0; width: 180px; height: 180px; transform: scale(0.7); }
+                          .popular-destinations-section .destinations-cell-four { bottom: 15%; left: 15%; width: 140px; height: 140px; transform: scale(1); }
+                          .popular-destinations-section .destinations-cell-five { top: 260px; right: 15%; width: 320px; height: 320px; transform: scale(0.8); }
+                        }
+      
+            @@media(min-width: 768px) and (max-width: 900px) {
+              .form-container {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                gap: .5rem;
+                margin-top: 7rem;
+                height: 11.5rem;
+              }
+              .form-container > .col-auto { width: 100%; }
+              .form-container input {
+                width: 100% !important;
+              }
+              #guestsSummary {
+                width: 100% !important; 
+              }
+              .form-container button.btn {
+                width: 100%;
+              }
+              .flatpickr-wrapper{
+                width: 100%;
+              }
+            }
+            
+             @@media(max-width: 767px) {
+       .form-container {
+         display: flex;
+         flex-direction: column;
+         align-items: stretch;
+         gap: .5rem;
+         margin-top: 7rem;
+         height: 12.6rem;
+       }
+       .form-container > .col-auto { width: 100%; }
+       .form-container input {
+         width: 100% !important;
+       }
+       #guestsSummary {
+         width: 100% !important; 
+       }
+       .form-container button.btn {
+         width: 100%;
+       }
+       .flatpickr-wrapper{
+                 width: 100%;
+       }
+
+       .popular-destinations-section .destinations-cell-one { top: 5%; left: 3%; width: 140px; height: 140px; transform: scale(1.3); }
+              .popular-destinations-section .destinations-cell-two { top: 5%; right: 30%; width: 140px; height: 140px; transform: scale(0.9); }
+              .popular-destinations-section .destinations-cell-three { top: 20%; right: 0; width: 160px; height: 160px; transform: scale(0.7); }
+              .popular-destinations-section .destinations-cell-four { bottom: 15%; left: 15%; width: 120px; height: 120px; transform: scale(0.85); }
+              .popular-destinations-section .destinations-cell-five { top: 260px; right: 15%; width: 280px; height: 280px; transform: scale(0.45); }
+       
+}
+
     </style>
     <form id="reservationForm" asp-action="HotelsSearch" asp-controller="Hotels" method="post">
       <div class="form-container grid-container flex-nowrap gap-1 px-1">
