@@ -77,8 +77,6 @@ public class GetUnavailableBookingsService : IGetUnavailableBookingsService
             {
                 unavailableBookings.Add(booking);
             }
-            
-            
         }
         return unavailableBookings; 
     }
