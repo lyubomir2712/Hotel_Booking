@@ -2,21 +2,24 @@ using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 
 namespace HotelBooking.Services.BookingApiConfiguration;
 
-public class VerifyBookingsForAvailabilityService : IVerifyBookingsForAvailabilityService
+public class GetUnavailableBookingsService : IGetUnavailableBookingsService
 {
     private const string RoomAvailabilityUrl = "/v1/hotels/room-list";
     private readonly IConfiguration _configuration;
     
-    public VerifyBookingsForAvailabilityService(IConfiguration configuration)
+    public GetUnavailableBookingsService(IConfiguration configuration)
     {
         _configuration = configuration;
     }
     
-    public async Task<bool> VerifyBookingsForAvailability(HttpClient httpClient, List<BookingModel> bookings)
+    public async Task<List<BookingModel>> VerifyBookingsForAvailability(HttpClient httpClient, List<BookingModel> bookings)
     {
+        var unavailableBookings = new List<BookingModel>();
+
         foreach(var booking in bookings)
         {
 
@@ -52,17 +55,32 @@ public class VerifyBookingsForAvailabilityService : IVerifyBookingsForAvailabili
                 urlBuilder.Append($"&children_ages={childrenAges}");
             }
 
-            urlBuilder.Append($"&hotel_id={booking.HotelModel.RapidApiHotelId}");
+            urlBuilder.Append($"&hotel_id={booking.RapidApiHotelId}");
 
             var roomsAvailableUri = urlBuilder.ToString();
 
             using var roomsAvailableResponse = await httpClient.GetAsync(roomsAvailableUri);
-            if (!roomsAvailableResponse.IsSuccessStatusCode) continue;
+
+            if (!roomsAvailableResponse.IsSuccessStatusCode)
+            {
+                unavailableBookings.Add(booking);
+                continue;
+            }
             
             var json = await roomsAvailableResponse.Content.ReadAsStringAsync();
+            
+            var data = JArray.Parse(json);
+            
+            var totalBlocks = data[0]?["total_blocks"]?.Value<int>();
 
+            if (!totalBlocks.HasValue || totalBlocks.Value < booking.RoomsNumber)
+            {
+                unavailableBookings.Add(booking);
+            }
+            
+            
         }
-        return await Task.FromResult(true); 
+        return unavailableBookings; 
     }
 
     private (string adultsPerRoom, string childrenPerRoom) DistributeGuestsAcrossRooms(
@@ -70,11 +88,9 @@ public class VerifyBookingsForAvailabilityService : IVerifyBookingsForAvailabili
         int totalChildren, 
         int numberOfRooms)
     {
-        // Distribute adults evenly across rooms
         int adultsPerRoom = totalAdults / numberOfRooms;
         int extraAdults = totalAdults % numberOfRooms;
         
-        // Distribute children evenly across rooms
         int childrenPerRoom = totalChildren / numberOfRooms;
         int extraChildren = totalChildren % numberOfRooms;
         
@@ -83,14 +99,11 @@ public class VerifyBookingsForAvailabilityService : IVerifyBookingsForAvailabili
         
         for (int i = 0; i < numberOfRooms; i++)
         {
-            // Add base number of adults, plus 1 extra for the first few rooms
             adultsDistribution.Add(adultsPerRoom + (i < extraAdults ? 1 : 0));
             
-            // Add base number of children, plus 1 extra for the first few rooms
             childrenDistribution.Add(childrenPerRoom + (i < extraChildren ? 1 : 0));
         }
         
-        // Join with commas for the API format
         string adultsResult = string.Join(",", adultsDistribution);
         string childrenResult = string.Join(",", childrenDistribution);
         
