@@ -43,7 +43,8 @@ public class AddToCartService : IAddToCartService
                 Address = addToCartInput.Address,
                 ReviewScore = addToCartInput.ReviewScore,
                 ReviewsCount = addToCartInput.ReviewsCount,
-                ReviewScoreWord = addToCartInput.ReviewScoreWord
+                ReviewScoreWord = addToCartInput.ReviewScoreWord,
+                RapidApiHotelId = addToCartInput.RapidApiHotelId
             };
             await unitOfWork.Repository<HotelModel>().AddAsync(newHotel);
             await unitOfWork.SaveChangesAsync();
@@ -59,6 +60,7 @@ public class AddToCartService : IAddToCartService
                 AdultsNumber = addToCartInput.AdultsNumber,
                 ChildrenNumber = addToCartInput.ChildrenNumber,
                 RoomsNumber = addToCartInput.RoomsNumber,
+                RapidApiHotelId = addToCartInput.RapidApiHotelId
             };
 
             await unitOfWork.Repository<BookingModel>().AddAsync(newBookingModel);

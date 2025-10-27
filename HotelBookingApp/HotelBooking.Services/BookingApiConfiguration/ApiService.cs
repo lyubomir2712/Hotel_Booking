@@ -11,7 +11,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
         private const string SearchUrl = "v1/hotels/search";
         
 
-        public async Task<List<BookingViewModel>?> GetHotelsByLocation(HttpClient httpClient,ApiDataViewModel model)
+        public async Task<List<BookingViewModel>?> GetHotelsByLocation(HttpClient httpClient, ApiDataViewModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (string.IsNullOrWhiteSpace(model.City)) return new List<BookingViewModel>();

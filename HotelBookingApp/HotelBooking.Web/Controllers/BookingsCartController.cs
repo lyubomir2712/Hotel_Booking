@@ -12,6 +12,7 @@ using HotelBooking.Services.EmailServices;
 using Microsoft.AspNetCore.SignalR;
 using HotelBooking.Web.Hubs;
 using System.Threading.Tasks;
+using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -25,11 +26,14 @@ namespace HotelBooking.Web.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICheckoutEmailService _checkoutEmailService;
         private readonly IHubContext<AdminNotificationsHub> _adminNotificationsHubContext;
+        private readonly IVerifyBookingsForAvailabilityService _verifyBookingsForAvailabilityService;
+        private readonly HttpClient _httpClient;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
-             ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext)
+             ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext,
+             IVerifyBookingsForAvailabilityService verifyBookingsForAvailabilityService, HttpClient httpClient)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -39,6 +43,8 @@ namespace HotelBooking.Web.Controllers
             _unitOfWork = unitOfWork;
             _checkoutEmailService = checkoutEmailService;
             _adminNotificationsHubContext = adminNotificationsHubContext;
+            _verifyBookingsForAvailabilityService = verifyBookingsForAvailabilityService;
+            _httpClient = httpClient;
         }
 
 
@@ -91,6 +97,8 @@ namespace HotelBooking.Web.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            await _verifyBookingsForAvailabilityService.VerifyBookingsForAvailability(_httpClient, bookings);
             
             await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
 
