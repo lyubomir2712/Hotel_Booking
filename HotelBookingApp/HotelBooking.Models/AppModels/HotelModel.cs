@@ -23,7 +23,9 @@ namespace HotelBooking.Models.AppModels
         
         public int? ReviewsCount { get; set; }
         
-        public string? ReviewScoreWord { get; set; }           
+        public string? ReviewScoreWord { get; set; }      
+        
+        public int RapidApiHotelId { get; set; }
 
         public ICollection<BookingModel> BookingModels { get; set; }
         

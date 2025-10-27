@@ -45,6 +45,5 @@ namespace HotelBooking.Services.ViewModels
             public string? AccommodationType { get; set; }
             
             public bool? IsBeachFront { get; set; }
-            
         }  
 }
