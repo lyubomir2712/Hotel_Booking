@@ -120,7 +120,7 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 app.MapHub<AdminNotificationsHub>("/adminNotificationsHub");
-app.MapHub<AdminNotificationsHub>("/hotelRecommendationsHub");
+app.MapHub<HotelRecommendationsHub>("/bookingRecommendationsHub");
 
 if (app.Environment.IsDevelopment())
 {
