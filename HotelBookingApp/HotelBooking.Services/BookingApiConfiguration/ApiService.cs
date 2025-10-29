@@ -57,9 +57,9 @@ namespace HotelBooking.Services.BookingApiConfiguration
 
                 var results = new List<BookingViewModel>();
 
-                foreach (var id in destIds)
+                foreach (var destinationId in destIds)
                 {
-                    var searchUri = $"{SearchUrl}{baseQuery}&dest_id={Uri.EscapeDataString(id)}";
+                    var searchUri = $"{SearchUrl}{baseQuery}&dest_id={Uri.EscapeDataString(destinationId)}";
 
                     using var searchResponse = await httpClient.GetAsync(searchUri);
                     if (!searchResponse.IsSuccessStatusCode) continue;
@@ -69,7 +69,8 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     var dto = JsonConvert.DeserializeObject<BookingSearchJsonResponse>(json);
                     if (dto?.Result != null && dto.Result.Count > 0)
                     {
-                        results.AddRange(dto.Result.MapHotels(formattedCheckinDate, formattedCheckoutDate, model.AdultsNumber, model.ChildrenNumber, model.RoomsNumber));
+                        results.AddRange(dto.Result.MapHotels(formattedCheckinDate, formattedCheckoutDate,
+                            model.AdultsNumber, model.ChildrenNumber, model.RoomsNumber, destinationId));
                     }
                 }
                 

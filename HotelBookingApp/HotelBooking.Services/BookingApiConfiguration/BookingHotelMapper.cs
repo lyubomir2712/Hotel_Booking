@@ -11,7 +11,8 @@ internal static class BookingHotelMapper
         string endDate,
         int adultsNumber,
         int childrenNumber,
-        int roomsNumber)
+        int roomsNumber,
+        string destinationId)
     {
         if (items == null) yield break;
 
@@ -52,6 +53,7 @@ internal static class BookingHotelMapper
                 HasFreeParking = h.HasFreeParking,
                 AccommodationType = h.AccommodationType,
                 IsBeachFront = h.IsBeachFront,
+                DestinationId = destinationId,
             };
         }
     }

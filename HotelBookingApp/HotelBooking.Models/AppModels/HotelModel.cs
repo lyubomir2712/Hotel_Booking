@@ -27,6 +27,8 @@ namespace HotelBooking.Models.AppModels
         
         public int RapidApiHotelId { get; set; }
 
+        public string DestinationId { get; set; }
+
         public ICollection<BookingModel> BookingModels { get; set; }
         
         public ICollection<AdminPanelBooking> AdminPanelBookings { get; set; } = new List<AdminPanelBooking>();

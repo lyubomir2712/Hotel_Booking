@@ -21,6 +21,8 @@ namespace HotelBooking.Models.AppModels
         
         public int RapidApiHotelId { get; set; }
         
+        public string DestinationId { get; set; }
+        
         public int HotelModelId  {get; set;}
         public HotelModel HotelModel { get; set; }
         public ICollection<UserBookingModel> UserBookingModels { get; set; }

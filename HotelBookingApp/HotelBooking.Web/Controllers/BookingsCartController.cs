@@ -98,7 +98,7 @@ namespace HotelBooking.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            await _getUnavailableBookingsService.VerifyBookingsForAvailability(_httpClient, bookings);
+            var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(_httpClient, bookings);
             
             await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
 

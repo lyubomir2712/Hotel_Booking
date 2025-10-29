@@ -1,3 +1,4 @@
+using System.Net;
 using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
 using System.Text;
