@@ -55,7 +55,7 @@ builder.Services.AddScoped<UserRole>();
 //Api Configuration Services
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IGetUnavailableBookingsService, GetUnavailableBookingsService>();
-builder.Services.AddScoped<IGetHotelRecommendationsService, GetHotelRecommendationsService>();
+builder.Services.AddScoped<IGetBookingRecommendationsService, GetBookingRecommendationsService>();
 builder.Services
     .AddOptions<RapidApiOptions>()
     .Bind(builder.Configuration.GetSection(RapidApiOptions.SectionName))
@@ -120,6 +120,7 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 app.MapHub<AdminNotificationsHub>("/adminNotificationsHub");
+app.MapHub<AdminNotificationsHub>("/hotelRecommendationsHub");
 
 if (app.Environment.IsDevelopment())
 {

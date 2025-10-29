@@ -7,17 +7,17 @@ using Newtonsoft.Json;
 
 namespace HotelBooking.Services.BookingApiConfiguration;
 
-public class GetHotelRecommendationsService : IGetHotelRecommendationsService
+public class GetBookingRecommendationsService : IGetBookingRecommendationsService
 {
     private const string SearchUrl = "v1/hotels/search";
     private readonly HttpClient httpClient;
 
-    public GetHotelRecommendationsService(HttpClient httpClient)
+    public GetBookingRecommendationsService(HttpClient httpClient)
     {
         this.httpClient = httpClient;
     }
     
-    public async Task<List<BookingViewModel>> GetHotelRecomendations(List<BookingModel> unavailableBookings)
+    public async Task<List<BookingViewModel>> GetBookingRecomendations(List<BookingModel> unavailableBookings)
     {
         var recommendedBookings = new List<BookingViewModel>();
         

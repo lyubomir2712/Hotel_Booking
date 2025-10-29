@@ -134,3 +134,22 @@
         color: #777;
     }
 </style>
+
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withAutomaticReconnect()
+        .configureLogging(signalR.LogLevel.Trace)
+        .build();
+
+    connection.on("ReceiveUnavailableBookingsAndBookingRecommendation", (hotelPayload) => {
+        console.log("Received bookings + recommendation:", hotelPayload);
+    });
+
+    connection.on("ReceiveUnavailableBookings", (unavailableBookings) => {
+        console.log("Received unavailable bookings:", unavailableBookings);
+    });
+
+    connection.start()
+        .then(() => console.log("Connected to HotelRecommendationsHub"))
+        .catch(err => console.error("Connection failed:", err));
+</script>

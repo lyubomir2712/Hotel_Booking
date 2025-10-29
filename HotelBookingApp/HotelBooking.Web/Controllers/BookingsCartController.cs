@@ -26,14 +26,16 @@ namespace HotelBooking.Web.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICheckoutEmailService _checkoutEmailService;
         private readonly IHubContext<AdminNotificationsHub> _adminNotificationsHubContext;
+        private readonly IHubContext<HotelRecommendationsHub> _hotelRecommendationsHubContext;
         private readonly IGetUnavailableBookingsService _getUnavailableBookingsService;
-        private readonly IGetHotelRecommendationsService _getHotelRecommendationsService;
+        private readonly IGetBookingRecommendationsService _getBookingRecommendationsService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
              ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext,
-             IGetUnavailableBookingsService getUnavailableBookingsService, IGetHotelRecommendationsService getHotelRecommendationsService)
+             IGetUnavailableBookingsService getUnavailableBookingsService, IGetBookingRecommendationsService getBookingRecommendationsService,
+             IHubContext<HotelRecommendationsHub> hotelRecommendationsHubContext)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -44,7 +46,8 @@ namespace HotelBooking.Web.Controllers
             _checkoutEmailService = checkoutEmailService;
             _adminNotificationsHubContext = adminNotificationsHubContext;
             _getUnavailableBookingsService = getUnavailableBookingsService;
-            _getHotelRecommendationsService = getHotelRecommendationsService;
+            _getBookingRecommendationsService = getBookingRecommendationsService;
+            _hotelRecommendationsHubContext = hotelRecommendationsHubContext;
         }
 
 
@@ -93,22 +96,47 @@ namespace HotelBooking.Web.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            if (currentUser == null|| bookings == null || bookings.Count == 0)
+            if (currentUser == null || bookings == null || bookings.Count == 0)
+                return NoContent();
+
+            var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(bookings);
+
+            List<BookingViewModel> recommendedBookings = new List<BookingViewModel>();
+
+            if (unavailableBookings.Any())
             {
+                recommendedBookings = await _getBookingRecommendationsService.GetBookingRecomendations(unavailableBookings);
+            }
+
+            if (unavailableBookings.Any() && recommendedBookings.Any())
+            {
+                var hotelPayload = new
+                {
+                    RecommendedHotels = recommendedBookings,
+                    UnavailableBookings = unavailableBookings
+                };
+
+                await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
+                    .SendAsync("ReceiveUnavailableBookingsAndBookingRecommendation", hotelPayload);
+                return NoContent();
+            }
+            else if(unavailableBookings.Any())
+            {
+                await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
+                    .SendAsync("ReceiveUnavailableBookings", unavailableBookings);
                 return NoContent();
             }
 
-            //var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(bookings);
-
-            var recommendedHotels = await _getHotelRecommendationsService.GetHotelRecomendations(bookings);
+            await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
             
             await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
 
-            await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
-
             await _adminNotificationsHubContext.Clients.All
-                .SendAsync("sendAdminNotificationForCheckout",$"A customer has made {bookings.Count} new {(bookings.Count > 1 ? "bookings" : "booking")}");
+                .SendAsync("sendAdminNotificationForCheckout",
+                    $"A customer has made {bookings.Count} new {(bookings.Count > 1 ? "bookings" : "booking")}");
+
             
+            //Kafka sender needed
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }
     }
