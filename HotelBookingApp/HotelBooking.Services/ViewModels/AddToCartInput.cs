@@ -34,5 +34,7 @@ namespace HotelBooking.Services.ViewModels
         public int RoomsNumber { get; set; } = 1;
         
         public int RapidApiHotelId { get; set; }
+        
+        public string DestinationId { get; set; }
     }
 }

@@ -27,13 +27,13 @@ namespace HotelBooking.Web.Controllers
         private readonly ICheckoutEmailService _checkoutEmailService;
         private readonly IHubContext<AdminNotificationsHub> _adminNotificationsHubContext;
         private readonly IGetUnavailableBookingsService _getUnavailableBookingsService;
-        private readonly HttpClient _httpClient;
+        private readonly IGetHotelRecommendationsService _getHotelRecommendationsService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
              ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext,
-             IGetUnavailableBookingsService getUnavailableBookingsService, HttpClient httpClient)
+             IGetUnavailableBookingsService getUnavailableBookingsService, IGetHotelRecommendationsService getHotelRecommendationsService)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -44,7 +44,7 @@ namespace HotelBooking.Web.Controllers
             _checkoutEmailService = checkoutEmailService;
             _adminNotificationsHubContext = adminNotificationsHubContext;
             _getUnavailableBookingsService = getUnavailableBookingsService;
-            _httpClient = httpClient;
+            _getHotelRecommendationsService = getHotelRecommendationsService;
         }
 
 
@@ -56,7 +56,7 @@ namespace HotelBooking.Web.Controllers
 
             await _addToCartService.AddToCartAsync(_unitOfWork, addToCartInput, currentUser);
             
-            return RedirectToAction(nameof(GetBookedHotels));
+            return NoContent();
         }
         
         [HttpPost]
@@ -95,10 +95,12 @@ namespace HotelBooking.Web.Controllers
 
             if (currentUser == null|| bookings == null || bookings.Count == 0)
             {
-                return RedirectToAction("Index", "Home");
+                return NoContent();
             }
 
-            var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(_httpClient, bookings);
+            //var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(bookings);
+
+            var recommendedHotels = await _getHotelRecommendationsService.GetHotelRecomendations(bookings);
             
             await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
 

@@ -5,5 +5,5 @@ namespace HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 public interface IGetHotelRecommendationsService
 {
-    public Task<List<BookingViewModel>> GetHotelRecomendations(HttpClient httpClient, List<BookingModel> unavailableBookings);
+    public Task<List<BookingViewModel>> GetHotelRecomendations(List<BookingModel> unavailableBookings);
 }

@@ -10,8 +10,14 @@ namespace HotelBooking.Services.BookingApiConfiguration;
 public class GetHotelRecommendationsService : IGetHotelRecommendationsService
 {
     private const string SearchUrl = "v1/hotels/search";
+    private readonly HttpClient httpClient;
+
+    public GetHotelRecommendationsService(HttpClient httpClient)
+    {
+        this.httpClient = httpClient;
+    }
     
-    public async Task<List<BookingViewModel>> GetHotelRecomendations(HttpClient httpClient, List<BookingModel> unavailableBookings)
+    public async Task<List<BookingViewModel>> GetHotelRecomendations(List<BookingModel> unavailableBookings)
     {
         var recommendedBookings = new List<BookingViewModel>();
         
@@ -58,34 +64,10 @@ public class GetHotelRecommendationsService : IGetHotelRecommendationsService
                 
                 if (dtoBooking != null)
                 {
-                    BookingViewModel bookingViewModel = new BookingViewModel
-                    {
-                        HotelId = dtoBooking.HotelId,
-                        Name = dtoBooking.HotelName ?? "",
-                        Country = dtoBooking.Country,
-                        City = dtoBooking.City,
-                        Address = dtoBooking.Address,
-                        Latitude = dtoBooking.Latitude,
-                        Longitude = dtoBooking.Longitude,
-                        DistanceToCenter = dtoBooking.DistanceToCenter,
-                        PhotoMainUrl = dtoBooking.MainPhotoUrl ?? "",
-                        Price = Convert.ToDouble(dtoBooking.MinTotalPrice),
-                        ReviewScore = dtoBooking.ReviewScore,
-                        ReviewScoreWord = dtoBooking.ReviewScoreWord,
-                        StartAt = formattedCheckinDate,
-                        EndAt = formattedCheckoutDate,
-                        ReviewsCount = dtoBooking.ReviewCount,
-                        AdultsNumber = unavailableBooking.AdultsNumber,
-                        ChildrenNumber = unavailableBooking.ChildrenNumber,
-                        RoomsNumber = unavailableBooking.RoomsNumber,
-                        IsFreeCancellable = dtoBooking.IsFreeCancellable,
-                        IsNoPrepayment = dtoBooking.IsNoPrepayment,
-                        IncludesBreakfast = dtoBooking.IncludesBreakfast,
-                        HasFreeParking = dtoBooking.HasFreeParking,
-                        AccommodationType = dtoBooking.AccommodationType,
-                        IsBeachFront = dtoBooking.IsBeachFront,
-                        DestinationId = unavailableBooking.DestinationId
-                    };
+                    var recommendedBooking = dtoBooking.MapBooking(formattedCheckinDate, formattedCheckoutDate,
+                        unavailableBooking.AdultsNumber, unavailableBooking.ChildrenNumber,
+                        unavailableBooking.RoomsNumber, unavailableBooking.DestinationId);
+                    recommendedBookings.Add(recommendedBooking);
                 }
             }
             

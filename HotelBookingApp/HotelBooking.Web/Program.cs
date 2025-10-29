@@ -55,7 +55,7 @@ builder.Services.AddScoped<UserRole>();
 //Api Configuration Services
 builder.Services.AddScoped<IApiService, ApiService>();
 builder.Services.AddScoped<IGetUnavailableBookingsService, GetUnavailableBookingsService>();
-// builder.Services.AddScoped<IGetHotelRecommendationsService, GetHotelRecommendationsService>();
+builder.Services.AddScoped<IGetHotelRecommendationsService, GetHotelRecommendationsService>();
 builder.Services
     .AddOptions<RapidApiOptions>()
     .Bind(builder.Configuration.GetSection(RapidApiOptions.SectionName))

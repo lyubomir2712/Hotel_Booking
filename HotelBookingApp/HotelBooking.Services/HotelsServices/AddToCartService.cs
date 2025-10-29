@@ -44,7 +44,8 @@ public class AddToCartService : IAddToCartService
                 ReviewScore = addToCartInput.ReviewScore,
                 ReviewsCount = addToCartInput.ReviewsCount,
                 ReviewScoreWord = addToCartInput.ReviewScoreWord,
-                RapidApiHotelId = addToCartInput.RapidApiHotelId
+                RapidApiHotelId = addToCartInput.RapidApiHotelId,
+                DestinationId = addToCartInput.DestinationId,
             };
             await unitOfWork.Repository<HotelModel>().AddAsync(newHotel);
             await unitOfWork.SaveChangesAsync();
@@ -60,7 +61,8 @@ public class AddToCartService : IAddToCartService
                 AdultsNumber = addToCartInput.AdultsNumber,
                 ChildrenNumber = addToCartInput.ChildrenNumber,
                 RoomsNumber = addToCartInput.RoomsNumber,
-                RapidApiHotelId = addToCartInput.RapidApiHotelId
+                RapidApiHotelId = addToCartInput.RapidApiHotelId,
+                DestinationId = addToCartInput.DestinationId,
             };
 
             await unitOfWork.Repository<BookingModel>().AddAsync(newBookingModel);
@@ -92,7 +94,9 @@ public class AddToCartService : IAddToCartService
                 Price = newBookingModel.Price,
                 AdultsNumber = newBookingModel.AdultsNumber,
                 ChildrenNumber = newBookingModel.ChildrenNumber,
-                RoomsNumber = newBookingModel.RoomsNumber
+                RoomsNumber = newBookingModel.RoomsNumber,
+                RapidApiHotelId = newBookingModel.RapidApiHotelId,
+                DestinationId = newBookingModel.DestinationId,
             },
             actorId: currentUser.Id.ToString(),
             actorType: actorRole,

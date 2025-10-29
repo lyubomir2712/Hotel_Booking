@@ -11,13 +11,15 @@ public class GetUnavailableBookingsService : IGetUnavailableBookingsService
 {
     private const string RoomAvailabilityUrl = "/v1/hotels/room-list";
     private readonly IConfiguration _configuration;
+    private readonly HttpClient httpClient;
     
-    public GetUnavailableBookingsService(IConfiguration configuration)
+    public GetUnavailableBookingsService(IConfiguration configuration, HttpClient httpClient)
     {
         _configuration = configuration;
+        this.httpClient = httpClient;
     }
     
-    public async Task<List<BookingModel>> VerifyBookingsForAvailability(HttpClient httpClient, List<BookingModel> bookings)
+    public async Task<List<BookingModel>> VerifyBookingsForAvailability(List<BookingModel> bookings)
     {
         var unavailableBookings = new List<BookingModel>();
 

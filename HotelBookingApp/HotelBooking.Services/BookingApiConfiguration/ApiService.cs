@@ -69,7 +69,7 @@ namespace HotelBooking.Services.BookingApiConfiguration
                     var dto = JsonConvert.DeserializeObject<BookingSearchJsonResponse>(json);
                     if (dto?.Result != null && dto.Result.Count > 0)
                     {
-                        results.AddRange(dto.Result.MapHotels(formattedCheckinDate, formattedCheckoutDate,
+                        results.AddRange(dto.Result.MapBookings(formattedCheckinDate, formattedCheckoutDate,
                             model.AdultsNumber, model.ChildrenNumber, model.RoomsNumber, destinationId));
                     }
                 }
