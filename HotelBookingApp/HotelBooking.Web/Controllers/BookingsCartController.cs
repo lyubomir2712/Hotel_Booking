@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.SignalR;
 using HotelBooking.Web.Hubs;
 using System.Threading.Tasks;
 using HotelBooking.Services.Contracts.BookingApiConfigurationContracts;
+using Microsoft.EntityFrameworkCore;
 
 namespace HotelBooking.Web.Controllers
 {
@@ -100,20 +101,29 @@ namespace HotelBooking.Web.Controllers
                 return NoContent();
 
             var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(bookings);
-
+            
             List<BookingViewModel> recommendedBookings = new List<BookingViewModel>();
 
             if (unavailableBookings.Any())
             {
                 recommendedBookings = await _getBookingRecommendationsService.GetBookingRecomendations(unavailableBookings);
             }
+            
+            List<string> unavailableBookingHotelNames = await _unitOfWork.Repository<UserBookingModel>()
+                .Where(ub => ub.UserId == currentUser.Id)
+                .Include(ub => ub.BookingModel)
+                .ThenInclude(b => b.HotelModel)
+                .Select(ub => ub.BookingModel.HotelModel.HotelName)
+                .Distinct()
+                .AsNoTracking()
+                .ToListAsync();
 
             if (unavailableBookings.Any() && recommendedBookings.Any())
             {
                 var hotelPayload = new
                 {
                     RecommendedHotels = recommendedBookings,
-                    UnavailableBookings = unavailableBookings
+                    unavailableBookingHotelNames = unavailableBookingHotelNames
                 };
 
                 await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
@@ -123,7 +133,7 @@ namespace HotelBooking.Web.Controllers
             else if(unavailableBookings.Any())
             {
                 await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
-                    .SendAsync("ReceiveUnavailableBookings", unavailableBookings);
+                    .SendAsync("ReceiveUnavailableBookings", unavailableBookingHotelNames);
                 return NoContent();
             }
 

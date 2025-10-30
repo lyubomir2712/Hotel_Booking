@@ -141,17 +141,140 @@
         .withAutomaticReconnect()
         .configureLogging(signalR.LogLevel.Trace)
         .build();
-    
-    
+
+    function createUnavailableToast(message) {
+        var container = document.getElementById('unavailable-toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'unavailable-toast-container';
+            container.setAttribute('aria-live', 'polite');
+            container.setAttribute('aria-atomic', 'false');
+            container.style.position = 'fixed';
+            container.style.top = '1rem';
+            container.style.right = '1rem';
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.gap = '0.5rem';
+            container.style.zIndex = '2050';
+            container.style.pointerEvents = 'none';
+            document.body.appendChild(container);
+        }
+
+        var toast = document.createElement('div');
+        toast.className = 'unavailable-toast';
+        toast.setAttribute('role', 'status');
+        toast.style.pointerEvents = 'auto';
+        toast.style.minWidth = '280px';
+        toast.style.maxWidth = '360px';
+        toast.style.background = '#fdecea';
+        toast.style.border = '1px solid #f5c2c7';
+        toast.style.color = '#842029';
+        toast.style.borderLeft = '4px solid #d9534f';
+        toast.style.boxShadow = '0 8px 24px rgba(0,0,0,.15)';
+        toast.style.borderRadius = '8px';
+        toast.style.padding = '.75rem .75rem .75rem .875rem';
+        toast.style.display = 'flex';
+        toast.style.alignItems = 'flex-start';
+        toast.style.gap = '.75rem';
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-6px)';
+        toast.style.transition = 'opacity .25s ease, transform .25s ease';
+
+        var icon = document.createElement('div');
+        icon.className = 'toast-icon';
+        icon.textContent = '✖';
+        icon.style.flex = '0 0 20px';
+        icon.style.width = '20px';
+        icon.style.height = '20px';
+        icon.style.borderRadius = '50%';
+        icon.style.background = '#d9534f';
+        icon.style.color = '#fff';
+        icon.style.fontWeight = '700';
+        icon.style.fontSize = '12px';
+        icon.style.display = 'inline-flex';
+        icon.style.alignItems = 'center';
+        icon.style.justifyContent = 'center';
+        icon.style.lineHeight = '1';
+        icon.style.userSelect = 'none';
+
+        var body = document.createElement('div');
+        body.className = 'toast-body';
+        body.style.flex = '1 1 auto';
+        body.style.lineHeight = '1.2';
+        body.style.wordWrap = 'break-word';
+        body.style.wordBreak = 'break-word';
+        body.style.whiteSpace = 'normal';
+        body.textContent = message;
+
+        var close = document.createElement('button');
+        close.className = 'toast-close';
+        close.setAttribute('aria-label', 'Close notification');
+        close.type = 'button';
+        close.innerHTML = '&times;';
+        close.style.background = 'transparent';
+        close.style.border = '0';
+        close.style.cursor = 'pointer';
+        close.style.color = '#842029';
+        close.style.fontSize = '18px';
+        close.style.lineHeight = '1';
+        close.style.padding = '0 .25rem';
+        close.style.marginLeft = '.25rem';
+        close.style.opacity = '.7';
+
+        close.addEventListener('click', function () {
+            dismiss(true);
+        });
+
+        toast.appendChild(icon);
+        toast.appendChild(body);
+        toast.appendChild(close);
+        container.appendChild(toast);
+
+        requestAnimationFrame(function () {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        });
+
+        var hideTimer = setTimeout(function () {
+            dismiss(false);
+        }, 10000);
+
+        function dismiss(isManual) {
+            clearTimeout(hideTimer);
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-6px)';
+            setTimeout(function () {
+                if (toast && toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 300);
+        }
+    }
+
+    function showUnavailableToast(names) {
+        var text = '';
+        if (names.length === 0) {
+            text = 'Sorry, some bookings are currently unavailable.';
+        } else if (names.length === 1) {
+            text = 'Sorry, ' + names[0] + ' is currently unavailable.';
+        } else if (names.length === 2) {
+            text = 'Sorry, ' + names[0] + ' and ' + names[1] + ' are currently unavailable.';
+        } else {
+            var last = names.pop();
+            text = 'Sorry, ' + names.join(', ') + ', and ' + last + ' are currently unavailable.';
+        }
+        createUnavailableToast(text);
+    }
+
     connection.on("ReceiveUnavailableBookingsAndBookingRecommendation", (hotelPayload) => {
-        console.log("Received bookings + recommendation:", hotelPayload);
+        var names = hotelPayload.UnavailableBookings || [];
+        showUnavailableToast(names);
     });
 
-    connection.on("ReceiveUnavailableBookings", (unavailableBookings) => {
-        console.log("Received unavailable bookings:", unavailableBookings);
+    connection.on("ReceiveUnavailableBookings", (unavailableBookingNames) => {
+        var names = unavailableBookingNames || [];
+        showUnavailableToast(names);
     });
-    
+
     connection.start()
-                .then(() => console.log("Connected to HotelRecommendationsHub"))
-                .catch(err => console.error("Connection failed:", err));
+        .then(() => console.log("Connected to HotelRecommendationsHub"))
+        .catch(err => console.error("Connection failed:", err));
 </script>
