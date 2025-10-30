@@ -30,13 +30,16 @@ namespace HotelBooking.Web.Controllers
         private readonly IHubContext<HotelRecommendationsHub> _hotelRecommendationsHubContext;
         private readonly IGetUnavailableBookingsService _getUnavailableBookingsService;
         private readonly IGetBookingRecommendationsService _getBookingRecommendationsService;
+        private readonly IGetUnavailableBookingHotelNamesFromUserCartService
+            _getUnavailableBookingHotelNamesFromUserCartService;
 
         public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
              ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext,
              IGetUnavailableBookingsService getUnavailableBookingsService, IGetBookingRecommendationsService getBookingRecommendationsService,
-             IHubContext<HotelRecommendationsHub> hotelRecommendationsHubContext)
+             IHubContext<HotelRecommendationsHub> hotelRecommendationsHubContext,
+             IGetUnavailableBookingHotelNamesFromUserCartService getUnavailableBookingHotelNamesFromUserCartService)
         {
             _userManager = userManager;
             _getBookingsService = getBookingsService;
@@ -49,6 +52,7 @@ namespace HotelBooking.Web.Controllers
             _getUnavailableBookingsService = getUnavailableBookingsService;
             _getBookingRecommendationsService = getBookingRecommendationsService;
             _hotelRecommendationsHubContext = hotelRecommendationsHubContext;
+            _getUnavailableBookingHotelNamesFromUserCartService = getUnavailableBookingHotelNamesFromUserCartService;
         }
 
 
@@ -101,39 +105,30 @@ namespace HotelBooking.Web.Controllers
                 return NoContent();
 
             var unavailableBookings = await _getUnavailableBookingsService.VerifyBookingsForAvailability(bookings);
-            
-            List<BookingViewModel> recommendedBookings = new List<BookingViewModel>();
 
             if (unavailableBookings.Any())
             {
-                recommendedBookings = await _getBookingRecommendationsService.GetBookingRecomendations(unavailableBookings);
-            }
-            
-            List<string> unavailableBookingHotelNames = await _unitOfWork.Repository<UserBookingModel>()
-                .Where(ub => ub.UserId == currentUser.Id)
-                .Include(ub => ub.BookingModel)
-                .ThenInclude(b => b.HotelModel)
-                .Select(ub => ub.BookingModel.HotelModel.HotelName)
-                .Distinct()
-                .AsNoTracking()
-                .ToListAsync();
-
-            if (unavailableBookings.Any() && recommendedBookings.Any())
-            {
-                var hotelPayload = new
+                var unavailableBookingHotelNames =
+                    _getUnavailableBookingHotelNamesFromUserCartService.GetUnavailableBookingHotelNamesFromUserCart(
+                        unavailableBookings, currentUser);
+                
+                var recommendedBookings = await _getBookingRecommendationsService.GetBookingRecomendations(unavailableBookings);
+                
+                if (recommendedBookings.Any())
                 {
-                    RecommendedHotels = recommendedBookings,
-                    unavailableBookingHotelNames = unavailableBookingHotelNames
-                };
+                    var hotelPayload = new
+                    {
+                        RecommendedHotels = recommendedBookings,
+                        unavailableBookingHotelNames = unavailableBookingHotelNames
+                    };
 
+                    await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
+                        .SendAsync("ReceiveUnavailableBookingsAndBookingRecommendation", hotelPayload);
+                    return NoContent();
+                }
+                
                 await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
-                    .SendAsync("ReceiveUnavailableBookingsAndBookingRecommendation", hotelPayload);
-                return NoContent();
-            }
-            else if(unavailableBookings.Any())
-            {
-                await _hotelRecommendationsHubContext.Clients.User(currentUser.Id.ToString())
-                    .SendAsync("ReceiveUnavailableBookings", unavailableBookingHotelNames);
+                        .SendAsync("ReceiveUnavailableBookings", unavailableBookingHotelNames);
                 return NoContent();
             }
 
@@ -145,8 +140,6 @@ namespace HotelBooking.Web.Controllers
                 .SendAsync("sendAdminNotificationForCheckout",
                     $"A customer has made {bookings.Count} new {(bookings.Count > 1 ? "bookings" : "booking")}");
 
-            
-            //Kafka sender needed
             return RedirectToAction("GetBookedHotels", "BookingsCart");
         }
     }

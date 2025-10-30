@@ -80,6 +80,9 @@ builder.Services.AddScoped<IGetBookingsService, GetBookingsService>();
 builder.Services.AddScoped<IAddToCartService, AddToCartService>();
 builder.Services.AddScoped<IRemoveBookingService, RemoveBookingService>();
 builder.Services.AddScoped<ICheckoutBookingsService, CheckoutBookingsService>();
+builder.Services
+    .AddScoped<IGetUnavailableBookingHotelNamesFromUserCartService,
+        GetUnavailableBookingHotelNamesFromUserCartService>();
 
 // Unit of Work
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();

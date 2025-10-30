@@ -58,7 +58,6 @@ public class GetBookingRecommendationsService : IGetBookingRecommendationsServic
                         !string.IsNullOrEmpty(b.HotelName) &&
                         !string.IsNullOrEmpty(b.MainPhotoUrl) &&
                         b.MinTotalPrice.HasValue &&
-                        b.MinTotalPrice.Value > 0 &&
                         b.MinTotalPrice.Value >= unavailableBooking.Price - 100 &&
                         b.MinTotalPrice.Value <= unavailableBooking.Price + 100);
                 
