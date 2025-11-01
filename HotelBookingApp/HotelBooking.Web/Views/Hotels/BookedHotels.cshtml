@@ -267,7 +267,7 @@
             container.style.pointerEvents = 'none';
             document.body.appendChild(container);
         }
-
+       
         // normalize hotel fields
         var name = hotel?.HotelName || hotel?.Name || hotel?.name || hotel?.hotelName || 'Recommended Hotel';
         var city = hotel?.City || hotel?.city || '';
@@ -278,12 +278,24 @@
         var reviewsCount = hotel?.ReviewsCount || hotel?.reviewsCount || '';
         var hotelUrl = hotel?.Url || hotel?.HotelUrl || hotel?.Link || '#';
 
-        // normalize image src (handle ~/ paths, missing leading slash, or relative paths)
+        // normalize image src (handle ~/ paths, absolute urls, or relative paths)
         var imgSrc = img || '';
         if (typeof imgSrc === 'string') {
+            imgSrc = imgSrc.trim();
+            // if starts with ~/ convert to leading slash (app root)
             if (imgSrc.startsWith('~/')) {
                 imgSrc = imgSrc.replace(/^~\//, '/');
-            } else if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('/')) {
+            }
+            // leave absolute http(s) URLs untouched
+            else if (imgSrc.startsWith('http://') || imgSrc.startsWith('https://')) {
+                // nothing to do
+            }
+            // if it's a root-relative path, leave as-is
+            else if (imgSrc.startsWith('/')) {
+                // nothing to do
+            }
+            // otherwise treat it as a relative path from the web root
+            else if (imgSrc.length > 0) {
                 imgSrc = '/' + imgSrc;
             }
         } else {
@@ -490,12 +502,12 @@
             if (!Array.isArray(recommended) && recommended) {
                 recommended = [recommended];
             }
-
+            
             // Show recommended hotels as bottom-right popups in right-to-left order
             if (Array.isArray(recommended) && recommended.length > 0) {
                 showRecommendedToasts(recommended);
             }
-
+            
             // still show unavailable toast(s) on top-right
             showUnavailableToast(Array.isArray(names) ? names : []);
         } catch (err) {

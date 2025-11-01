@@ -195,13 +195,15 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                   
-                    @if (User.IsInRole("Admin"))
-                    {
-                    <a class="nav-link admin-panel-button" style="color: white; " asp-controller="AdminPanel" asp-action="GetCheckoutedHotels">Admin panel</a>
-                    }
+                  <div id="google_translate_element"></div>
 
-                   
-                    <partial name="_LoginPartial" />
+                  @if (User.IsInRole("Admin"))
+                  {
+                    <a class="nav-link admin-panel-button" style="color: white; " asp-controller="AdminPanel" asp-action="GetCheckoutedHotels">Admin panel</a>
+                  }
+
+
+                  <partial name="_LoginPartial"/>
                 </div>
             </div>
         </nav>
@@ -455,6 +457,16 @@
         });
       })();
     </script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+<script type="text/javascript">
+                    function googleTranslateElementInit(){
+                      new google.translate.TranslateElement({pageLanguage: 'en',
+                      includedLanguages:'en,bg,ru,de,fr',
+                      layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+                      }, 'google_translate_element');
+                    }
+                  </script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
