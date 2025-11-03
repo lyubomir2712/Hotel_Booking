@@ -8,6 +8,12 @@ namespace HotelBooking.Services.AIServices
 {
     public sealed class AskAppAiService : IAskAppAiService
     {
+        private readonly IChatClient _chatClient;
+
+        public AskAppAiService(IChatClient chatClient)
+        {
+            _chatClient = chatClient;
+        }
         // Predefined chat history (system prompt)
         private static readonly IReadOnlyList<ChatMessage> DefaultMessages = new[]
         {
@@ -15,7 +21,7 @@ namespace HotelBooking.Services.AIServices
                 "")
         };
 
-        public async Task<string> AskAsync(IChatClient chatClient, string prompt, CancellationToken ct = default)
+        public async Task<string> AskAsync(string prompt, CancellationToken ct = default)
         {
             // Build history: system + current user message
             var messages = new List<ChatMessage>(DefaultMessages)
@@ -23,7 +29,7 @@ namespace HotelBooking.Services.AIServices
                 new ChatMessage(ChatRole.User, prompt)
             };
 
-            var response = await chatClient.GetResponseAsync(messages, cancellationToken: ct);
+            var response = await _chatClient.GetResponseAsync(messages, cancellationToken: ct);
             return response.Text ?? string.Empty;
         }
     }

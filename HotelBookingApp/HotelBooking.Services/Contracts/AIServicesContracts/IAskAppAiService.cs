@@ -4,5 +4,5 @@ namespace HotelBooking.Services.Contracts.AIServicesContracts;
 
 public interface IAskAppAiService
 {
-    Task<string> AskAsync(IChatClient chatClient, string prompt, CancellationToken ct = default);
+    Task<string> AskAsync(string prompt, CancellationToken ct = default);
 }
