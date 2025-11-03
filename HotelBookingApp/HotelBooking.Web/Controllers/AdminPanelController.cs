@@ -1,4 +1,5 @@
 using HotelBooking.Data.SeedWork;
+using HotelBooking.Models.AppModels;
 using HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using HotelBooking.Models.Identity;
 
 namespace HotelBooking.Web.Controllers;
-
+[Authorize(Roles = "Admin")]
 public class AdminPanelController : Controller
 {
     private readonly IUnitOfWork _unitOfWork;
@@ -24,7 +25,6 @@ public class AdminPanelController : Controller
         _userManager = userManager;
     }
     
-    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetCheckoutedHotels()
     {
         var currentUser = await _userManager.GetUserAsync(User);
@@ -33,7 +33,7 @@ public class AdminPanelController : Controller
         return View("AdminPanel", checkoutBookings);
     }
 
-    [Authorize(Roles = "Admin")]
+    
     public async Task<IActionResult> AdminPanelDeleteBooking(int bookingId)
     {
         var currentUser = await _userManager.GetUserAsync(User);
@@ -41,6 +41,24 @@ public class AdminPanelController : Controller
         await _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_unitOfWork, bookingId, currentUser);
         return RedirectToAction("GetCheckoutedHotels");
     }
-    
-    
+
+
+    public async Task<IActionResult> Order(string sortBy, string orderDirection)
+    {
+        var bookings = await _unitOfWork.Repository<AdminPanelBooking>().ListAsync();
+        var property = typeof(AdminPanelBooking).GetProperty(sortBy);
+
+        if (string.IsNullOrWhiteSpace(sortBy) || property == null)
+            return View("AdminPanel", bookings.ToList());
+        
+        IEnumerable<AdminPanelBooking> orderedBookings;
+
+        if (orderDirection?.Equals("asc", StringComparison.OrdinalIgnoreCase) == true)
+            orderedBookings = bookings.OrderBy(b => property.GetValue(b, null));
+        else
+            orderedBookings = bookings.OrderByDescending(b => property.GetValue(b, null));
+
+        return View("AdminPanel", orderedBookings.ToList());
+    }
+
 }
