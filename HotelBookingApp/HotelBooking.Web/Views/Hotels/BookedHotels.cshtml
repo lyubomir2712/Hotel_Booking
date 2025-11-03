@@ -271,7 +271,6 @@
         }
     }
 
-    // Creates a small hotel card popup (matches the regular hotel card in the cart)
     function createRecommendedToast(hotel) {
         var container = document.getElementById('recommended-toast-container');
         if (!container) {
@@ -283,21 +282,19 @@
             container.style.bottom = '1rem';
             container.style.right = '1rem';
             container.style.display = 'flex';
-            container.style.flexDirection = 'row-reverse'; /* newest on the right, next to the left */
+            container.style.flexDirection = 'row-reverse'; 
             container.style.gap = '0.75rem';
             container.style.zIndex = '2050';
             container.style.pointerEvents = 'none';
             document.body.appendChild(container);
         }
        
-        // normalize hotel fields
         var name = hotel?.HotelName || hotel?.Name || hotel?.name || hotel?.hotelName || 'Recommended Hotel';
         var city = hotel?.City || hotel?.city || '';
         var country = hotel?.Country || hotel?.country || '';
         var price = hotel?.Price || hotel?.price;
         var img = hotel?.photoMainUrl || hotel?.HotelImg || hotel?.Image || hotel?.photo || '';
-        debugger
-        // review score - try several common property names and coerce to a string if present
+        
         var reviewScore = '';
         if (hotel?.ReviewScore !== undefined && hotel?.ReviewScore !== null) reviewScore = hotel.ReviewScore;
         else if (hotel?.reviewScore !== undefined && hotel?.reviewScore !== null) reviewScore = hotel.reviewScore;
@@ -305,22 +302,19 @@
         else if (hotel?.review_score !== undefined && hotel?.review_score !== null) reviewScore = hotel.review_score;
         else if (hotel?.ReviewScoreNumeric !== undefined && hotel?.ReviewScoreNumeric !== null) reviewScore = hotel.ReviewScoreNumeric;
         if (reviewScore !== '' && reviewScore !== null && reviewScore !== undefined) reviewScore = String(reviewScore);
-        // produce a server-local formatted string for the review score (comma decimal for bg-BG servers)
+
         var reviewScoreStr = '';
         if (reviewScore !== '' && isFinite(Number(reviewScore))) {
             var scoreNum = Number(reviewScore);
             try {
-                // prefer Bulgarian/local format (comma) if available on client
                 reviewScoreStr = scoreNum.toLocaleString('bg-BG', { useGrouping: false, maximumFractionDigits: 3 });
             } catch (e) {
-                // fallback to invariant dot format
                 reviewScoreStr = scoreNum.toString();
             }
         }
         var reviewsCount = hotel?.ReviewsCount || hotel?.reviewsCount || '';
         var hotelUrl = hotel?.Url || hotel?.HotelUrl || hotel?.Link || '#';
 
-        // additional normalized fields (expanded aliases)
         var startAt = hotel?.StartAt || hotel?.startAt || hotel?.StartDate || hotel?.start_date || '';
         var endAt = hotel?.EndAt || hotel?.endAt || hotel?.EndDate || hotel?.end_date || '';
         var reviewScoreWord = hotel?.ReviewScoreWord || hotel?.reviewScoreWord || hotel?.ReviewWord || hotel?.review_word || '';
@@ -328,23 +322,16 @@
         var destinationId = hotel?.DestinationId || hotel?.destinationId || hotel?.Destination || hotel?.destination_id || '';
         var addressNormalized = hotel?.Address || hotel?.address || hotel?.AddressLine || hotel?.address_line || '';
 
-        // normalize image src (handle ~/ paths, absolute urls, or relative paths)
         var imgSrc = img || '';
         if (typeof imgSrc === 'string') {
             imgSrc = imgSrc.trim();
-            // if starts with ~/ convert to leading slash (app root)
             if (imgSrc.startsWith('~/')) {
                 imgSrc = imgSrc.replace(/^~\//, '/');
             }
-            // leave absolute http(s) URLs untouched
             else if (imgSrc.startsWith('http://') || imgSrc.startsWith('https://')) {
-                // nothing to do
             }
-            // if it's a root-relative path, leave as-is
             else if (imgSrc.startsWith('/')) {
-                // nothing to do
             }
-            // otherwise treat it as a relative path from the web root
             else if (imgSrc.length > 0) {
                 imgSrc = '/' + imgSrc;
             }
@@ -353,7 +340,6 @@
         }
         if (!imgSrc) imgSrc = '/images/hotel-placeholder.png';
 
-        // build card element that visually matches cart cards
         var toast = document.createElement('div');
         toast.className = 'recommended-hotel-card';
         toast.style.pointerEvents = 'auto';
@@ -373,7 +359,6 @@
         toast.style.transform = 'translateY(12px)';
         toast.style.display = 'block';
 
-        // image
         var imgEl = document.createElement('img');
         imgEl.src = imgSrc;
         imgEl.alt = name;
@@ -381,18 +366,13 @@
         imgEl.style.height = '200px';
         imgEl.style.objectFit = 'cover';
         imgEl.style.display = 'block';
-        // fallback to placeholder if loading fails
+
         imgEl.onerror = function () { this.onerror = null; this.src = '/images/hotel-placeholder.png'; };
         toast.appendChild(imgEl);
 
-        // body
         var body = document.createElement('div');
         body.className = 'card-body d-flex flex-column justify-content-between w-100';
-        // Remove flex and gap styles, replace with absolute positioning and block display
-        // body.style.display = 'flex';
-        // body.style.flexDirection = 'column';
-        // body.style.justifyContent = 'space-between';
-        // body.style.gap = '0.25rem';
+     
         body.style.position = 'absolute';
         body.style.top = '215px';
         body.style.left = '10px';
@@ -417,12 +397,12 @@
         stayLine.style.fontSize = '0.8rem';
         stayLine.style.color = '#555';
         stayLine.style.marginTop = '0.15rem';
-        // try to read numbers from the hotel object (fall back to empty)
+
         var rooms = hotel?.RoomsNumber || hotel?.roomsNumber || '';
         var adults = hotel?.AdultsNumber || hotel?.adultsNumber || '';
         var children = hotel?.ChildrenNumber || hotel?.childrenNumber || '';
         var stayParts = [];
-        // compute days/nights if startAt/endAt available
+
         var days = '';
         if (startAt && endAt) {
             try {
@@ -473,7 +453,6 @@
         reviewBadge.style.borderRadius = '50%';
         reviewBadge.style.flex = '0 0 auto';
 
-        // review text to the right of the badge (word + count)
         var reviewText = document.createElement('div');
         reviewText.style.display = 'flex';
         reviewText.style.flexDirection = 'column';
@@ -497,7 +476,6 @@
         bottomRow.appendChild(reviewBadge);
         bottomRow.appendChild(reviewText);
 
-        // absolute price element (matches cart card which places price at bottom-right)
         var priceAbsolute = document.createElement('div');
         priceAbsolute.style.position = 'absolute';
         priceAbsolute.style.bottom = '50px';
@@ -506,16 +484,13 @@
         priceAbsolute.style.color = '#000';
         priceAbsolute.textContent = price ? ('BGN ' + Number(price).toFixed(2)) : '';
 
-        // append title, location, stayLine and bottomRow to body
         body.appendChild(title);
         body.appendChild(location);
         body.appendChild(stayLine);
         body.appendChild(bottomRow);
 
-        // append absolute price onto the toast so it sits above the body in bottom-right
         toast.appendChild(priceAbsolute);
 
-        // clone server-rendered Razor template for the AddToCart form if available
         (function() {
             var templateRoot = document.getElementById('add-to-cart-template');
             if (!templateRoot || !templateRoot.firstElementChild) {
@@ -523,20 +498,17 @@
                 return;
             }
 
-            // clone the server-rendered form
             var clonedForm = templateRoot.firstElementChild.cloneNode(true);
 
-            // helper sets both DOM property and attribute to be robust for form submission
             function setTpl(selector, value) {
                 var el = clonedForm.querySelector(selector);
                 var str = (value !== undefined && value !== null) ? String(value) : '';
                 if (el) {
                     el.value = str;
-                    try { el.setAttribute('value', str); } catch (e) { /* ignore */ }
+                    try { el.setAttribute('value', str); } catch (e) {  }
                 }
             }
 
-            // fill all known fields
             setTpl('.tpl-HotelName', name);
             setTpl('.tpl-HotelImg', imgSrc);
             setTpl('.tpl-HotelPrice', price);
@@ -546,11 +518,10 @@
             setTpl('.tpl-Country', country);
             setTpl('.tpl-Address', addressNormalized);
 
-            // prepare review score formatted for server culture (bg-BG uses comma)
             var reviewScoreFormatted = '';
             if (reviewScore !== '' && isFinite(Number(reviewScore))) {
                 try {
-                    // prefer Bulgarian format (comma) to match server culture
+                    
                     reviewScoreFormatted = Number(reviewScore).toLocaleString('bg-BG', { useGrouping: false, maximumFractionDigits: 3 });
                 } catch (e) {
                     reviewScoreFormatted = Number(reviewScore).toString();
@@ -566,14 +537,12 @@
             setTpl('.tpl-RapidApiHotelId', rapidApiId);
             setTpl('.tpl-DestinationId', destinationId);
 
-            // stop propagation so toast click handler doesn't intercept the click
             clonedForm.addEventListener('click', function (ev) { ev.stopPropagation(); });
             var _submitBtn = clonedForm.querySelector('button[type="submit"]');
             if (_submitBtn) {
-                _submitBtn.addEventListener('click', function (ev) { ev.stopPropagation(); /* allow normal submit */ });
+                _submitBtn.addEventListener('click', function (ev) { ev.stopPropagation();  });
             }
 
-            // attach a short submit logger to inspect payload right before submit (does not prevent submit)
             clonedForm.addEventListener('submit', function (ev) {
                 try {
                     var fd = new FormData(clonedForm);
@@ -581,7 +550,6 @@
                     for (var pair of fd.entries()) parts.push(pair[0] + '=' + pair[1]);
                     console.log('Debug: AddToCart form submit payload:', parts.join('&'));
                 } catch (e) { console.warn('Debug: failed to serialize form data for logging', e); }
-                // allow normal submit
             });
 
             clonedForm.style.position = 'absolute';
@@ -593,9 +561,7 @@
             toast.appendChild(clonedForm);
         })();
 
-        // click navigates to hotel page (if provided)
         toast.addEventListener('click', function (e) {
-            // open in new tab
             if (hotelUrl && hotelUrl !== '#') {
                 window.open(hotelUrl, '_blank');
             }
@@ -603,7 +569,6 @@
 
         toast.appendChild(body);
 
-        // close button
         var close = document.createElement('button');
         close.className = 'toast-close';
         close.setAttribute('aria-label', 'Close notification');
@@ -621,25 +586,20 @@
         close.style.padding = '0';
         close.style.zIndex = '20';
 
-        // position wrapper to allow absolute close
         var wrapper = document.createElement('div');
         wrapper.style.position = 'relative';
-        // ensure wrapper accepts pointer events (container has pointer-events:none by default)
         wrapper.style.pointerEvents = 'auto';
-        // place wrapper above other content inside the container
         wrapper.style.zIndex = '2060';
         wrapper.appendChild(toast);
         wrapper.appendChild(close);
 
         container.appendChild(wrapper);
 
-        // animate in
         requestAnimationFrame(function () {
             toast.style.opacity = '1';
             toast.style.transform = 'translateY(0)';
         });
 
-        // stay for 30 seconds now
         var hideTimer = setTimeout(function () {
             dismiss(false);
         }, 30000);
@@ -656,21 +616,17 @@
         }
     }
 
-    // Show multiple recommended hotels arranged right-to-left on the bottom-right
     function showRecommendedToasts(recommendedArray) {
         if (!Array.isArray(recommendedArray) || recommendedArray.length === 0) return;
 
-        // create toasts for each recommended hotel in order — newest will appear on the right due to row-reverse
         recommendedArray.forEach(function (hotel) {
-            // if hotel is a JSON string, try to parse
             if (typeof hotel === 'string') {
-                try { hotel = JSON.parse(hotel); } catch (e) { /* keep as string title */ hotel = { Name: hotel }; }
+                try { hotel = JSON.parse(hotel); } catch (e) { hotel = { Name: hotel }; }
             }
             createRecommendedToast(hotel);
         });
     }
 
-    // small helper to escape HTML (if needed elsewhere)
     function escapeHtml(str) {
         if (!str && str !== 0) return '';
         return String(str)
@@ -704,27 +660,22 @@
             var names = hotelPayload?.unavailableBookingHotelNames || hotelPayload?.UnavailableBookings || hotelPayload?.unavailableBookings || hotelPayload?.UnavailableBookingHotelNames || [];
             var recommended = hotelPayload?.RecommendedHotels || hotelPayload?.recommendedHotels || hotelPayload?.Recommended || hotelPayload?.recommendations || hotelPayload?.recommended || [];
 
-            // try to unwrap nested shapes
             if (recommended && !Array.isArray(recommended) && recommended.RecommendedHotels) {
                 recommended = recommended.RecommendedHotels;
             }
 
-            // parse if it's a JSON string
             if (typeof recommended === 'string') {
                 try { recommended = JSON.parse(recommended); } catch (e) { /* ignore */ }
             }
 
-            // At this point recommended should be an array or a single item
             if (!Array.isArray(recommended) && recommended) {
                 recommended = [recommended];
             }
             
-            // Show recommended hotels as bottom-right popups in right-to-left order
             if (Array.isArray(recommended) && recommended.length > 0) {
                 showRecommendedToasts(recommended);
             }
             
-            // still show unavailable toast(s) on top-right
             showUnavailableToast(Array.isArray(names) ? names : []);
         } catch (err) {
             console.error('SignalR handler error (ReceiveUnavailableBookingsAndBookingRecommendation):', err);
