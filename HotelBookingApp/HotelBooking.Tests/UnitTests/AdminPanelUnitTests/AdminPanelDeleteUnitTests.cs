@@ -24,6 +24,7 @@ public class AdminPanelDeleteUnitTests
         var unitOfWorkMock = new Mock<IUnitOfWork>(MockBehavior.Strict);
         var getCheckoutedHotelsServiceMock = new Mock<IGetCheckoutedHotelsService>(MockBehavior.Strict);
         var adminPanelDeleteBookingServiceMock = new Mock<IAdminPanelDeleteBookingService>(MockBehavior.Strict);
+        var adminPanelOrderByServiceMock = new Mock<IAdminPanelOrderByService>();
 
         adminPanelDeleteBookingServiceMock
             .Setup(s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId, It.IsAny<UserModel>()))
@@ -45,7 +46,8 @@ public class AdminPanelDeleteUnitTests
             unitOfWorkMock.Object,
             getCheckoutedHotelsServiceMock.Object,
             adminPanelDeleteBookingServiceMock.Object,
-            userManagerMock.Object)
+            userManagerMock.Object,
+            adminPanelOrderByServiceMock.Object)
         {
             ControllerContext = new ControllerContext
             {
@@ -71,6 +73,7 @@ public class AdminPanelDeleteUnitTests
         var unitOfWorkMock = new Mock<IUnitOfWork>();
         var getCheckoutedHotelsServiceMock = new Mock<IGetCheckoutedHotelsService>();
         var adminPanelDeleteBookingServiceMock = new Mock<IAdminPanelDeleteBookingService>();
+        var adminPanelOrderByServiceMock = new Mock<IAdminPanelOrderByService>();
 
         adminPanelDeleteBookingServiceMock
             .Setup(s => s.AdminPanelDeleteBooking(It.IsAny<IUnitOfWork>(), It.IsAny<int>(), It.IsAny<UserModel>()))
@@ -91,7 +94,8 @@ public class AdminPanelDeleteUnitTests
             unitOfWorkMock.Object,
             getCheckoutedHotelsServiceMock.Object,
             adminPanelDeleteBookingServiceMock.Object,
-            userManagerMock.Object)
+            userManagerMock.Object,
+            adminPanelOrderByServiceMock.Object)
         {
             ControllerContext = new ControllerContext
             {

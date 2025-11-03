@@ -15,14 +15,17 @@ public class AdminPanelController : Controller
     private readonly IGetCheckoutedHotelsService _getCheckoutedHotelsService;
     private readonly IAdminPanelDeleteBookingService _adminPanelDeleteBookingService;
     private readonly UserManager<UserModel> _userManager;
+    private readonly IAdminPanelOrderByService _adminPanelOrderByService;
     
     public AdminPanelController(IUnitOfWork unitOfWork, IGetCheckoutedHotelsService getCheckoutedHotelsService,
-        IAdminPanelDeleteBookingService adminPanelDeleteBookingService, UserManager<UserModel> userManager)
+        IAdminPanelDeleteBookingService adminPanelDeleteBookingService, UserManager<UserModel> userManager,
+        IAdminPanelOrderByService adminPanelOrderByService)
     {
         _getCheckoutedHotelsService = getCheckoutedHotelsService;
         _adminPanelDeleteBookingService = adminPanelDeleteBookingService;
         _unitOfWork = unitOfWork;
         _userManager = userManager;
+        _adminPanelOrderByService = adminPanelOrderByService;
     }
     
     public async Task<IActionResult> GetCheckoutedHotels()
@@ -45,20 +48,11 @@ public class AdminPanelController : Controller
 
     public async Task<IActionResult> Order(string sortBy, string orderDirection)
     {
-        var bookings = await _unitOfWork.Repository<AdminPanelBooking>().ListAsync();
-        var property = typeof(AdminPanelBooking).GetProperty(sortBy);
-
-        if (string.IsNullOrWhiteSpace(sortBy) || property == null)
-            return View("AdminPanel", bookings.ToList());
+        var currentUser = await _userManager.GetUserAsync(User);
+        if (currentUser is null) return Challenge();
         
-        IEnumerable<AdminPanelBooking> orderedBookings;
-
-        if (orderDirection?.Equals("asc", StringComparison.OrdinalIgnoreCase) == true)
-            orderedBookings = bookings.OrderBy(b => property.GetValue(b, null));
-        else
-            orderedBookings = bookings.OrderByDescending(b => property.GetValue(b, null));
-
-        return View("AdminPanel", orderedBookings.ToList());
+        var orderedBookings = await _adminPanelOrderByService.OrderAdminPanelBookings(sortBy, orderDirection, currentUser);
+        return View("AdminPanel", orderedBookings);
     }
 
 }

@@ -1,69 +1,74 @@
 ﻿@model IEnumerable<HotelBooking.Models.AppModels.AdminPanelBooking>
 
-<style>
-    body {
-        color: white;
-    }
-    .admin-panel-container h2,
-    .admin-panel-container th,
-    .admin-panel-container td {
-        color: black;
-    }
-    .admin-panel-container{
-        margin: 2rem auto 0 auto;
-        color: black;
-        width: 90%;
-        overflow-x: auto;  
-    }
-    
-</style>
-<div class="admin-panel-container"> 
-<h2>All bookings</h2>
+@{
+    ViewData["Title"] = "Admin Panel";
+    var sortBy = (Context?.Request?.Query["sortBy"].ToString() ?? string.Empty).Trim();
+    var orderDirection = (Context?.Request?.Query["orderDirection"].ToString() ?? string.Empty).Trim();
+    var bookings = Model ?? Enumerable.Empty<HotelBooking.Models.AppModels.AdminPanelBooking>();
+}
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>BookingId</th>
-        <th>BookerId</th>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>HotelId</th>
-        <th>Hotel Name</th>
-        <th>Hotel Image</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Price</th>
-        <th>Adults</th>
-        <th>Children</th>
-        <th>Rooms</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var b in Model)
-    {
-        <tr>
-            <td>@b.Id</td>
-            <td>@b.ClientId</td>
-            <td>@b.ClientFirstName</td>
-            <td>@b.ClientLastName</td>
-            <td>@b.HotelModelId</td>
-            <td>@b.HotelModel.HotelName</td>
-            <td><img src="@b.HotelModel.HotelImg" alt="Снимка на хотела" height="100"/></td>
-            <td>@b.StartAt.ToString("dd.MM.yyyy") г.</td>
-            <td>@b.EndAt.ToString("dd.MM.yyyy") г.</td>
-            <td>BGN @b.Price</td>
-            <td>@b.AdultsNumber</td>
-            <td>@b.ChildrenNumber</td>
-            <td>@b.RoomsNumber</td>
-            <td>
-                <form asp-controller="AdminPanel" asp-action="AdminPanelDeleteBooking" method="post">
-                    <input type="hidden" name="bookingId" value="@b.Id"/>
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+<style>
+    body { color: white; }
+    .admin-panel-container h2, .admin-panel-container th, .admin-panel-container td { color: black; }
+    .admin-panel-container th { white-space: nowrap; }
+    .admin-panel-container{ margin: 0.5rem auto; color: black; width: 100%; overflow-x: auto; }
+    .sort-button { border: none; background: none; cursor: pointer; padding: 0; margin-left: 4px; font-size: 0.9rem; }
+</style>
+
+<div class="admin-panel-container">
+    <h2>All bookings</h2>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                @* Column headers and sort buttons *@
+                @foreach (var header in new[] { "Id", "ClientId", "ClientFirstName", "ClientLastName", "HotelModelId", "HotelName", "HotelImg", "StartAt", "EndAt", "Price", "AdultsNumber", "ChildrenNumber", "RoomsNumber" })
+                {
+                    <th>
+                        @header
+                        <a asp-action="Order" asp-route-sortBy="@header" asp-route-orderDirection="@(string.Equals(sortBy, header, StringComparison.OrdinalIgnoreCase) && string.Equals(orderDirection, "asc", StringComparison.OrdinalIgnoreCase) ? "desc" : "asc")" class="sort-button" role="button">
+                            @(string.Equals(sortBy, header, StringComparison.OrdinalIgnoreCase) ? (string.Equals(orderDirection, "asc", StringComparison.OrdinalIgnoreCase) ? "▲" : "▼") : "↕")
+                        </a>
+                    </th>
+                }
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @if (!bookings.Any())
+            {
+                <tr><td colspan="15">No bookings available.</td></tr>
+            }
+            else
+            {
+                foreach (var b in bookings)
+                {
+                    <tr>
+                        <td>@(b?.Id.ToString() ?? "")</td>
+                        <td>@(b?.ClientId ?? 0)</td>
+                        <td>@(b?.ClientFirstName ?? "")</td>
+                        <td>@(b?.ClientLastName ?? "")</td>
+                        <td>@(b?.HotelModelId ?? 0)</td>
+                        <td>@(b?.HotelModel?.HotelName ?? "N/A")</td>
+                        <td>
+                            <img src="@(b?.HotelModel?.HotelImg ?? Url.Content("~/images/no-image.png"))" alt="Снимка на хотела" height="100" width="100" loading="lazy" onerror="this.onerror=null; this.src='@Url.Content("~/images/no-image.png")';" />
+                        </td>
+                        <td>@(b != null ? b.StartAt.ToString("dd.MM.yyyy") : "-") г.</td>
+                        <td>@(b != null ? b.EndAt.ToString("dd.MM.yyyy") : "-") г.</td>
+                        <td>@(b != null ? $"BGN {b.Price}" : "-")</td>
+                        <td>@(b?.AdultsNumber ?? 0)</td>
+                        <td>@(b?.ChildrenNumber ?? 0)</td>
+                        <td>@(b?.RoomsNumber ?? 0)</td>
+                        <td>
+                            <form asp-controller="AdminPanel" asp-action="AdminPanelDeleteBooking" method="post">
+                                <input type="hidden" name="bookingId" value="@(b?.Id ?? 0)" />
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>

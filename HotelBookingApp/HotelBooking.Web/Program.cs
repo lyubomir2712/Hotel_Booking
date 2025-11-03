@@ -102,6 +102,7 @@ builder.Services.AddScoped<IRegisterAccountEmailService, RegisterAccountEmailSer
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
 builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
+builder.Services.AddScoped<IAdminPanelOrderByService, AdminPanelOrderByService>();
 
 //AI Services
 // Use the lighter Qwen model (0.5B). Change the model id here if you pull a different size.

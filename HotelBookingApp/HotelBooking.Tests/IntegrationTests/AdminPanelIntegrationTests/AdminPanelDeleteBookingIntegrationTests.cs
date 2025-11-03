@@ -82,11 +82,15 @@ public class AdminPanelDeleteBookingIntegrationTests
                 new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
                 userManagerMock.Object);
 
+            // Create or mock IAdminPanelOrderByService
+            var adminPanelOrderByServiceMock = new Mock<IAdminPanelOrderByService>();
+
             var controller = new AdminPanelController(
                 unitOfWork,
                 getCheckoutedHotelsService,
                 deleteBookingService,
-                userManagerMock.Object
+                userManagerMock.Object,
+                adminPanelOrderByServiceMock.Object
             );
             // Set up fake authenticated user for controller context
             controller.ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext
