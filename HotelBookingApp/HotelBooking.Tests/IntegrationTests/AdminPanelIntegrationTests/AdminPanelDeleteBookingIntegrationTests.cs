@@ -78,7 +78,7 @@ public class AdminPanelDeleteBookingIntegrationTests
             IGetCheckoutedHotelsService getCheckoutedHotelsService = new GetCheckoutedHotelsService(
                 new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
                 userManagerMock.Object);
-            IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingsService(
+            IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingService(
                 new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
                 userManagerMock.Object);
 

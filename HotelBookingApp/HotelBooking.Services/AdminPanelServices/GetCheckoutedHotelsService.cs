@@ -11,15 +11,17 @@ public class GetCheckoutedHotelsService : IGetCheckoutedHotelsService
 {
     private readonly IKafkaOperationsLoggerProducer _opsLogger;
     private readonly UserManager<UserModel> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetCheckoutedHotelsService(IKafkaOperationsLoggerProducer opsLogger, UserManager<UserModel> userManager)
+    public GetCheckoutedHotelsService(IKafkaOperationsLoggerProducer opsLogger, UserManager<UserModel> userManager, IUnitOfWork unitOfWork)
     {
         _opsLogger = opsLogger;
         _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
-    public async Task<List<AdminPanelBooking>> GetCheckoutedHotels(IUnitOfWork unitOfWork, UserModel currentUser)
+    public async Task<List<AdminPanelBooking>> GetCheckoutedHotels(UserModel currentUser)
     {
-        var bookings = unitOfWork.Repository<AdminPanelBooking>()
+        var bookings = _unitOfWork.Repository<AdminPanelBooking>()
             .Include(x => x.HotelModel)
             .ToList();
 

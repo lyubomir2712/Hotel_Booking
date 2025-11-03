@@ -6,5 +6,5 @@ namespace HotelBooking.Services.Contracts.AdminPanelServicesContracts;
 
 public interface IGetCheckoutedHotelsService
 {
-    public Task<List<AdminPanelBooking>> GetCheckoutedHotels(IUnitOfWork unitOfWork, UserModel currentUser);
+    public Task<List<AdminPanelBooking>> GetCheckoutedHotels(UserModel currentUser);
 }

@@ -101,7 +101,7 @@ builder.Services.AddScoped<IRegisterAccountEmailService, RegisterAccountEmailSer
 
 //Admin Panel Services
 builder.Services.AddScoped<IGetCheckoutedHotelsService, GetCheckoutedHotelsService>();
-builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingsService>();
+builder.Services.AddScoped<IAdminPanelDeleteBookingService, AdminPanelDeleteBookingService>();
 builder.Services.AddScoped<IAdminPanelOrderByService, AdminPanelOrderByService>();
 
 //AI Services

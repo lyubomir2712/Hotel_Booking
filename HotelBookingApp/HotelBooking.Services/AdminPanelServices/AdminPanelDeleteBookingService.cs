@@ -8,25 +8,28 @@ using Microsoft.AspNetCore.Identity;
 
 namespace HotelBooking.Services.AdminPanelServices;
 
-public class AdminPanelDeleteBookingsService : IAdminPanelDeleteBookingService
+public class AdminPanelDeleteBookingService : IAdminPanelDeleteBookingService
 {
     private readonly IKafkaOperationsLoggerProducer _opsLogger;
     private readonly UserManager<UserModel> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public AdminPanelDeleteBookingsService(IKafkaOperationsLoggerProducer opsLogger, UserManager<UserModel> userManager)
+
+    public AdminPanelDeleteBookingService(IKafkaOperationsLoggerProducer opsLogger, UserManager<UserModel> userManager,
+        IUnitOfWork unitOfWork)
     {
         _opsLogger = opsLogger;
         _userManager = userManager;
-
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task AdminPanelDeleteBooking(IUnitOfWork unitOfWork, int bookingId, UserModel currentUser)
+    public async Task AdminPanelDeleteBooking(int bookingId, UserModel currentUser)
     {
-        var adminPanelBooking = await unitOfWork.Repository<AdminPanelBooking>().FindAsync(bookingId);
+        var adminPanelBooking = await _unitOfWork.Repository<AdminPanelBooking>().FindAsync(bookingId);
         if (adminPanelBooking != null)
         {
-            await unitOfWork.Repository<AdminPanelBooking>().RemoveAsync(adminPanelBooking);
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.Repository<AdminPanelBooking>().RemoveAsync(adminPanelBooking);
+            await _unitOfWork.SaveChangesAsync();
             
             var roles = await _userManager.GetRolesAsync(currentUser);
             var actorRole = roles.FirstOrDefault() ?? "Unknown";
@@ -52,7 +55,7 @@ public class AdminPanelDeleteBookingsService : IAdminPanelDeleteBookingService
             },
                 actorId: currentUser.Id.ToString(),
                 actorType: actorRole,
-                source: nameof(AdminPanelDeleteBookingsService)
+                source: nameof(AdminPanelDeleteBookingService)
             );
         }
     }

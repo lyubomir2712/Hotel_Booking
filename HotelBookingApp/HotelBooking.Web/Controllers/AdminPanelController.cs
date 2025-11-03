@@ -11,7 +11,6 @@ namespace HotelBooking.Web.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminPanelController : Controller
 {
-    private readonly IUnitOfWork _unitOfWork;
     private readonly IGetCheckoutedHotelsService _getCheckoutedHotelsService;
     private readonly IAdminPanelDeleteBookingService _adminPanelDeleteBookingService;
     private readonly UserManager<UserModel> _userManager;
@@ -23,7 +22,6 @@ public class AdminPanelController : Controller
     {
         _getCheckoutedHotelsService = getCheckoutedHotelsService;
         _adminPanelDeleteBookingService = adminPanelDeleteBookingService;
-        _unitOfWork = unitOfWork;
         _userManager = userManager;
         _adminPanelOrderByService = adminPanelOrderByService;
     }
@@ -32,7 +30,7 @@ public class AdminPanelController : Controller
     {
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser is null) return Challenge();
-        var checkoutBookings = await _getCheckoutedHotelsService.GetCheckoutedHotels(_unitOfWork, currentUser);
+        var checkoutBookings = await _getCheckoutedHotelsService.GetCheckoutedHotels(currentUser);
         return View("AdminPanel", checkoutBookings);
     }
 
@@ -41,7 +39,7 @@ public class AdminPanelController : Controller
     {
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser is null) return Challenge();
-        await _adminPanelDeleteBookingService.AdminPanelDeleteBooking(_unitOfWork, bookingId, currentUser);
+        await _adminPanelDeleteBookingService.AdminPanelDeleteBooking(bookingId, currentUser);
         return RedirectToAction("GetCheckoutedHotels");
     }
 
