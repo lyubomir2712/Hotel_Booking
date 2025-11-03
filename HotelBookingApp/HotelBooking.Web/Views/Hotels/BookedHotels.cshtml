@@ -35,8 +35,8 @@
             <div class="card" style="width: 260px; margin: auto; border-radius:10px; overflow:hidden; height: 404px; position: relative;">
                 <img src="@hotel.HotelImg" class="card-img-top" alt="..." style="height:200px; object-fit:cover;">
                 <div class="card-body d-flex flex-column justify-content-between w-100">
-                    <h5 class="card-title" style="font-weight: 600; margin:  0 !important;">@hotel.HotelName</h5>
-                    <p class="hotel-location">@hotel.City, @hotel.Country</p>
+                    <h5 class="card-title" style="font-weight: 600; font-size: 1.2rem; margin: 0 !important;">@hotel.HotelName</h5>
+                    <p class="hotel-location" style="color:#000 !important;">@hotel.City, @hotel.Country</p>
                     <p class="hotel-address">@hotel.Address</p>
                     @{
                         var days = Math.Max(0, (booking.EndAt - booking.StartAt).Days);
@@ -115,7 +115,7 @@
     }
     .hotel-location {
         font-size: 0.85rem;
-        color: #555;
+        color: #000;
         margin: 0;
     }
     .hotel-address {
@@ -153,7 +153,7 @@
         <input type="hidden" name="ChildrenNumber" value="" class="tpl-ChildrenNumber" />
         <input type="hidden" name="RapidApiHotelId" value="" class="tpl-RapidApiHotelId" />
         <input type="hidden" name="DestinationId" value="" class="tpl-DestinationId" />
-        <button type="submit" class="btn btn-primary book-btn">Book</button>
+        <button type="submit" class="btn book-btn" style="background:#53B249; border-color:#53B249; color:#fff;">Book</button>
     </form>
 </div>
 <script src="~/lib/signalr/signalr.min.js"></script>
@@ -371,6 +371,7 @@
         toast.style.transition = 'transform .22s ease, opacity .22s ease';
         toast.style.opacity = '0';
         toast.style.transform = 'translateY(12px)';
+        toast.style.display = 'block';
 
         // image
         var imgEl = document.createElement('img');
@@ -387,25 +388,31 @@
         // body
         var body = document.createElement('div');
         body.className = 'card-body d-flex flex-column justify-content-between w-100';
-        body.style.padding = '0.6rem 0.75rem';
-        body.style.display = 'flex';
-        body.style.flexDirection = 'column';
-        body.style.justifyContent = 'space-between';
+        // Remove flex and gap styles, replace with absolute positioning and block display
+        // body.style.display = 'flex';
+        // body.style.flexDirection = 'column';
+        // body.style.justifyContent = 'space-between';
+        // body.style.gap = '0.25rem';
+        body.style.position = 'absolute';
+        body.style.top = '215px';
+        body.style.left = '10px';
+        body.style.right = '10px';
+        body.style.bottom = '60px';
+        body.style.display = 'block';
+        body.style.padding = '0';
+        body.style.margin = '0';
         body.style.width = '100%';
         body.style.boxSizing = 'border-box';
-        body.style.gap = '0.25rem';
 
         var title = document.createElement('div');
         title.style.fontWeight = '600';
-        title.style.fontSize = '0.95rem';
+        title.style.fontSize = '1.15rem';
         title.style.color = '#111';
         title.textContent = name;
-
         var location = document.createElement('div');
         location.style.fontSize = '0.85rem';
-        location.style.color = '#555';
+        location.style.color = '#000';
         location.textContent = (city || country) ? (city + (city && country ? ', ' : '') + country) : '';
-
         var stayLine = document.createElement('div');
         stayLine.style.fontSize = '0.8rem';
         stayLine.style.color = '#555';
@@ -415,16 +422,43 @@
         var adults = hotel?.AdultsNumber || hotel?.adultsNumber || '';
         var children = hotel?.ChildrenNumber || hotel?.childrenNumber || '';
         var stayParts = [];
+        // compute days/nights if startAt/endAt available
+        var days = '';
+        if (startAt && endAt) {
+            try {
+                var sd = new Date(startAt);
+                var ed = new Date(endAt);
+                if (!isNaN(sd) && !isNaN(ed)) {
+                    var diff = Math.ceil((ed - sd) / (1000 * 60 * 60 * 24));
+                    if (diff < 0) diff = 0;
+                    days = diff;
+                }
+            } catch (e) { days = ''; }
+        }
+        if (days) {
+            stayParts.push(days + (Number(days) === 1 ? ' day' : ' days'));
+        }
         if (rooms) stayParts.push(rooms + (Number(rooms) === 1 ? ' room' : ' rooms'));
         if (adults) stayParts.push(adults + (Number(adults) === 1 ? ' adult' : ' adults'));
         if (children) stayParts.push(children + (Number(children) === 1 ? ' child' : ' children'));
         stayLine.textContent = stayParts.join(', ');
-
         var bottomRow = document.createElement('div');
         bottomRow.style.display = 'flex';
         bottomRow.style.alignItems = 'center';
         bottomRow.style.gap = '.5rem';
         bottomRow.style.marginTop = '0';
+        title.style.position = 'absolute';
+        title.style.top = '2px';
+        title.style.left = '0';
+        location.style.position = 'absolute';
+        location.style.top = '24px';
+        location.style.left = '0';
+        stayLine.style.position = 'absolute';
+        stayLine.style.top = '44px';
+        stayLine.style.left = '0';
+        bottomRow.style.position = 'absolute';
+        bottomRow.style.top = '66px';
+        bottomRow.style.left = '0';
 
         var reviewBadge = document.createElement('div');
         reviewBadge.textContent = reviewScore ? Number(reviewScore).toFixed(1) : '';
@@ -439,12 +473,34 @@
         reviewBadge.style.borderRadius = '50%';
         reviewBadge.style.flex = '0 0 auto';
 
+        // review text to the right of the badge (word + count)
+        var reviewText = document.createElement('div');
+        reviewText.style.display = 'flex';
+        reviewText.style.flexDirection = 'column';
+        reviewText.style.lineHeight = '1.2';
+        reviewText.style.marginLeft = '0.25rem';
+
+        var reviewWordEl = document.createElement('span');
+        reviewWordEl.textContent = reviewScoreWord || '';
+        reviewWordEl.style.fontSize = '0.85rem';
+        reviewWordEl.style.fontWeight = '500';
+        reviewWordEl.style.color = '#333';
+
+        var reviewCountEl = document.createElement('span');
+        reviewCountEl.textContent = reviewsCount ? (reviewsCount + ' reviews') : '';
+        reviewCountEl.style.fontSize = '0.75rem';
+        reviewCountEl.style.color = '#6c757d';
+
+        reviewText.appendChild(reviewWordEl);
+        reviewText.appendChild(reviewCountEl);
+
         bottomRow.appendChild(reviewBadge);
+        bottomRow.appendChild(reviewText);
 
         // absolute price element (matches cart card which places price at bottom-right)
         var priceAbsolute = document.createElement('div');
         priceAbsolute.style.position = 'absolute';
-        priceAbsolute.style.bottom = '10px';
+        priceAbsolute.style.bottom = '50px';
         priceAbsolute.style.right = '10px';
         priceAbsolute.style.fontWeight = '700';
         priceAbsolute.style.color = '#000';
@@ -530,7 +586,7 @@
 
             clonedForm.style.position = 'absolute';
             clonedForm.style.right = '10px';
-            clonedForm.style.bottom = '40px';
+            clonedForm.style.bottom = '10px';
             clonedForm.style.margin = '0';
             clonedForm.style.padding = '0';
 
@@ -563,10 +619,15 @@
         close.style.fontSize = '16px';
         close.style.lineHeight = '1';
         close.style.padding = '0';
+        close.style.zIndex = '20';
 
         // position wrapper to allow absolute close
         var wrapper = document.createElement('div');
         wrapper.style.position = 'relative';
+        // ensure wrapper accepts pointer events (container has pointer-events:none by default)
+        wrapper.style.pointerEvents = 'auto';
+        // place wrapper above other content inside the container
+        wrapper.style.zIndex = '2060';
         wrapper.appendChild(toast);
         wrapper.appendChild(close);
 
@@ -583,7 +644,7 @@
             dismiss(false);
         }, 30000);
 
-        close.addEventListener('click', function () { dismiss(true); });
+        close.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); dismiss(true); });
 
         function dismiss(isManual) {
             clearTimeout(hideTimer);
