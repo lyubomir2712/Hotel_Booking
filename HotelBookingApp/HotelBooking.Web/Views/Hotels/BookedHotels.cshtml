@@ -53,7 +53,7 @@
                         }
                     </p>
                     <div class="review-container">
-                        <div class="review-score-badge">@Convert.ToDouble(hotel.ReviewScore, CultureInfo.InvariantCulture).ToString("0.0", CultureInfo.InvariantCulture)</div>
+                    <div class="review-score-badge">@Convert.ToDouble(hotel.ReviewScore, CultureInfo.InvariantCulture).ToString("0.0", CultureInfo.InvariantCulture)</div>
                         <div class="review-text">
                             <span class="review-word">@hotel.ReviewScoreWord</span>
                             <span class="review-count">@hotel.ReviewsCount reviews</span>
@@ -134,6 +134,28 @@
         color: #777;
     }
 </style>
+<div id="add-to-cart-template" style="display:none;">
+    <form asp-controller="BookingsCart" asp-action="AddToCart" method="post" class="toast-add-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="HotelName" value="" class="tpl-HotelName" />
+        <input type="hidden" name="HotelImg" value="" class="tpl-HotelImg" />
+        <input type="hidden" name="HotelPrice" value="" class="tpl-HotelPrice" />
+        <input type="hidden" name="StartAt" value="" class="tpl-StartAt" />
+        <input type="hidden" name="EndAt" value="" class="tpl-EndAt" />
+        <input type="hidden" name="City" value="" class="tpl-City" />
+        <input type="hidden" name="Country" value="" class="tpl-Country" />
+        <input type="hidden" name="Address" value="" class="tpl-Address" />
+        <input type="hidden" name="ReviewScore" value="" class="tpl-ReviewScore" />
+        <input type="hidden" name="ReviewScoreWord" value="" class="tpl-ReviewScoreWord" />
+        <input type="hidden" name="ReviewsCount" value="" class="tpl-ReviewsCount" />
+        <input type="hidden" name="RoomsNumber" value="" class="tpl-RoomsNumber" />
+        <input type="hidden" name="AdultsNumber" value="" class="tpl-AdultsNumber" />
+        <input type="hidden" name="ChildrenNumber" value="" class="tpl-ChildrenNumber" />
+        <input type="hidden" name="RapidApiHotelId" value="" class="tpl-RapidApiHotelId" />
+        <input type="hidden" name="DestinationId" value="" class="tpl-DestinationId" />
+        <button type="submit" class="btn btn-primary book-btn">Book</button>
+    </form>
+</div>
 <script src="~/lib/signalr/signalr.min.js"></script>
 <script>
     const connection = new signalR.HubConnectionBuilder()
@@ -273,10 +295,38 @@
         var city = hotel?.City || hotel?.city || '';
         var country = hotel?.Country || hotel?.country || '';
         var price = hotel?.Price || hotel?.price;
-        var img = hotel?.PhotoMainUrl || hotel?.HotelImg || hotel?.Image || hotel?.photo || '';
-        var reviewScore = (hotel?.ReviewScore !== undefined && hotel?.ReviewScore !== null) ? hotel.ReviewScore : hotel?.reviewScore || '';
+        var img = hotel?.photoMainUrl || hotel?.HotelImg || hotel?.Image || hotel?.photo || '';
+        debugger
+        // review score - try several common property names and coerce to a string if present
+        var reviewScore = '';
+        if (hotel?.ReviewScore !== undefined && hotel?.ReviewScore !== null) reviewScore = hotel.ReviewScore;
+        else if (hotel?.reviewScore !== undefined && hotel?.reviewScore !== null) reviewScore = hotel.reviewScore;
+        else if (hotel?.Review_Score !== undefined && hotel?.Review_Score !== null) reviewScore = hotel.Review_Score;
+        else if (hotel?.review_score !== undefined && hotel?.review_score !== null) reviewScore = hotel.review_score;
+        else if (hotel?.ReviewScoreNumeric !== undefined && hotel?.ReviewScoreNumeric !== null) reviewScore = hotel.ReviewScoreNumeric;
+        if (reviewScore !== '' && reviewScore !== null && reviewScore !== undefined) reviewScore = String(reviewScore);
+        // produce a server-local formatted string for the review score (comma decimal for bg-BG servers)
+        var reviewScoreStr = '';
+        if (reviewScore !== '' && isFinite(Number(reviewScore))) {
+            var scoreNum = Number(reviewScore);
+            try {
+                // prefer Bulgarian/local format (comma) if available on client
+                reviewScoreStr = scoreNum.toLocaleString('bg-BG', { useGrouping: false, maximumFractionDigits: 3 });
+            } catch (e) {
+                // fallback to invariant dot format
+                reviewScoreStr = scoreNum.toString();
+            }
+        }
         var reviewsCount = hotel?.ReviewsCount || hotel?.reviewsCount || '';
         var hotelUrl = hotel?.Url || hotel?.HotelUrl || hotel?.Link || '#';
+
+        // additional normalized fields (expanded aliases)
+        var startAt = hotel?.StartAt || hotel?.startAt || hotel?.StartDate || hotel?.start_date || '';
+        var endAt = hotel?.EndAt || hotel?.endAt || hotel?.EndDate || hotel?.end_date || '';
+        var reviewScoreWord = hotel?.ReviewScoreWord || hotel?.reviewScoreWord || hotel?.ReviewWord || hotel?.review_word || '';
+        var rapidApiId = hotel?.HotelId || hotel?.RapidApiHotelId || hotel?.RapidApiId || hotel?.Id || hotel?.hotelId || hotel?.hotel_id || hotel?.rapidApiHotelId || hotel?.rapid_api_hotel_id || '';
+        var destinationId = hotel?.DestinationId || hotel?.destinationId || hotel?.Destination || hotel?.destination_id || '';
+        var addressNormalized = hotel?.Address || hotel?.address || hotel?.AddressLine || hotel?.address_line || '';
 
         // normalize image src (handle ~/ paths, absolute urls, or relative paths)
         var imgSrc = img || '';
@@ -308,6 +358,8 @@
         toast.className = 'recommended-hotel-card';
         toast.style.pointerEvents = 'auto';
         toast.style.width = '260px';
+        toast.style.height = '404px';
+        toast.style.position = 'relative';
         toast.style.borderRadius = '10px';
         toast.style.overflow = 'hidden';
         toast.style.background = '#fff';
@@ -325,7 +377,7 @@
         imgEl.src = imgSrc;
         imgEl.alt = name;
         imgEl.style.width = '100%';
-        imgEl.style.height = '120px';
+        imgEl.style.height = '200px';
         imgEl.style.objectFit = 'cover';
         imgEl.style.display = 'block';
         // fallback to placeholder if loading fails
@@ -334,9 +386,13 @@
 
         // body
         var body = document.createElement('div');
+        body.className = 'card-body d-flex flex-column justify-content-between w-100';
         body.style.padding = '0.6rem 0.75rem';
         body.style.display = 'flex';
         body.style.flexDirection = 'column';
+        body.style.justifyContent = 'space-between';
+        body.style.width = '100%';
+        body.style.boxSizing = 'border-box';
         body.style.gap = '0.25rem';
 
         var title = document.createElement('div');
@@ -350,11 +406,25 @@
         location.style.color = '#555';
         location.textContent = (city || country) ? (city + (city && country ? ', ' : '') + country) : '';
 
+        var stayLine = document.createElement('div');
+        stayLine.style.fontSize = '0.8rem';
+        stayLine.style.color = '#555';
+        stayLine.style.marginTop = '0.15rem';
+        // try to read numbers from the hotel object (fall back to empty)
+        var rooms = hotel?.RoomsNumber || hotel?.roomsNumber || '';
+        var adults = hotel?.AdultsNumber || hotel?.adultsNumber || '';
+        var children = hotel?.ChildrenNumber || hotel?.childrenNumber || '';
+        var stayParts = [];
+        if (rooms) stayParts.push(rooms + (Number(rooms) === 1 ? ' room' : ' rooms'));
+        if (adults) stayParts.push(adults + (Number(adults) === 1 ? ' adult' : ' adults'));
+        if (children) stayParts.push(children + (Number(children) === 1 ? ' child' : ' children'));
+        stayLine.textContent = stayParts.join(', ');
+
         var bottomRow = document.createElement('div');
         bottomRow.style.display = 'flex';
         bottomRow.style.alignItems = 'center';
         bottomRow.style.gap = '.5rem';
-        bottomRow.style.marginTop = '4px';
+        bottomRow.style.marginTop = '0';
 
         var reviewBadge = document.createElement('div');
         reviewBadge.textContent = reviewScore ? Number(reviewScore).toFixed(1) : '';
@@ -369,18 +439,103 @@
         reviewBadge.style.borderRadius = '50%';
         reviewBadge.style.flex = '0 0 auto';
 
-        var priceEl = document.createElement('div');
-        priceEl.style.marginLeft = 'auto';
-        priceEl.style.fontWeight = '700';
-        priceEl.style.color = '#000';
-        priceEl.textContent = price ? ('BGN ' + Number(price).toFixed(2)) : '';
-
         bottomRow.appendChild(reviewBadge);
-        bottomRow.appendChild(priceEl);
 
+        // absolute price element (matches cart card which places price at bottom-right)
+        var priceAbsolute = document.createElement('div');
+        priceAbsolute.style.position = 'absolute';
+        priceAbsolute.style.bottom = '10px';
+        priceAbsolute.style.right = '10px';
+        priceAbsolute.style.fontWeight = '700';
+        priceAbsolute.style.color = '#000';
+        priceAbsolute.textContent = price ? ('BGN ' + Number(price).toFixed(2)) : '';
+
+        // append title, location, stayLine and bottomRow to body
         body.appendChild(title);
         body.appendChild(location);
+        body.appendChild(stayLine);
         body.appendChild(bottomRow);
+
+        // append absolute price onto the toast so it sits above the body in bottom-right
+        toast.appendChild(priceAbsolute);
+
+        // clone server-rendered Razor template for the AddToCart form if available
+        (function() {
+            var templateRoot = document.getElementById('add-to-cart-template');
+            if (!templateRoot || !templateRoot.firstElementChild) {
+                console.warn('Add-to-cart Razor template not found; skipping Razor form injection.');
+                return;
+            }
+
+            // clone the server-rendered form
+            var clonedForm = templateRoot.firstElementChild.cloneNode(true);
+
+            // helper sets both DOM property and attribute to be robust for form submission
+            function setTpl(selector, value) {
+                var el = clonedForm.querySelector(selector);
+                var str = (value !== undefined && value !== null) ? String(value) : '';
+                if (el) {
+                    el.value = str;
+                    try { el.setAttribute('value', str); } catch (e) { /* ignore */ }
+                }
+            }
+
+            // fill all known fields
+            setTpl('.tpl-HotelName', name);
+            setTpl('.tpl-HotelImg', imgSrc);
+            setTpl('.tpl-HotelPrice', price);
+            setTpl('.tpl-StartAt', startAt);
+            setTpl('.tpl-EndAt', endAt);
+            setTpl('.tpl-City', city);
+            setTpl('.tpl-Country', country);
+            setTpl('.tpl-Address', addressNormalized);
+
+            // prepare review score formatted for server culture (bg-BG uses comma)
+            var reviewScoreFormatted = '';
+            if (reviewScore !== '' && isFinite(Number(reviewScore))) {
+                try {
+                    // prefer Bulgarian format (comma) to match server culture
+                    reviewScoreFormatted = Number(reviewScore).toLocaleString('bg-BG', { useGrouping: false, maximumFractionDigits: 3 });
+                } catch (e) {
+                    reviewScoreFormatted = Number(reviewScore).toString();
+                }
+            }
+            setTpl('.tpl-ReviewScore', reviewScoreFormatted);
+
+            setTpl('.tpl-ReviewScoreWord', reviewScoreWord);
+            setTpl('.tpl-ReviewsCount', reviewsCount);
+            setTpl('.tpl-RoomsNumber', rooms);
+            setTpl('.tpl-AdultsNumber', adults);
+            setTpl('.tpl-ChildrenNumber', children);
+            setTpl('.tpl-RapidApiHotelId', rapidApiId);
+            setTpl('.tpl-DestinationId', destinationId);
+
+            // stop propagation so toast click handler doesn't intercept the click
+            clonedForm.addEventListener('click', function (ev) { ev.stopPropagation(); });
+            var _submitBtn = clonedForm.querySelector('button[type="submit"]');
+            if (_submitBtn) {
+                _submitBtn.addEventListener('click', function (ev) { ev.stopPropagation(); /* allow normal submit */ });
+            }
+
+            // attach a short submit logger to inspect payload right before submit (does not prevent submit)
+            clonedForm.addEventListener('submit', function (ev) {
+                try {
+                    var fd = new FormData(clonedForm);
+                    var parts = [];
+                    for (var pair of fd.entries()) parts.push(pair[0] + '=' + pair[1]);
+                    console.log('Debug: AddToCart form submit payload:', parts.join('&'));
+                } catch (e) { console.warn('Debug: failed to serialize form data for logging', e); }
+                // allow normal submit
+            });
+
+            clonedForm.style.position = 'absolute';
+            clonedForm.style.right = '10px';
+            clonedForm.style.bottom = '40px';
+            clonedForm.style.margin = '0';
+            clonedForm.style.padding = '0';
+
+            toast.appendChild(clonedForm);
+        })();
 
         // click navigates to hotel page (if provided)
         toast.addEventListener('click', function (e) {
@@ -484,7 +639,7 @@
     connection.on("ReceiveUnavailableBookingsAndBookingRecommendation", (hotelPayload) => {
         try {
             console.log("SignalR: Received unavailable bookings + recommendations payload:", hotelPayload);
-
+            debugger
             var names = hotelPayload?.unavailableBookingHotelNames || hotelPayload?.UnavailableBookings || hotelPayload?.unavailableBookings || hotelPayload?.UnavailableBookingHotelNames || [];
             var recommended = hotelPayload?.RecommendedHotels || hotelPayload?.recommendedHotels || hotelPayload?.Recommended || hotelPayload?.recommendations || hotelPayload?.recommended || [];
 

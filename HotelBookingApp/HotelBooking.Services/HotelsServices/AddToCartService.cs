@@ -54,7 +54,7 @@ public class AddToCartService : IAddToCartService
             BookingModel newBookingModel = new BookingModel
             { 
                 StartAt = Convert.ToDateTime(addToCartInput.StartAt),
-                Price = Convert.ToDouble(addToCartInput.HotelPrice),
+                Price = ParseDoubleFlexible(addToCartInput.HotelPrice),
                 EndAt = Convert.ToDateTime(addToCartInput.EndAt),
                 HotelModel = newHotel,
                 HotelModelId = newHotel.Id,
@@ -102,5 +102,20 @@ public class AddToCartService : IAddToCartService
             actorType: actorRole,
             source: nameof(AddToCartService)
         );
+    }
+    
+    
+    private static double ParseDoubleFlexible(string? s)
+    {
+        if (string.IsNullOrWhiteSpace(s))
+            return 0d;
+
+        double result;
+       
+        var alt = s.Replace('.', ',');
+        if (double.TryParse(alt, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CurrentCulture, out result))
+            return result;
+
+        return 0d;
     }
 }

@@ -53,6 +53,7 @@ public class GetBookingRecommendationsService : IGetBookingRecommendationsServic
             
             if (dto?.Result != null && dto.Result.Count > 0)
             {
+                dto.Result = dto.Result.OrderBy(_ => Random.Shared.Next()).ToList();
                 var dtoBooking = dto.Result
                     .FirstOrDefault(b =>
                         !string.IsNullOrEmpty(b.HotelName) &&
