@@ -8,17 +8,16 @@ namespace HotelBooking.Web.Controllers;
 public class HotelsController : Controller
 {
     private readonly IApiService _apiService;
-    private readonly HttpClient _httpClient;
+    
 
     public HotelsController(IApiService apiService, HttpClient httpClient)
     {
-        _httpClient = httpClient;
         _apiService = apiService;
     }
     
     public async Task<IActionResult> HotelsSearch(ApiDataViewModel apiDataViewModel)
     {
-        //var oldResponse = await _apiService.GetHotelsByLocation(_httpClient, apiDataViewModel);
+        var oldResponse = await _apiService.GetHotelsByLocation(apiDataViewModel);
         var response = new List<BookingViewModel>
         {
             new BookingViewModel

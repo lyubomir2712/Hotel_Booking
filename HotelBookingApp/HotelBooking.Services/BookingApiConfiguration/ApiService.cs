@@ -9,9 +9,14 @@ namespace HotelBooking.Services.BookingApiConfiguration
     {
         private const string LocationsUrl = "v1/hotels/locations";
         private const string SearchUrl = "v1/hotels/search";
-        
+        private readonly HttpClient httpClient;
 
-        public async Task<List<BookingViewModel>?> GetHotelsByLocation(HttpClient httpClient, ApiDataViewModel model)
+        public ApiService(HttpClient httpClient)
+        {
+            this.httpClient = httpClient;
+        }
+
+        public async Task<List<BookingViewModel>?> GetHotelsByLocation( ApiDataViewModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             if (string.IsNullOrWhiteSpace(model.City)) return new List<BookingViewModel>();
