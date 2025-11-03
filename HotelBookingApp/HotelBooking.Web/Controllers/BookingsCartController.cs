@@ -24,7 +24,6 @@ namespace HotelBooking.Web.Controllers
         private readonly IAddToCartService _addToCartService;
         private readonly IRemoveBookingService _removeBookingService;
         private readonly ICheckoutBookingsService _checkoutBookingsService;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly ICheckoutEmailService _checkoutEmailService;
         private readonly IHubContext<AdminNotificationsHub> _adminNotificationsHubContext;
         private readonly IHubContext<HotelRecommendationsHub> _hotelRecommendationsHubContext;
@@ -33,7 +32,7 @@ namespace HotelBooking.Web.Controllers
         private readonly IGetUnavailableBookingHotelNamesFromUserCartService
             _getUnavailableBookingHotelNamesFromUserCartService;
 
-        public BookingsCartController(IUnitOfWork unitOfWork, UserManager<UserModel> userManager,
+        public BookingsCartController(UserManager<UserModel> userManager,
              IGetBookingsService getBookingsService, IAddToCartService addToCartService,
              IRemoveBookingService removeBookingService, ICheckoutBookingsService checkoutBookingsService,
              ICheckoutEmailService checkoutEmailService, IHubContext<AdminNotificationsHub> adminNotificationsHubContext,
@@ -46,7 +45,6 @@ namespace HotelBooking.Web.Controllers
             _addToCartService = addToCartService;
             _removeBookingService = removeBookingService;
             _checkoutBookingsService = checkoutBookingsService;
-            _unitOfWork = unitOfWork;
             _checkoutEmailService = checkoutEmailService;
             _adminNotificationsHubContext = adminNotificationsHubContext;
             _getUnavailableBookingsService = getUnavailableBookingsService;
@@ -62,7 +60,7 @@ namespace HotelBooking.Web.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser is null) return Challenge();
 
-            await _addToCartService.AddToCartAsync(_unitOfWork, addToCartInput, currentUser);
+            await _addToCartService.AddToCartAsync(addToCartInput, currentUser);
             
             return NoContent();
         }
@@ -72,7 +70,7 @@ namespace HotelBooking.Web.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser is null) return Challenge();
-            await _removeBookingService.RemoveHotelAsync(_unitOfWork, bookingId, currentUser);
+            await _removeBookingService.RemoveHotelAsync(bookingId, currentUser);
             return RedirectToAction(nameof(GetBookedHotels));
         }
         
@@ -83,7 +81,7 @@ namespace HotelBooking.Web.Controllers
 
             if (userId != null)
             {
-                var bookings = await _getBookingsService.GetBookings(_unitOfWork, userId);
+                var bookings = await _getBookingsService.GetBookings(userId);
 
                 var userBookedHotels = new UserBookedHotels
                 {
@@ -162,9 +160,9 @@ namespace HotelBooking.Web.Controllers
                 return NoContent();
             }
 
-            await _checkoutBookingsService.CheckoutBookingsAsync(_unitOfWork, currentUser, bookings);
+            await _checkoutBookingsService.CheckoutBookingsAsync(currentUser, bookings);
             
-            await _checkoutEmailService.SendCheckoutSummaryAsync(_unitOfWork, currentUser, bookings);
+            await _checkoutEmailService.SendCheckoutSummaryAsync(currentUser, bookings);
 
             await _adminNotificationsHubContext.Clients.All
                 .SendAsync("sendAdminNotificationForCheckout",

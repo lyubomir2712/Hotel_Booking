@@ -7,5 +7,5 @@ namespace HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 public interface IAddToCartService
 {
-    public Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser);
+    public Task AddToCartAsync(AddToCartInput addToCartInput, UserModel currentUser);
 }

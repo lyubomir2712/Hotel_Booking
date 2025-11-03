@@ -17,16 +17,21 @@ public class AddToCartService : IAddToCartService
     private readonly IKafkaOperationsLoggerProducer _kafkaOperationsLoggerProducer;
 
     private readonly UserManager<UserModel> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
+    public AddToCartService(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
 
     public AddToCartService(IKafkaOperationsLoggerProducer kafkaOperationsLoggerProducer, UserManager<UserModel> userManager)
     {
         _kafkaOperationsLoggerProducer = kafkaOperationsLoggerProducer;
         _userManager = userManager;
     }
-    public async Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser)
+    public async Task AddToCartAsync(AddToCartInput addToCartInput, UserModel currentUser)
     {
         
-        var existingHotel = await unitOfWork.Repository<HotelModel>().FirstOrDefaultAsync(h => h.HotelName == addToCartInput.HotelName && h.HotelImg == addToCartInput.hotelImg);
+        var existingHotel = await _unitOfWork.Repository<HotelModel>().FirstOrDefaultAsync(h => h.HotelName == addToCartInput.HotelName && h.HotelImg == addToCartInput.hotelImg);
             
         HotelModel newHotel;
         if (existingHotel != null)
@@ -47,8 +52,8 @@ public class AddToCartService : IAddToCartService
                 RapidApiHotelId = addToCartInput.RapidApiHotelId,
                 DestinationId = addToCartInput.DestinationId,
             };
-            await unitOfWork.Repository<HotelModel>().AddAsync(newHotel);
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.Repository<HotelModel>().AddAsync(newHotel);
+            await _unitOfWork.SaveChangesAsync();
         }
 
             BookingModel newBookingModel = new BookingModel
@@ -65,8 +70,8 @@ public class AddToCartService : IAddToCartService
                 DestinationId = addToCartInput.DestinationId,
             };
 
-            await unitOfWork.Repository<BookingModel>().AddAsync(newBookingModel);
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.Repository<BookingModel>().AddAsync(newBookingModel);
+            await _unitOfWork.SaveChangesAsync();
 
             var newUserBookingModel = new UserBookingModel
             {
@@ -74,9 +79,9 @@ public class AddToCartService : IAddToCartService
                 UserId         = currentUser.Id,
                 UserModel      =  currentUser
             };
-            await unitOfWork.Repository<UserBookingModel>().AddAsync(newUserBookingModel);
+            await _unitOfWork.Repository<UserBookingModel>().AddAsync(newUserBookingModel);
 
-        await unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
         
         var roles = await _userManager.GetRolesAsync(currentUser);
         var actorRole = roles.FirstOrDefault() ?? "Unknown";

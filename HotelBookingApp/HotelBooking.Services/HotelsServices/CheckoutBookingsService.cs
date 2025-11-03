@@ -12,16 +12,18 @@ public class CheckoutBookingsService : ICheckoutBookingsService
 {
     private readonly IKafkaOperationsLoggerProducer _logger;
     private readonly UserManager<UserModel> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
     public CheckoutBookingsService(
-        IKafkaOperationsLoggerProducer logger,
-        UserManager<UserModel> userManager)
+        IKafkaOperationsLoggerProducer logger, UserManager<UserModel> userManager,
+        IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task CheckoutBookingsAsync(IUnitOfWork unitOfWork, UserModel currentUser, List<BookingModel>? bookings)
+    public async Task CheckoutBookingsAsync(UserModel currentUser, List<BookingModel>? bookings)
     {
         if (bookings is null || bookings.Count == 0)
             return;
@@ -41,11 +43,11 @@ public class CheckoutBookingsService : ICheckoutBookingsService
             HotelModelId = b.HotelModelId
         }).ToList();
 
-        await unitOfWork.Repository<AdminPanelBooking>().AddRangeAsync(adminPanelBookings);
+        await _unitOfWork.Repository<AdminPanelBooking>().AddRangeAsync(adminPanelBookings);
 
-        unitOfWork.Repository<BookingModel>().RemoveRange(bookings);
+        _unitOfWork.Repository<BookingModel>().RemoveRange(bookings);
 
-        await unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
         var roles = await _userManager.GetRolesAsync(currentUser);
         var actorRole = roles.FirstOrDefault() ?? "Unknown";

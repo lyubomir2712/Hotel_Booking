@@ -7,6 +7,6 @@ namespace HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 public interface ICheckoutBookingsService
 {
-    public Task CheckoutBookingsAsync(IUnitOfWork unitOfWork, UserModel userModel,
+    public Task CheckoutBookingsAsync(UserModel userModel,
         List<BookingModel>? bookingModels);
 }

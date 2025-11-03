@@ -13,20 +13,22 @@ namespace HotelBooking.Services.EmailServices
         private readonly IEmailTemplatePathProviderService _emailTemplatePathProviderService;
         private readonly IGetEmailTemplateFromPathService _getEmailTemplateFromPathService;
         private readonly IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService _getCheckoutedBookingsEmailTemplateHtmlWithParametersService;
-
+        private readonly IUnitOfWork _unitOfWork;
         public CheckoutEmailService(
             IEmailSender emailSender,
             IEmailTemplatePathProviderService emailTemplatePathProviderService,
             IGetEmailTemplateFromPathService getEmailTemplateFromPathService,
-            IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService getCheckoutedBookingsEmailTemplateHtmlWithParametersService)
+            IGetCheckoutedBookingsEmailTemplateHtmlWithParametersService getCheckoutedBookingsEmailTemplateHtmlWithParametersService,
+            IUnitOfWork unitOfWork)
         {
             _emailSender = emailSender;
             _emailTemplatePathProviderService = emailTemplatePathProviderService;
             _getEmailTemplateFromPathService = getEmailTemplateFromPathService;
             _getCheckoutedBookingsEmailTemplateHtmlWithParametersService = getCheckoutedBookingsEmailTemplateHtmlWithParametersService;
+            _unitOfWork = unitOfWork;
         }
 
-        public async Task SendCheckoutSummaryAsync(IUnitOfWork unitOfWork, UserModel currentUser, List<BookingModel> bookings)
+        public async Task SendCheckoutSummaryAsync(UserModel currentUser, List<BookingModel> bookings)
         {
             if (currentUser == null || bookings == null || bookings.Count == 0)
                 return;
@@ -46,7 +48,7 @@ namespace HotelBooking.Services.EmailServices
 
             foreach (var booking in bookings)
             {
-                var hotel = await unitOfWork.Repository<HotelModel>()
+                var hotel = await _unitOfWork.Repository<HotelModel>()
                     .FirstOrDefaultAsync(h => h.Id == booking.HotelModelId);
 
                 var renderedEmailBookingHtml = _getCheckoutedBookingsEmailTemplateHtmlWithParametersService

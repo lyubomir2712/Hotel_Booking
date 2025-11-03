@@ -6,5 +6,5 @@ namespace HotelBooking.Services.Contracts.HotelsServicesContracts;
 
 public interface ICheckoutEmailService
 {
-    Task SendCheckoutSummaryAsync(IUnitOfWork uow, UserModel currentUser, List<BookingModel> bookings);
+    Task SendCheckoutSummaryAsync(UserModel currentUser, List<BookingModel> bookings);
 }

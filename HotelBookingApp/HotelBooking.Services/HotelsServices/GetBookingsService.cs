@@ -16,16 +16,17 @@ public class GetBookingsService : IGetBookingsService
 {
     private readonly IKafkaOperationsLoggerProducer _logger;
     private readonly UserManager<UserModel> _userManager;
-
-    public GetBookingsService(IKafkaOperationsLoggerProducer logger, UserManager<UserModel> userManager)
+    private readonly IUnitOfWork _unitOfWork;
+    public GetBookingsService(IKafkaOperationsLoggerProducer logger, UserManager<UserModel> userManager, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<List<BookingModel>> GetBookings(IUnitOfWork unitOfWork, string userId)
+    public async Task<List<BookingModel>> GetBookings(string userId)
     {
-            var bookings = unitOfWork.Repository<UserBookingModel>()
+            var bookings = _unitOfWork.Repository<UserBookingModel>()
                 .Where(b => b.UserId == Convert.ToInt32(userId))
                 .Include(b => b.BookingModel)
                 .ThenInclude(b => b.HotelModel)

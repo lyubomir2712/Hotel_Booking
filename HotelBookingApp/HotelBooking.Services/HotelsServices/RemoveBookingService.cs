@@ -13,22 +13,24 @@ public class RemoveBookingService : IRemoveBookingService
 {
     private readonly IKafkaOperationsLoggerProducer _logger;
     private readonly UserManager<UserModel> _userManager;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RemoveBookingService(IKafkaOperationsLoggerProducer logger, UserManager<UserModel> userManager)
+    public RemoveBookingService(IKafkaOperationsLoggerProducer logger, UserManager<UserModel> userManager, IUnitOfWork unitOfWork)
     {
         _logger = logger;
         _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task RemoveHotelAsync(IUnitOfWork unitOfWork, int bookingId, UserModel currentUser)
+    public async Task RemoveHotelAsync(int bookingId, UserModel currentUser)
     {
-        var hotel = await unitOfWork.Repository<BookingModel>().FirstOrDefaultAsync(b => b.Id == bookingId);
+        var hotel = await _unitOfWork.Repository<BookingModel>().FirstOrDefaultAsync(b => b.Id == bookingId);
         if (hotel != null)
         {
-            await unitOfWork.Repository<BookingModel>().RemoveAsync(hotel);
-            await unitOfWork.SaveChangesAsync();
+            await _unitOfWork.Repository<BookingModel>().RemoveAsync(hotel);
+            await _unitOfWork.SaveChangesAsync();
 
-            var hotelModel = await unitOfWork.Repository<HotelModel>().FirstOrDefaultAsync(h => h.Id == hotel.HotelModelId);
+            var hotelModel = await _unitOfWork.Repository<HotelModel>().FirstOrDefaultAsync(h => h.Id == hotel.HotelModelId);
 
             var roles = await _userManager.GetRolesAsync(currentUser);
             var actorRole = roles.FirstOrDefault() ?? "Unknown";
