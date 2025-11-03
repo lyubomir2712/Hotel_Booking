@@ -293,7 +293,7 @@
         var city = hotel?.City || hotel?.city || '';
         var country = hotel?.Country || hotel?.country || '';
         var price = hotel?.Price || hotel?.price;
-        var img = hotel?.photoMainUrl || hotel?.HotelImg || hotel?.Image || hotel?.photo || '';
+        var imgSrc = hotel?.photoMainUrl || '';
         
         var reviewScore = '';
         if (hotel?.ReviewScore !== undefined && hotel?.ReviewScore !== null) reviewScore = hotel.ReviewScore;
@@ -322,23 +322,7 @@
         var destinationId = hotel?.DestinationId || hotel?.destinationId || hotel?.Destination || hotel?.destination_id || '';
         var addressNormalized = hotel?.Address || hotel?.address || hotel?.AddressLine || hotel?.address_line || '';
 
-        var imgSrc = img || '';
-        if (typeof imgSrc === 'string') {
-            imgSrc = imgSrc.trim();
-            if (imgSrc.startsWith('~/')) {
-                imgSrc = imgSrc.replace(/^~\//, '/');
-            }
-            else if (imgSrc.startsWith('http://') || imgSrc.startsWith('https://')) {
-            }
-            else if (imgSrc.startsWith('/')) {
-            }
-            else if (imgSrc.length > 0) {
-                imgSrc = '/' + imgSrc;
-            }
-        } else {
-            imgSrc = '';
-        }
-        if (!imgSrc) imgSrc = '/images/hotel-placeholder.png';
+        
 
         var toast = document.createElement('div');
         toast.className = 'recommended-hotel-card';
@@ -368,6 +352,23 @@
         imgEl.style.display = 'block';
 
         imgEl.onerror = function () { this.onerror = null; this.src = '/images/hotel-placeholder.png'; };
+        var badge = document.createElement('div');
+        badge.className = 'recommended-badge';
+        badge.textContent = 'Recommended';
+        badge.setAttribute('aria-hidden', 'true');
+        badge.style.position = 'absolute';
+        badge.style.top = '8px';
+        badge.style.left = '8px';
+        badge.style.background = '#53B249';
+        badge.style.color = '#fff';
+        badge.style.fontWeight = '600';
+        badge.style.fontSize = '0.75rem';
+        badge.style.padding = '4px 8px';
+        badge.style.borderRadius = '6px';
+        badge.style.boxShadow = '0 4px 10px rgba(0,0,0,0.12)';
+        badge.style.zIndex = '10';
+        // append the badge to toast so it overlays the image in the top-left corner
+        toast.appendChild(badge);
         toast.appendChild(imgEl);
 
         var body = document.createElement('div');

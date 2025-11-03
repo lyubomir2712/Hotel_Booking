@@ -112,8 +112,38 @@ namespace HotelBooking.Web.Controllers
                     _getUnavailableBookingHotelNamesFromUserCartService.GetUnavailableBookingHotelNamesFromUserCart(
                         unavailableBookings, currentUser);
                 
-                var recommendedBookings = await _getBookingRecommendationsService.GetBookingRecomendations(unavailableBookings);
-                
+                //var recommendedBookings = await _getBookingRecommendationsService.GetBookingRecomendations(unavailableBookings);
+                var recommendedBookings = new List<BookingViewModel>
+                {
+                    new BookingViewModel
+                    {
+                        HotelId = 1,
+                        Name = "Test Hotel Alphaa",
+                        Country = "USA",
+                        City = "New York",
+                        Address = "123 Main Street",
+                        Latitude = 40.7128,
+                        Longitude = -74.0060,
+                        DistanceToCenter = 1.5,
+                        PhotoMainUrl = "https://picsum.photos/seed/hotel1/800/600",
+                        Price = 200.99,
+                        ReviewScore = 8.6,
+                        ReviewScoreWord = "Excellent",
+                        StartAt = "2025-12-15",
+                        EndAt = "2025-12-16",
+                        ReviewsCount = 312,
+                        AdultsNumber = 3,
+                        ChildrenNumber = 1,
+                        IsFreeCancellable = true,
+                        IsNoPrepayment = false,
+                        IncludesBreakfast = true,
+                        HasFreeParking = true,
+                        AccommodationType = "Hotel",
+                        IsBeachFront = false,
+                        RoomsNumber = 1,
+                        DestinationId = "20088325"
+                    }
+                };
                 if (recommendedBookings.Any())
                 {
                     var hotelPayload = new
