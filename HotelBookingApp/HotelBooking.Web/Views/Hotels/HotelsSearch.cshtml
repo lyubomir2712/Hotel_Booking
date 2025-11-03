@@ -275,25 +275,96 @@
     @@media (max-width: 767.98px) {
         .review-absolute {
             top: 1rem;
-            right: 1.2rem; /* keep the whole block inside the card's right padding */
+            right: 1.2rem; 
         }
         .review-top {
             display: flex;
-            flex-direction: column; /* stack vertically: badge on top, text below */
-            align-items: flex-end;   /* right align both elements */
-            gap: 0.25rem;            /* tighter spacing on mobile */
+            flex-direction: column; 
+            align-items: flex-end;   
+            gap: 0.25rem;           
         }
         .review-score-badge {
-            width: 37px;  /* ensure consistent badge size */
+            width: 37px;  
             height: 37px;
         }
         .review-label {
             display: flex;
             flex-direction: column;
-            align-items: flex-end;   /* right-align text under the badge */
+            align-items: flex-end;   
             text-align: right;
-            max-width: 160px;        /* prevent text from extending past card edge */
-            word-break: break-word;  /* wrap long words if needed */
+            max-width: 160px;        
+            word-break: break-word;  
         }
     }
 </style>
+
+<script>
+    function createBookingToast(message) {
+        var container = document.getElementById('admin-toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'admin-toast-container';
+            container.setAttribute('aria-live', 'polite');
+            container.setAttribute('aria-atomic', 'false');
+            document.body.appendChild(container);
+        }
+
+        var toast = document.createElement('div');
+        toast.className = 'admin-toast';
+        toast.setAttribute('role', 'status');
+
+        var icon = document.createElement('div');
+        icon.className = 'toast-icon';
+        icon.textContent = '✓';
+
+        var body = document.createElement('div');
+        body.className = 'toast-body';
+        body.textContent = message || 'Booking added to cart';
+
+        var close = document.createElement('button');
+        close.className = 'toast-close';
+        close.setAttribute('aria-label', 'Close notification');
+        close.type = 'button';
+        close.innerHTML = '&times;';
+        close.addEventListener('click', function () {
+            dismiss(true);
+        });
+
+        toast.appendChild(icon);
+        toast.appendChild(body);
+        toast.appendChild(close);
+        container.appendChild(toast);
+
+        requestAnimationFrame(function () {
+            toast.classList.add('show');
+        });
+
+        var hideTimer = setTimeout(function () {
+            dismiss(false);
+        }, 5000);
+
+        function dismiss(isManual) {
+            clearTimeout(hideTimer);
+            toast.classList.add('hide');
+            toast.classList.remove('show');
+            setTimeout(function () {
+                if (toast && toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 300);
+        }
+    }
+
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('.book-btn');
+        if (!btn) return;
+
+        var form = btn.closest('form');
+        var hotelName = 'Booking';
+        if (form) {
+            var nameInput = form.querySelector('input[name="HotelName"]');
+            if (nameInput && nameInput.value) hotelName = nameInput.value;
+        }
+
+        var message = hotelName + ' booking was added to cart';
+        createBookingToast(message);
+    });
+</script>
