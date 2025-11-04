@@ -6,6 +6,8 @@ using OperationsLoggerApi.Infrastructure;
 using OperationsLoggerApi.Infrastructure.KafkaOperationsLoggerConsumer;
 using OperationsLoggerApi.Interfaces;
 using OperationsLoggerApi.KafkaOperationsLoggerConsumer;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
+using StackExchange.Redis;
 
 Env.Load();
 
@@ -17,6 +19,21 @@ builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddEnvironmentVariables();
 
+//Redis
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["Redis:ConnectionString"];
+    options.InstanceName = "Operation_"; 
+});
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var configuration = ConfigurationOptions.Parse(
+        builder.Configuration["Redis:ConnectionString"], 
+        true
+    );
+    return ConnectionMultiplexer.Connect(configuration);
+});
 
 //Database
 builder.Services.AddDbContext<OpsLogDbContext>(options =>
