@@ -48,6 +48,7 @@ builder.Services.AddHostedService<OpsLogConsumer>();
 
 //OperationsLog
 builder.Services.AddScoped<IAddOperationLogToDbService, AddOperationLogToDbService>();
+builder.Services.AddScoped<IAddOperationLogToRedis, AddOperationLogToRedis>();
 
 
 // AutoMapper

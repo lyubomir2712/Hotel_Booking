@@ -74,8 +74,8 @@ public sealed class OpsLogConsumer : BackgroundService
                     
                     using (var scope = _scopeFactory.CreateScope())
                     {
-                        var addSvc = scope.ServiceProvider.GetRequiredService<IAddOperationLogToDbService>();
-                        await addSvc.AddOperationLogToDbAsync(dto, stoppingToken);
+                        var addSvc = scope.ServiceProvider.GetRequiredService<IAddOperationLogToRedis>();
+                        await addSvc.AddOperationLogToRedisAsync(dto, stoppingToken);
                     }
 
                     _log.LogInformation("Consumed {TPO} | {Key} -> {EntityType}/{EntityId} {Operation}",
