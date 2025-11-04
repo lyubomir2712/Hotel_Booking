@@ -110,10 +110,10 @@ namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests
 
             // Use a mocked Kafka logger to avoid external effects
             var kafkaMock = new Mock<IKafkaOperationsLoggerProducer>();
-            IGetCheckoutedHotelsService service = new GetCheckoutedHotelsService(kafkaMock.Object, userManagerMock.Object);
+            IGetCheckoutedHotelsService service = new GetCheckoutedHotelsService(kafkaMock.Object, userManagerMock.Object, uow);
             
             // Act
-            var result = await service.GetCheckoutedHotels(uow, currentUser);
+            var result = await service.GetCheckoutedHotels(currentUser);
 
             // Assert
             Assert.NotNull(result);

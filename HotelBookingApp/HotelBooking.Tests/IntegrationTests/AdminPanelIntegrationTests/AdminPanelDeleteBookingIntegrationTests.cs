@@ -77,21 +77,23 @@ public class AdminPanelDeleteBookingIntegrationTests
 
             IGetCheckoutedHotelsService getCheckoutedHotelsService = new GetCheckoutedHotelsService(
                 new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-                userManagerMock.Object);
+                userManagerMock.Object,
+                unitOfWork);
             IAdminPanelDeleteBookingService deleteBookingService = new AdminPanelDeleteBookingService(
                 new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-                userManagerMock.Object);
+                userManagerMock.Object,
+                unitOfWork);
 
             // Create or mock IAdminPanelOrderByService
             var adminPanelOrderByServiceMock = new Mock<IAdminPanelOrderByService>();
 
             var controller = new AdminPanelController(
-                unitOfWork,
                 getCheckoutedHotelsService,
                 deleteBookingService,
                 userManagerMock.Object,
                 adminPanelOrderByServiceMock.Object
             );
+
             // Set up fake authenticated user for controller context
             controller.ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext
             {

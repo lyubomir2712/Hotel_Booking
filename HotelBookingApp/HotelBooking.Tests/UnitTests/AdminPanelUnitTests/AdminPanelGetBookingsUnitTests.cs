@@ -67,10 +67,11 @@ public class AdminPanelGetBookingsUnitTests
 
         var getCheckoutedHotelsService = new GetCheckoutedHotelsService(
             new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-            userManagerMock.Object);
+            userManagerMock.Object,
+            uowMock.Object);
 
         // Act
-        var result = await getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object, currentUser);
+        var result = await getCheckoutedHotelsService.GetCheckoutedHotels(currentUser);
 
         // Assert
         result.Should().NotBeNull();
@@ -91,10 +92,11 @@ public class AdminPanelGetBookingsUnitTests
             .ReturnsAsync(new List<string> { "Admin" });
         var getCheckoutedHotelsService = new GetCheckoutedHotelsService(
             new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-            userManagerMock.Object);
+            userManagerMock.Object,
+            uowMock.Object);
 
         // Act
-        var result = await getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object, currentUser);
+        var result = await getCheckoutedHotelsService.GetCheckoutedHotels(currentUser);
 
         // Assert
         result.Should().NotBeNull();
@@ -126,10 +128,11 @@ public class AdminPanelGetBookingsUnitTests
 
         var getCheckoutedHotelsService = new GetCheckoutedHotelsService(
             new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-            userManagerMock.Object);
+            userManagerMock.Object,
+            uowMock.Object);
 
         // Act
-        await getCheckoutedHotelsService.GetCheckoutedHotels(uowMock.Object, currentUser);
+        await getCheckoutedHotelsService.GetCheckoutedHotels(currentUser);
 
         // Assert
         uowMock.Verify(u => u.Repository<AdminPanelBooking>(), Times.Once);

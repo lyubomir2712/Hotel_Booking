@@ -18,15 +18,13 @@ public class AddToCartService : IAddToCartService
 
     private readonly UserManager<UserModel> _userManager;
     private readonly IUnitOfWork _unitOfWork;
-    public AddToCartService(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
-    public AddToCartService(IKafkaOperationsLoggerProducer kafkaOperationsLoggerProducer, UserManager<UserModel> userManager)
+    
+    public AddToCartService(IKafkaOperationsLoggerProducer kafkaOperationsLoggerProducer, UserManager<UserModel> userManager,
+        IUnitOfWork unitOfWork)
     {
         _kafkaOperationsLoggerProducer = kafkaOperationsLoggerProducer;
         _userManager = userManager;
+        _unitOfWork = unitOfWork;
     }
     public async Task AddToCartAsync(AddToCartInput addToCartInput, UserModel currentUser)
     {

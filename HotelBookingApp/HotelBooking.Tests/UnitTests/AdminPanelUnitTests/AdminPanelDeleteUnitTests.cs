@@ -27,7 +27,7 @@ public class AdminPanelDeleteUnitTests
         var adminPanelOrderByServiceMock = new Mock<IAdminPanelOrderByService>();
 
         adminPanelDeleteBookingServiceMock
-            .Setup(s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId, It.IsAny<UserModel>()))
+            .Setup(s => s.AdminPanelDeleteBooking(bookingId, It.IsAny<UserModel>()))
             .Returns(Task.CompletedTask)
             .Verifiable();
 
@@ -43,7 +43,6 @@ public class AdminPanelDeleteUnitTests
             new[] { new Claim(ClaimTypes.Role, "Admin") }, "TestAuth"));
 
         var controller = new AdminPanelController(
-            unitOfWorkMock.Object,
             getCheckoutedHotelsServiceMock.Object,
             adminPanelDeleteBookingServiceMock.Object,
             userManagerMock.Object,
@@ -60,7 +59,7 @@ public class AdminPanelDeleteUnitTests
 
         // Assert
         adminPanelDeleteBookingServiceMock.Verify(
-            s => s.AdminPanelDeleteBooking(unitOfWorkMock.Object, bookingId, It.IsAny<UserModel>()),
+            s => s.AdminPanelDeleteBooking(bookingId, It.IsAny<UserModel>()),
             Times.Once);
 
         Assert.IsType<RedirectToActionResult>(result);
@@ -76,7 +75,7 @@ public class AdminPanelDeleteUnitTests
         var adminPanelOrderByServiceMock = new Mock<IAdminPanelOrderByService>();
 
         adminPanelDeleteBookingServiceMock
-            .Setup(s => s.AdminPanelDeleteBooking(It.IsAny<IUnitOfWork>(), It.IsAny<int>(), It.IsAny<UserModel>()))
+            .Setup(s => s.AdminPanelDeleteBooking(It.IsAny<int>(), It.IsAny<UserModel>()))
             .Returns(Task.CompletedTask);
 
         var userManagerMock = new Mock<UserManager<UserModel>>(
@@ -91,7 +90,6 @@ public class AdminPanelDeleteUnitTests
             new[] { new Claim(ClaimTypes.Role, "Admin") }, "TestAuth"));
 
         var controller = new AdminPanelController(
-            unitOfWorkMock.Object,
             getCheckoutedHotelsServiceMock.Object,
             adminPanelDeleteBookingServiceMock.Object,
             userManagerMock.Object,

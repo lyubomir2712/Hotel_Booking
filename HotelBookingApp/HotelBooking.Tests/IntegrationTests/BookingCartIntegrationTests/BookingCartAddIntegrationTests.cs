@@ -20,8 +20,8 @@ public class BookingCartAddIntegrationTests
         // Arrange
         var userManager = new FakeUserManager();
         var uow = new FakeUnitOfWork();
-        var addToCartService = new RecordingAddToCartService();
-        var controller = MakeController(userManager, uow, addToCartService, isAuthenticated: false);
+        var addToCartService = new RecordingAddToCartService(uow);
+        var controller = MakeController(userManager, addToCartService, isAuthenticated: false);
 
         var input = new AddToCartInput { Id = 123, HotelName = "Test Hotel" };
 
@@ -39,8 +39,8 @@ public class BookingCartAddIntegrationTests
         // Arrange
         var userManager = new FakeUserManager();
         var uow = new FakeUnitOfWork();
-        var addToCartService = new RecordingAddToCartService();
-        var controller = MakeController(userManager, uow, addToCartService, isAuthenticated: true);
+        var addToCartService = new RecordingAddToCartService(uow);
+        var controller = MakeController(userManager, addToCartService, isAuthenticated: true);
     
         var input = new AddToCartInput
         {
@@ -61,7 +61,6 @@ public class BookingCartAddIntegrationTests
     
         // Assert
         Assert.NotNull(addToCartService.LastCall);
-        Assert.Same(uow, addToCartService.LastCall!.Value.UnitOfWork);
         Assert.Equal(input, addToCartService.LastCall.Value.Input);
         Assert.Equal(1, addToCartService.LastCall!.Value.User.Id);
     }
@@ -70,11 +69,10 @@ public class BookingCartAddIntegrationTests
     
     private static TestableBookingCartController MakeController(
         UserManager<UserModel> userManager,
-        IUnitOfWork unitOfWork,
         IAddToCartService addToCartService,
         bool isAuthenticated)
     {
-        var controller = new TestableBookingCartController(userManager, addToCartService, unitOfWork);
+        var controller = new TestableBookingCartController(userManager, addToCartService);
 
         var identity = new ClaimsIdentity(isAuthenticated ? new[]
         {
@@ -150,11 +148,17 @@ public class BookingCartAddIntegrationTests
 
     private sealed class RecordingAddToCartService : IAddToCartService
     {
-        public (IUnitOfWork UnitOfWork, AddToCartInput Input, UserModel User)? LastCall { get; private set; }
+        private readonly IUnitOfWork _unitOfWork;
+        public (AddToCartInput Input, UserModel User)? LastCall { get; private set; }
 
-        public Task AddToCartAsync(IUnitOfWork unitOfWork, AddToCartInput addToCartInput, UserModel currentUser)
+        public RecordingAddToCartService(IUnitOfWork unitOfWork)
         {
-            LastCall = (unitOfWork, addToCartInput, currentUser);
+            _unitOfWork = unitOfWork;
+        }
+
+        public Task AddToCartAsync(AddToCartInput addToCartInput, UserModel currentUser)
+        {
+            LastCall = (addToCartInput, currentUser);
             return Task.CompletedTask;
         }
     }
@@ -165,16 +169,13 @@ public class TestableBookingCartController : Controller
 {
     private readonly UserManager<UserModel> _userManager;
     private readonly IAddToCartService _addToCartService;
-    private readonly IUnitOfWork _unitOfWork;
 
     public TestableBookingCartController(
         UserManager<UserModel> userManager,
-        IAddToCartService addToCartService,
-        IUnitOfWork unitOfWork)
+        IAddToCartService addToCartService)
     {
         _userManager = userManager;
         _addToCartService = addToCartService;
-        _unitOfWork = unitOfWork;
     }
 
     [HttpPost]
@@ -183,7 +184,7 @@ public class TestableBookingCartController : Controller
         var currentUser = await _userManager.GetUserAsync(User);
         if (currentUser is null) return Challenge();
 
-        await _addToCartService.AddToCartAsync(_unitOfWork, addToCartInput, currentUser);
+        await _addToCartService.AddToCartAsync(addToCartInput, currentUser);
         return RedirectToAction(nameof(GetBookedHotels));
     }
 

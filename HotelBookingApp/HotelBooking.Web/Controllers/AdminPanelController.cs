@@ -16,7 +16,7 @@ public class AdminPanelController : Controller
     private readonly UserManager<UserModel> _userManager;
     private readonly IAdminPanelOrderByService _adminPanelOrderByService;
     
-    public AdminPanelController(IUnitOfWork unitOfWork, IGetCheckoutedHotelsService getCheckoutedHotelsService,
+    public AdminPanelController(IGetCheckoutedHotelsService getCheckoutedHotelsService,
         IAdminPanelDeleteBookingService adminPanelDeleteBookingService, UserManager<UserModel> userManager,
         IAdminPanelOrderByService adminPanelOrderByService)
     {

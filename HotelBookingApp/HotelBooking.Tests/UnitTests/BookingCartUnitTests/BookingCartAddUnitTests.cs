@@ -100,12 +100,13 @@ public class BookingCartAddUnitTests
 
         var addToCartService = new AddToCartService(
             new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-            userManagerMock.Object);
+            userManagerMock.Object,
+            uow.Object);
         var input = MakeInput(hotelName, hotelImg);
         var user = new UserModel { Id = 1 };
 
         // Act
-        await addToCartService.AddToCartAsync(uow.Object, input, user);
+        await addToCartService.AddToCartAsync(input, user);
 
         // Assert
         hotelRepo.Verify(r => r.FirstOrDefaultAsync(
@@ -178,12 +179,13 @@ public class BookingCartAddUnitTests
 
         var svc = new AddToCartService(
             new KafkaKafkaOperationsLoggerProducer(new KafkaOptions()),
-            userManagerMock.Object);
+            userManagerMock.Object,
+            uow.Object);
         var input = MakeInput(hotelName: "Brand New", hotelImg: "new.jpg");
         var user = new UserModel { Id = 2 };
 
         // Act
-        await svc.AddToCartAsync(uow.Object, input, user);
+        await svc.AddToCartAsync(input, user);
 
         // Assert
         hotelRepo.Verify(r => r.AddAsync(It.IsAny<HotelModel>(), It.IsAny<CancellationToken>()), Times.Once);
