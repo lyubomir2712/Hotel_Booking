@@ -66,7 +66,7 @@ docker exec -it ollama ollama pull qwen2.5:7b-instruct
 docker run -d --name redis -p 6379:6379 redis:latest
 ```
 
-## 🛠️ EasyBook - Kafka Setup
+## 🛠️ Kafka Setup
 
 ```bash
 # 1) Creating the Kafka Cluster on Docker container
@@ -123,10 +123,28 @@ in the .env(which i provided for easier setup, i'll be glad if you don't waste m
 ## 📸 Screenshots  
 
 ### Home Page  
-<img src="screenshots/home.png" alt="Home Page" width="800">  
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 27 41" src="https://github.com/user-attachments/assets/149c2699-cc1c-410e-8f1c-faefc689c62c" />
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 29 57" src="https://github.com/user-attachments/assets/648c3a94-1fb6-488e-9f9e-a8df3e832bf8" />
+
+### AI 
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 28 58" src="https://github.com/user-attachments/assets/861c9e04-a84d-456c-9ec7-2f527ce0df23" />
+
+### Admin Panel
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 30 42" src="https://github.com/user-attachments/assets/d8ce9387-c4ee-4099-85f1-bc7ef24fef06" />
 
 ### Booking Cart  
 <img src="screenshots/cart.png" alt="Booking Cart" width="800">  
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 58 19" src="https://github.com/user-attachments/assets/55b06f28-150d-4151-9e07-b3327004a37d" />
 
 ### Admin Panel  
 <img src="screenshots/admin.png" alt="Admin Panel" width="800">  
+
+### Emails
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 59 30" src="https://github.com/user-attachments/assets/c2363432-d240-4c4c-bb4a-f43ad474c2c0" />
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 59 40" src="https://github.com/user-attachments/assets/c6689082-0165-401d-9e0f-90483753f2a4" />
+
+
+
+
+
+
