@@ -129,6 +129,10 @@ in the .env(which i provided for easier setup, i'll be glad if you don't waste m
 ### AI 
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 28 58" src="https://github.com/user-attachments/assets/861c9e04-a84d-456c-9ec7-2f527ce0df23" />
 
+### Hotel Search
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 47 20" src="https://github.com/user-attachments/assets/ea99c80d-faf1-4506-936f-d6417ffab112" />
+
+
 ### Admin Panel
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 30 42" src="https://github.com/user-attachments/assets/d8ce9387-c4ee-4099-85f1-bc7ef24fef06" />
 
@@ -142,6 +146,19 @@ in the .env(which i provided for easier setup, i'll be glad if you don't waste m
 ### Emails
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 59 30" src="https://github.com/user-attachments/assets/c2363432-d240-4c4c-bb4a-f43ad474c2c0" />
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 59 40" src="https://github.com/user-attachments/assets/c6689082-0165-401d-9e0f-90483753f2a4" />
+
+### Redis
+<img width="777" height="570" alt="Screenshot 2025-11-05 at 9 03 12" src="https://github.com/user-attachments/assets/3abca909-045a-42fa-8c83-3404377c34c4" />
+
+### Docker
+<img width="1382" height="832" alt="Screenshot 2025-11-05 at 9 02 44" src="https://github.com/user-attachments/assets/60e58b6c-8719-4ec5-8bde-03c3d00cb4c9" />
+
+### Database diagram
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 9 05 00" src="https://github.com/user-attachments/assets/7b4a56a5-a7c4-4fcc-8fb2-b8505d1b00bd" />
+
+### SignalR notifications
+![SignalRNotifications](https://github.com/user-attachments/assets/395e1c83-d85c-4dfc-b74a-4a02c4a36812)
+
 
 
 
