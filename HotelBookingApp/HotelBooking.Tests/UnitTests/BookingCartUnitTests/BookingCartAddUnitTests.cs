@@ -121,7 +121,7 @@ public class BookingCartAddUnitTests
         Assert.Equal(existingHotel, capturedBooking.HotelModel);
         Assert.Equal(DateTime.Parse(input.StartAt), capturedBooking.StartAt);
         Assert.Equal(DateTime.Parse(input.EndAt), capturedBooking.EndAt);
-        Assert.Equal(Convert.ToDouble(input.HotelPrice), capturedBooking.Price);
+        Assert.Equal(addToCartService.ParseDoubleFlexible(input.HotelPrice), capturedBooking.Price);
         Assert.Equal(input.AdultsNumber, capturedBooking.AdultsNumber);
         Assert.Equal(input.ChildrenNumber, capturedBooking.ChildrenNumber);
         Assert.Equal(input.RoomsNumber, capturedBooking.RoomsNumber);

@@ -17,20 +17,20 @@ public class HotelsController : Controller
     
     public async Task<IActionResult> HotelsSearch(ApiDataViewModel apiDataViewModel)
     {
-        var oldResponse = await _apiService.GetHotelsByLocation(apiDataViewModel);
-        var response = new List<BookingViewModel>
+        var response = await _apiService.GetHotelsByLocation(apiDataViewModel);
+        var testResponse = new List<BookingViewModel>
         {
             new BookingViewModel
             {
                 HotelId = 1,
-                Name = "Test Hotel Alphaa",
+                Name = "Test Hotel",
                 Country = "USA",
                 City = "New York",
                 Address = "123 Main Street",
                 Latitude = 40.7128,
                 Longitude = -74.0060,
                 DistanceToCenter = 1.5,
-                PhotoMainUrl = "https://picsum.photos/seed/hotel1/800/600",
+                PhotoMainUrl = "https://i0.wp.com/ticketseller.gr/wp-content/uploads/2020/10/132354a_hb_a_010.jpg?fit=800%2C600&ssl=1",
                 Price = 200.99,
                 ReviewScore = 8.6,
                 ReviewScoreWord = "Excellent",

@@ -108,7 +108,7 @@ public class AddToCartService : IAddToCartService
     }
     
     
-    private static double ParseDoubleFlexible(string? s)
+    public double ParseDoubleFlexible(string? s)
     {
         if (string.IsNullOrWhiteSpace(s))
             return 0d;

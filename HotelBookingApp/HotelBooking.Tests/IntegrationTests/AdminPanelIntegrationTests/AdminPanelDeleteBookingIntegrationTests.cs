@@ -30,17 +30,29 @@ public class AdminPanelDeleteBookingIntegrationTests
             {
                 Id = 1,
                 HotelName = "Hotel Alpha",
+                HotelImg = "hotel-alpha.jpg",
                 Address = "123 Main St",
                 City = "Metropolis",
-                Country = "CountryA"
+                Country = "CountryA",
+                ReviewScore = 9.1,
+                ReviewsCount = 120,
+                ReviewScoreWord = "Superb",
+                RapidApiHotelId = 101,
+                DestinationId = "DEST001"
             };
             var hotelB = new HotelModel
             {
                 Id = 2,
                 HotelName = "Hotel Bravo",
+                HotelImg = "hotel-bravo.jpg",
                 Address = "456 Side St",
                 City = "Gotham",
-                Country = "CountryB"
+                Country = "CountryB",
+                ReviewScore = 8.7,
+                ReviewsCount = 85,
+                ReviewScoreWord = "Very Good",
+                RapidApiHotelId = 102,
+                DestinationId = "DEST002"
             };
 
             var booking1 = new AdminPanelBooking

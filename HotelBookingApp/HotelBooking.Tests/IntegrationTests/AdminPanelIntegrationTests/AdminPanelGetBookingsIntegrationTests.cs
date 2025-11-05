@@ -45,7 +45,12 @@ namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests
                         HotelImg = "sunrise.jpg",
                         City = "Sofia",
                         Country = "Bulgaria",
-                        Address = "123 Sunny St"
+                        Address = "123 Sunny St",
+                        ReviewScore = 9.2,
+                        ReviewsCount = 230,
+                        ReviewScoreWord = "Superb",
+                        RapidApiHotelId = 501,
+                        DestinationId = "DEST001"
                     }
                 },
                 new AdminPanelBooking 
@@ -68,7 +73,12 @@ namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests
                         HotelImg = "mountainview.jpg",
                         City = "Plovdiv",
                         Country = "Bulgaria",
-                        Address = "456 Hill Rd"
+                        Address = "456 Hill Rd",
+                        ReviewScore = 8.5,
+                        ReviewsCount = 180,
+                        ReviewScoreWord = "Very Good",
+                        RapidApiHotelId = 502,
+                        DestinationId = "DEST002"
                     }
                 },
                 new AdminPanelBooking 
@@ -91,7 +101,12 @@ namespace HotelBooking.Tests.IntegrationTests.AdminPanelIntegrationTests
                         HotelImg = "citycentral.jpg",
                         City = "Varna",
                         Country = "Bulgaria",
-                        Address = "789 Center Ave"
+                        Address = "789 Center Ave",
+                        ReviewScore = 8.9,
+                        ReviewsCount = 210,
+                        ReviewScoreWord = "Excellent",
+                        RapidApiHotelId = 503,
+                        DestinationId = "DEST003"
                     }
                 }
             );
