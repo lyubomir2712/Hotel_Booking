@@ -132,16 +132,16 @@ in the .env(which i provided for easier setup, i'll be glad if you don't waste m
 ### Hotel Search
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 47 20" src="https://github.com/user-attachments/assets/ea99c80d-faf1-4506-936f-d6417ffab112" />
 
+### Booking Cart  
+<img width="1728" height="907" alt="Screenshot 2025-11-05 at 10 22 32" src="https://github.com/user-attachments/assets/9f09efeb-9c15-43e2-bff5-0f8c43c87eb8" />
+<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 9 00 10" src="https://github.com/user-attachments/assets/e243634f-a925-4db6-b080-a74bae262cc8" />
+
+
+### SignalR notifications
+![SignalRNotifications](https://github.com/user-attachments/assets/395e1c83-d85c-4dfc-b74a-4a02c4a36812)
 
 ### Admin Panel
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 30 42" src="https://github.com/user-attachments/assets/d8ce9387-c4ee-4099-85f1-bc7ef24fef06" />
-
-### Booking Cart  
-<img src="screenshots/cart.png" alt="Booking Cart" width="800">  
-<img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 58 19" src="https://github.com/user-attachments/assets/55b06f28-150d-4151-9e07-b3327004a37d" />
-
-### Admin Panel  
-<img src="screenshots/admin.png" alt="Admin Panel" width="800">  
 
 ### Emails
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 8 59 30" src="https://github.com/user-attachments/assets/c2363432-d240-4c4c-bb4a-f43ad474c2c0" />
@@ -156,8 +156,7 @@ in the .env(which i provided for easier setup, i'll be glad if you don't waste m
 ### Database diagram
 <img width="1728" height="1080" alt="Screenshot 2025-11-05 at 9 05 00" src="https://github.com/user-attachments/assets/7b4a56a5-a7c4-4fcc-8fb2-b8505d1b00bd" />
 
-### SignalR notifications
-![SignalRNotifications](https://github.com/user-attachments/assets/395e1c83-d85c-4dfc-b74a-4a02c4a36812)
+
 
 
 
