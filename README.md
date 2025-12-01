@@ -5,7 +5,7 @@ The project follows a clean **N-tier architecture** with **Unit of Work** and th
 It integrates with external services such as the **Booking.com API** and provides full **CRUD operations** for hotel data and reservations.  
 
 ### Key Features  
-- **User Experience**: personal bookings cart, favourites page, responsive design across all devices.  
+- **User Experience**: personal bookings cart, responsive design across all devices.  
 - **Identity & Security**: built-in Identity UI for authentication and authorization.  
 - **Admin Panel**: monitors all bookings with detailed data and ordering options.  
 - **Real-Time Updates**: SignalR with WebSocket connections for instant admin notifications.  
