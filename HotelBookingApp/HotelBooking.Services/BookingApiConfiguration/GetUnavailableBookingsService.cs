@@ -41,7 +41,7 @@ public class GetUnavailableBookingsService : IGetUnavailableBookingsService
             string childrenAges = GenerateChildrenAges(booking.ChildrenNumber ?? 0);
 
             string locale = _configuration["RapidApi:Locale"] ?? "en-us";
-            string currency = _configuration["RapidApi:Currency"] ?? "BGN";
+            string currency = _configuration["RapidApi:Currency"] ?? "EUR";
 
 
             var urlBuilder = new StringBuilder(RoomAvailabilityUrl);

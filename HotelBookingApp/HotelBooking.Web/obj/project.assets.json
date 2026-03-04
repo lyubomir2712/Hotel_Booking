@@ -1957,7 +1957,7 @@
           "Mono.TextTemplating": "2.2.1"
         },
         "compile": {
-          "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
+          "lib/net8.0/_._": {
             "related": ".xml"
           }
         },
@@ -4812,8 +4812,8 @@
           "HotelBooking.Models": "1.0.0",
           "MailKit": "4.13.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.16",
-          "Microsoft.EntityFrameworkCore": "6.0.16",
-          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.16"
+          "Microsoft.EntityFrameworkCore": "8.0.0",
+          "Microsoft.EntityFrameworkCore.SqlServer": "8.0.0"
         },
         "compile": {
           "bin/placeholder/HotelBooking.Data.dll": {}
@@ -13611,6 +13611,8 @@
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 8.0.0",
       "Microsoft.AspNetCore.Identity.UI >= 8.0.0",
       "Microsoft.AspNetCore.SignalR >= 1.2.0",
+      "Microsoft.EntityFrameworkCore >= 8.0.0",
+      "Microsoft.EntityFrameworkCore.Design >= 8.0.0",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.0",
       "Microsoft.Extensions.AI >= 9.7.1",
@@ -13698,6 +13700,16 @@
           "Microsoft.AspNetCore.SignalR": {
             "target": "Package",
             "version": "[1.2.0, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.0, )"
+          },
+          "Microsoft.EntityFrameworkCore.Design": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[8.0.0, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",

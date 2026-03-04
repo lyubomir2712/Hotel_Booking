@@ -77,7 +77,7 @@
                                                         @: and @hotel.ChildrenNumber @((hotel.ChildrenNumber == 1) ? "child" : "children")
                                                     }
                                                 </p>
-                                                <p class="card-text mb-1 text-end"><span class="price-amount price-absolute">BGN @hotel.Price.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</span></p>
+                                                <p class="card-text mb-1 text-end"><span class="price-amount price-absolute">EUR @hotel.Price.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</span></p>
                                                 <form asp-controller="BookingsCart" asp-action="AddToCart" method="post">
                                                     <input type="hidden" name="HotelName" value="@hotel.Name"/>
                                                     <input type="hidden" name="HotelImg" value="@hotel.PhotoMainUrl"/>
