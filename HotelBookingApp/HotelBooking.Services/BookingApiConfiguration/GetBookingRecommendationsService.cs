@@ -30,7 +30,7 @@ public class GetBookingRecommendationsService : IGetBookingRecommendationsServic
                 .Append("?order_by=price")
                 .Append($"&adults_number={unavailableBooking.AdultsNumber}")
                 .Append($"&checkin_date={formattedCheckinDate}")
-                .Append("&filter_by_currency=BGN")
+                .Append("&filter_by_currency=EUR")
                 .Append("&locale=en-us")
                 .Append($"&checkout_date={formattedCheckoutDate}")
                 .Append("&units=metric")

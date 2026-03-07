@@ -59,7 +59,7 @@
                             <span class="review-count">@hotel.ReviewsCount reviews</span>
                         </div>
                     </div>
-                    <p class="card-text" style="color:black; font-weight:600; font-size:1rem; position:absolute; bottom:10px; right:10px; margin:0;">BGN @booking.Price.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</p>
+                    <p class="card-text" style="color:black; font-weight:600; font-size:1rem; position:absolute; bottom:10px; right:10px; margin:0;">EUR @booking.Price.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</p>
 
                     <br><br>
 
@@ -482,7 +482,7 @@
         priceAbsolute.style.right = '10px';
         priceAbsolute.style.fontWeight = '700';
         priceAbsolute.style.color = '#000';
-        priceAbsolute.textContent = price ? ('BGN ' + Number(price).toFixed(2)) : '';
+        priceAbsolute.textContent = price ? ('EUR ' + Number(price).toFixed(2)) : '';
 
         body.appendChild(title);
         body.appendChild(location);
@@ -656,7 +656,6 @@
     connection.on("ReceiveUnavailableBookingsAndBookingRecommendation", (hotelPayload) => {
         try {
             console.log("SignalR: Received unavailable bookings + recommendations payload:", hotelPayload);
-            debugger
             var names = hotelPayload?.unavailableBookingHotelNames || hotelPayload?.UnavailableBookings || hotelPayload?.unavailableBookings || hotelPayload?.UnavailableBookingHotelNames || [];
             var recommended = hotelPayload?.RecommendedHotels || hotelPayload?.recommendedHotels || hotelPayload?.Recommended || hotelPayload?.recommendations || hotelPayload?.recommended || [];
 
@@ -665,7 +664,7 @@
             }
 
             if (typeof recommended === 'string') {
-                try { recommended = JSON.parse(recommended); } catch (e) { /* ignore */ }
+                try { recommended = JSON.parse(recommended); } catch (e) {  }
             }
 
             if (!Array.isArray(recommended) && recommended) {

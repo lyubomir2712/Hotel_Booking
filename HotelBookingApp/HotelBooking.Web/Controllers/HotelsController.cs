@@ -34,8 +34,8 @@ public class HotelsController : Controller
                 Price = 200.99,
                 ReviewScore = 8.6,
                 ReviewScoreWord = "Excellent",
-                StartAt = "2025-12-15",
-                EndAt = "2025-12-16",
+                StartAt = "2026-08-15",
+                EndAt = "2026-08-16",
                 ReviewsCount = 312,
                 AdultsNumber = 3,
                 ChildrenNumber = 1,
@@ -78,6 +78,6 @@ public class HotelsController : Controller
             //     DestinationId = "20088325"
             // }
         };
-        return View(response);
+        return View(testResponse);
     }
 }

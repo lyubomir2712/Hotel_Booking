@@ -11,5 +11,5 @@ public class RapidApiOptions
     [Required, Url]public string BaseUrl { get; init; } = default!;
     
     public string Locale { get; init; } = "en-us";
-    public string Currency { get; init; } = "BGN";
+    public string Currency { get; init; } = "EUR";
 }

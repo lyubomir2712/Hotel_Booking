@@ -24,7 +24,7 @@ public class GetCheckoutedBookingsEmailTemplateHtmlWithParametersService : IGetC
             .Replace("{{CheckInTime}}", "12:00 PM")
             .Replace("{{CheckOutTime}}", "10:00 AM")
             .Replace("{{Price}}", booking.Price.ToString("F2", CultureInfo.InvariantCulture))
-            .Replace("{{Currency}}", "BGN")
+            .Replace("{{Currency}}", "EUR")
             .Replace("{{Year}}", DateTime.Now.Year.ToString());
     }
 }
